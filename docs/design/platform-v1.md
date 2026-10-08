@@ -13,6 +13,17 @@ Design rules:
 3. **One robot first.** Get one robot doing useful work before building a pair or a fleet.
 4. **Safety is a subsystem, not a feature.** This robot carries a spinning blade, so the kill chain gets designed before the autonomy.
 
+## 1a. Site parameters (our farm)
+
+| Parameter | Value | Design impact |
+|---|---|---|
+| Lawn area | **~3 acres (~12,000 m²)**, growing as the farm expands | One 21" deck needs ~8–9 h per full pass, so the robot must **mow in daily zones from a charging dock** (§5) |
+| Existing equipment | Ryobi electric push mower + several Ryobi batteries, in daily use | Mower module uses a **second, used Ryobi deck** of the same voltage line so batteries and charger are shared (§6.2) |
+| Fabrication | Any tools needed | Extrusion for fast iteration; welded steel and outsourced laser/water-jet plates where they're stronger or cheaper |
+| Connectivity | Cell coverage over the whole property; Wi-Fi can be extended | Telemetry and remote monitoring over Wi-Fi/LTE later; RTK corrections can travel over radio or network |
+| RTK correction service | **None known nearby** | **Our own RTK base station** on a farm building is required in phase 1. It serves every future robot on the farm. |
+| CAD | Open to anything | **Onshape** (§6.6) |
+
 ## 2. What changes from the vineyard concept, and why
 
 The concept report is a good foundation. Its research on hub motors, the 36 V bus, e-bike packs, AprilTags, and the risk table carries over. Mowing as the first task and towing and arm work as later tasks change what matters most.
@@ -105,7 +116,20 @@ Coverage at 0.45 m effective swath × 0.8 m/s ≈ **1,300 m²/hour ≈ 1/3 acre 
 - Use two packs: swap one while the other charges.
 - Phase 2: add a charging dock and mow in daily chunks.
 
-> **Open question:** about how many acres of lawn are we mowing, how many separate areas, and how much tree cover? This sizes the battery and decides how soon the dock is needed.
+**Applied to our ~3 acres (12,000 m²):**
+
+| Configuration | Effective swath × speed | Coverage | Time per full pass | Energy per pass |
+|---|---|---|---|---|
+| One 21" deck, 0.8 m/s | 0.45 m × 0.8 m/s | ~1,300 m²/h | **~9 h** | ~3.5 kWh |
+| One 21" deck, 1.0 m/s | 0.45 m × 1.0 m/s | ~1,600 m²/h | ~7.5 h | ~3 kWh |
+| Twin decks (~1 m cut), 1.0 m/s | 0.95 m × 1.0 m/s | ~3,400 m²/h | ~3.5 h | ~2.4 kWh |
+
+So the operating model is **mowing a zone each day from a charging dock**, the way commercial robot mowers work. About 1.3–1.5 h of mowing per day covers all 3 acres roughly once a week with a single deck. That fits within one 720 Wh pack per day, keeps grass short so blade power stays low, and scales as the farm grows: add zones, then add a second deck or a second robot.
+
+Consequences:
+- **The charging dock moves up** to the first item in phase 2, right after supervised mowing works. Until then, swap batteries manually.
+- **A wider twin-deck module** (~1 m cut, ~1.2 m overall width) is the v1.5 upgrade if weekly coverage isn't enough. Check gate widths first.
+- **Tree cover** is still unknown. Walk the lawns with a phone GPS app, or with the RTK rover once it's built, and mark the areas under canopy. Those zones may need a manual pass or a camera fallback.
 
 ## 6. Subsystems
 
@@ -132,7 +156,13 @@ The mower is a **module that bolts to the belly mount**, not part of the robot. 
 | M2. Robot-mower-style blades | 1–3 small brushless motors with pivoting razor blades | Safest, quietest, lowest power | Needs frequent mowing; struggles in tall grass | Good later for areas near people |
 | M3. Gas push-mower deck + brushless motor | Free curbside deck; replace the engine with a ~1–2 kW outrunner + VESC with brake | Strong cut, most salvage-y | Must build our own blade brake and guarding; keep blade tip speed under the ANSI 19,000 ft/min limit | Fallback / v2 heavy-grass deck |
 
-**Power for M1:** start with the blade running **from the mower's own tool battery**. That keeps the blade electrically isolated from the drive bus, avoids handshake problems, and adds energy. The robot only controls a relay that is part of the kill chain (§6.4).
+**Our M1 plan, Ryobi:** buy a **second, used Ryobi mower** of the same voltage line as the one already in use, so the farm keeps its daily mower and the robot shares its batteries and charger. Used Ryobi 40 V mowers are common on Marketplace, often sold without a battery for $50–150. Prefer a brushless model with a mulching deck.
+- *To confirm:* model number of the current mower. Ryobi sells 40 V, 80 V, and 18 V ONE+ (twin-battery) mowers, and the voltage decides compatibility. 40 V is the best match: it's 10S, the same class as our drive bus.
+- *Bench test:* how the mower's start button and bail switch are wired, and whether it starts from a bench supply or 3D-printed battery adapter without a battery data handshake. This decides phase 2 below.
+
+**Power for M1, phase 1:** the blade runs **from Ryobi batteries we already own**. That keeps the blade electrically isolated from the drive bus, avoids handshake problems, and adds energy. A 40 V 6 Ah pack (~216 Wh) runs a 21" deck for roughly 40–60 minutes. The robot only controls a relay that is part of the kill chain (§6.4).
+
+**Phase 2, once the dock exists:** feed the deck from the robot's main bus through a Ryobi battery adapter so the dock recharges everything, removing the need to swap Ryobi packs every day. This depends on the bench test above. If the mower requires a battery handshake, keep a Ryobi pack on the deck and charge it on the dock with a Ryobi charger.
 
 **Deck suspension:** hang the deck on four short links or chains with anti-scalp wheels, as mid-mount riding mowers do. The deck then follows the ground and doesn't scalp on bumps.
 
@@ -150,9 +180,13 @@ The mower is a **module that bolts to the belly mount**, not part of the robot. 
 
 - **Autopilot:** ArduPilot Rover 4.6.x on a Pixhawk-class or Matek H743-class board. Set it up as a skid-steer rover (`SERVO1_FUNCTION=73` throttle-left, `SERVO3_FUNCTION=74` throttle-right). Use a **switch** to arm, never stick arming. ArduPilot's built-in IMU covers tilt and lift detection.
 - **GPS:** u-blox ZED-F9P board + survey-grade multiband antenna on a mast. **Heading:** compasses do poorly near hub-motor magnets and steel. ArduPilot supports **GPS-yaw (moving baseline)** with two F9Ps about 50 cm or more apart, which is the recommended upgrade if heading proves noisy.
-- **RTK corrections**, cheapest to most robust:
-  1. Free state CORS / NTRIP network or RTK2go, delivered over farm Wi-Fi or a phone hotspot.
-  2. Our own base: a third F9P + antenna on the barn roof, sending corrections over a 915 MHz radio. Forum users report good results even from distant bases, but a local base is the most reliable.
+- **RTK corrections: our own base station** (no known service nearby):
+  - **Hardware:** a ZED-F9P + survey multiband antenna on a fixed mount with clear sky, on a barn or house roof or a post. Power and a small enclosure.
+  - **Absolute position:** let the base "survey in," or better, log 24 h of raw data and submit it to the free **NOAA OPUS** service or a PPP service. That fixes the base's coordinates, so lawn maps and fences stay accurate even if the base is moved or replaced.
+  - **Link to the robot, v1:** a 915 MHz telemetry radio straight from the base to the rover GPS. No network or internet needed. SiK-class radios cover typical farm distances easily.
+  - **Link, later:** a Raspberry Pi at the base runs an NTRIP caster (e.g. RTKLIB `str2str`) over farm Wi-Fi or LTE. Any number of robots, a tractor, or survey gear can use the same corrections.
+  - One base covers everything within ~10 km, so it serves the whole farm as it expands.
+  - *Worth a 10-minute check:* look for a state DOT CORS station or community RTK2go base within ~20 km. If one exists, it's a free backup.
 - **Mowing patterns:** Mission Planner's polygon "survey/grid" tool creates back-and-forth passes with overlap, and fences mark the hard boundary. Later, [Fields2Cover](https://github.com/Fields2Cover/Fields2Cover) (ROS 2) can produce better coverage paths with headland turns.
 - **Simulation all winter:** ArduPilot SITL (optionally with Gazebo) lets us practice missions, geofences, and failsafes before the hardware exists.
 - **Tree cover:** RTK degrades to "float" under trees and near buildings. v1 mows open areas only and pauses when the fix drops. Phase 2 adds wheel odometry and camera-based fallback for edges.
@@ -185,6 +219,7 @@ This is designed first and tested on the bench before the blade is ever installe
 - **30×30 aluminum T-slot extrusion** for the perimeter and top deck. Cut-to-length, corner brackets, no welding. Easy to change through many iterations.
 - **Plate parts** (dropouts, caster yokes, hitch plate, deck hangers) from 6 mm aluminum or 3–5 mm steel. Hand-cut and drilled at first, then sent to an online cutting service (e.g. SendCutSend) once the design is stable.
 - **3D-printed PETG/ASA** for sensor mounts, cable guides, bumper housings, and the antenna mast base. Avoid PLA outdoors.
+- **CAD: Onshape.** It's browser-based, so the team and intern can co-edit with no install and no file merges. It has good frame (extrusion) and sheet-metal tools, and the free plan requires public documents, which fits an open-source project. At each milestone, export **STEP (whole assembly), DXF (plates for cutting), and STL (printed parts)** to `hardware/cad/` so the repo works without Onshape. *Alternatives considered:* FreeCAD 1.x (fully open with files in git, but steeper and slower for frames and assemblies); Fusion 360 (personal license is non-commercial only, so not appropriate for Orbitist).
 - **Standard interfaces**, published as drawings so others can build compatible modules:
   - *Belly mount:* 4 hanger points on a fixed rectangle
   - *Rear hitch:* 2" receiver or 5/8" pin hitch at a fixed height
@@ -194,22 +229,24 @@ This is designed first and tested on the bench before the blade is ever installe
 
 | Phase | Timeframe | Goal | Exit criterion |
 |---|---|---|---|
-| **0. Design + sim** | Oct–Nov 2026 | Finalize this doc, CAD in Onshape or FreeCAD, order parts, ArduPilot SITL missions | BOM ordered; SITL mows a polygon of our real lawn |
+| **0. Design + sim** | Oct–Nov 2026 | Finalize this doc, CAD in Onshape, order parts, **set up the RTK base and survey its position**, ArduPilot SITL missions | BOM ordered; base surveyed; SITL mows a polygon of our real lawn |
 | **1a. Rolling chassis** | Dec 2026 | Frame, drive, battery, kill chain, RC driving | Drives under RC with a working e-stop; tested on snow/gravel |
-| **1b. Autonomy without blade** | Jan–Feb 2027 | Autopilot, RTK, tuning, missions on dormant lawn or snow | Runs a 50×20 m grid, passes within ±5 cm |
-| **1c. Mowing** | Apr–May 2027 | Install M1 deck, blade interlocks, supervised mowing | Mows one lawn area, supervised, with no missed strips |
-| **2. Unsupervised-capable** | Summer 2027 | Pi 5 + ROS 2, obstacle sensing, AprilTag charging dock, odometry fallback | Mows one zone per day from the dock; stops for a dummy obstacle 10/10 times |
+| **1b. Autonomy without blade** | Jan–Feb 2027 | Autopilot, RTK, tuning, missions on dormant lawn or snow; **map lawn zones and fences** | Runs a 50×20 m grid, passes within ±5 cm |
+| **1c. Mowing** | Apr–May 2027 | Install Ryobi deck module, blade interlocks, supervised mowing with battery swaps | Mows one zone, supervised, with no missed strips |
+| **2. Unsupervised-capable** | Summer 2027 | **Charging dock first**, then Pi 5 + ROS 2, obstacle sensing, odometry fallback, deck on main bus | Mows all ~3 acres weekly in daily zones from the dock; stops for a dummy obstacle 10/10 times |
 | **3. Hauling** | 2027 | Hitch + cart module, 4WD variant | Moves a cart of mulch along a mapped route |
 | **4. Manipulation** | 2028+ | Top-deck arm, perception for weeding and pruning | — |
 
 ## 8. Open questions for us to decide
 
-1. **Lawn area and terrain:** acres, number of zones, steepest slope, tree cover? This sizes the battery and decides 2WD vs 4WD.
-2. **Salvage on hand:** any old cordless mowers, wheelchairs, e-bike batteries, or hoverboards around the farm? These could change the default choices above.
-3. **Fabrication tools:** welder? drill press? 3D printer size? This decides extrusion vs steel tube.
-4. **RTK corrections:** does our state CORS network reach the farm, and is there Wi-Fi or LTE coverage over the lawns? Otherwise we run our own base.
-5. **CAD tool:** Onshape (browser, free for public/open docs) or FreeCAD (fully open)?
-6. **License:** suggest CERN-OHL-S for hardware and Apache-2.0 or MIT for software. Confirm before we publish.
+*Answered 2026-10-08:* ~3 acres and growing; Ryobi mower + batteries on hand; any tools available; cell coverage and extendable Wi-Fi; no known RTK service; CAD open to recommendation. See §1a.
+
+Still open:
+1. **Ryobi model number:** 40 V, 80 V, or 18 V ONE+? And which battery sizes (Ah) are on hand?
+2. **Terrain:** steepest slope on the lawns, roughly how many separate lawn areas, and how much tree cover? These decide 2WD vs 4WD and which zones need a fallback to GPS.
+3. **Base station site:** which building has clear sky and power, and is it roughly central to the lawns?
+4. **Gate and path widths** between lawn areas. This caps robot width, especially for a twin-deck upgrade.
+5. **License:** suggest CERN-OHL-S for hardware and Apache-2.0 for software. Confirm before we publish.
 
 ## 9. References
 

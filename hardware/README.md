@@ -9,7 +9,7 @@
 Design rationale lives in [`docs/design/platform-v1.md`](../docs/design/platform-v1.md).
 
 **v1 BOM rough totals (new parts):**
-- Core mowing robot (phases 1a–1c, without optional GPS-yaw or RTK base): **~$2,070**
-- Everything listed, including optional GNSS, hitch, and phase-2 compute and sensors: **~$3,000**
+- Core mowing robot + RTK base station (phases 0–1c, without optional GPS-yaw): **~$2,330**
+- Everything listed, including GPS-yaw, hitch, charging dock, and phase-2 compute and sensors: **~$3,100**
 
-The biggest savings come from salvaged parts: a hoverboard board instead of VESCs (−$135), a used e-bike pack, mower casters from a junked rider, and free CORS corrections instead of our own base. These could bring the core to roughly $1,500.
+The RTK base (~$280) is a one-time farm asset shared by every future robot. The biggest savings come from salvaged parts: a hoverboard board instead of VESCs (−$135), a used e-bike pack, and mower casters from a junked rider. The Ryobi batteries and charger are already on hand.
