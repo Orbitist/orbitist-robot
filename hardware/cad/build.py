@@ -6,7 +6,7 @@ Usage (from hardware/cad/):
 Writes to hardware/cad/exports/:
     platform-v1-<config>.step      full assembly (import into Onshape, FreeCAD, Fusion)
     platform-v1-<config>-*.png     iso / top / side renders
-    drive-fork-side-plate.dxf      flat pattern for cutting
+    drive-fork-side-plate.dxf      flat patterns for cutting (+ torque-arm, frame-gusset)
     cut-list.md                    extrusion cut list
     report.md                      envelope, mass, CG, axle loads, clearance checks
 """
@@ -26,6 +26,7 @@ from build123d import (
     Compound,
     Cylinder,
     ExportDXF,
+    Polygon,
     Pos,
     Rectangle,
     SlotCenterPoint,
@@ -114,6 +115,34 @@ def fork_plate_dxf(p: Params, rec, path: Path):
     exp.add_shape(plate, layer="cut")
     exp.write(str(path))
     return w, h
+
+
+def write_dxf(shape, path: Path):
+    exp = ExportDXF(unit=Unit.MM)
+    exp.add_layer("cut")
+    exp.add_shape(shape, layer="cut")
+    exp.write(str(path))
+
+
+def torque_arm_dxf(p: Params, path: Path):
+    """Plate keyed to the axle flats, bolted to the fork plate's M6 holes at +/-50 mm."""
+    arm = Rectangle(130, 30)
+    # Double-D hole: 12 mm axle circle trimmed to the flats (+0.2 mm fit).
+    double_d = Circle(6.1) & Rectangle(p.axle_flats + 0.2, 12.2)
+    arm = arm - double_d
+    for x in (-50, 50):
+        arm = arm - Pos(x, 0) * Circle(3.3)
+    write_dxf(arm, path)
+
+
+def gusset_dxf(path: Path):
+    """L-gusset for the top face of a side-rail / cross-member joint (30-series, M6)."""
+    outline = Polygon((0, 0), (150, 0), (150, 30), (30, 150), (0, 150), align=None)
+    for x in (60, 105, 135):  # leg over the side rail
+        outline = outline - Pos(x, 15) * Circle(3.3)
+    for y in (60, 105, 135):  # leg over the cross member
+        outline = outline - Pos(15, y) * Circle(3.3)
+    write_dxf(outline, path)
 
 
 # ---------------------------------------------------------------- reports --
@@ -242,6 +271,13 @@ def main():
     report += ["## Flat parts", "",
                f"- `drive-fork-side-plate.dxf`: {w:.0f} × {h:.0f} mm, {p.fork_plate_t:.0f} mm steel, qty 4. "
                f"The axle slot is {p.axle_flats + 0.3:.1f} mm wide; **measure the motor's axle flats before cutting**.",
+               ""]
+    torque_arm_dxf(p, OUT / "torque-arm.dxf")
+    gusset_dxf(OUT / "frame-gusset.dxf")
+    report += [f"- `torque-arm.dxf`: 130 × 30 mm, 5 mm steel, qty 4 (one per fork plate). Double-D hole keyed "
+               f"to the axle flats; M6 holes match the fork plate. **Required** (see strength-report.md).",
+               "- `frame-gusset.dxf`: 150 × 150 mm L-gusset, 5 mm aluminium or 3 mm steel, qty 8 (top of the "
+               "rail-to-member joints at x = −120 and x = 215, both sides, plus spares for the rear corners).",
                ""]
     (OUT / "cut-list.md").write_text(cut_list(p, parts))
     (OUT / "report.md").write_text("\n".join(report))

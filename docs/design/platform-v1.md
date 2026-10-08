@@ -96,6 +96,8 @@ Envelope from the [first CAD model](../../hardware/cad/README.md) (`hardware/cad
 - **Tongue-weight limit:** a cart pressing down on the hitch more than **~23 kg** (single deck) or ~42 kg (twin) lifts the front casters. Carts must be loaded so they're balanced over their own wheels, or the hitch must move closer to the axle. Revisit in phase 3.
 - **Twin decks must be staggered,** because two decks side by side would leave a ~5 cm uncut strip. Staggering adds about 33 cm of length.
 
+**Strength check:** see [`strength-report.md`](../../hardware/cad/exports/strength-report.md). It requires torque arms on the hub motors, saddle-mounted drive forks, gussets at the joints next to the drive axle, a 30x60 cross member at x = 215, and an A-frame drawbar before any towing.
+
 **Why build wide now:** on 3+ acres with 8 ft paths, the twin-deck upgrade roughly halves mowing time (§5). Cutting the extrusion 50 cm longer now costs ~$30. Rebuilding a narrow frame later would mean redoing the drive mounts, wiring, and CAD. v1 runs with one deck centered; the second deck bolts onto the same belly mount. The twin decks can sit side by side, or staggered front-left / rear-right with ~5 cm overlap. We'll decide in CAD based on how the Ryobi deck housing looks.
 
 **Why the battery sits over the drive axle:** in a zero-turn layout the casters carry weight without providing traction. Every kilogram over the rear axle helps on slopes, as §5 shows.

@@ -4,9 +4,10 @@
 
 | Profile | Length (mm) | Qty | Total (m) |
 |---|---|---|---|
-| 30x30 | 1220 | 5 | 6.10 |
+| 30x30 | 1220 | 4 | 4.88 |
 | 30x60 | 1165 | 2 | 2.33 |
+| 30x60 | 1220 | 1 | 1.22 |
 
-Buy (with ~10 % for cutting waste): 30x30: 6.7 m, 30x60: 2.6 m
+Buy (with ~10 % for cutting waste): 30x30: 5.4 m, 30x60: 3.9 m
 
 Cross members fit **between** the side rails (frame width 1280 mm minus 2 × 30 mm), joined with corner brackets.

@@ -7,11 +7,11 @@
 | Quantity | Value |
 |---|---|
 | Overall length × width × height | 1520 × 1402 × 985 mm |
-| Estimated mass | 60.5 kg |
-| Centre of gravity (x, y, z) | (134, 38, 234) mm |
-| Load on drive wheels | 49.8 kg (82 %) |
-| Load on casters | 10.7 kg (18 %) |
-| Max cart tongue weight before casters unload | 23 kg (hitch pin 350 mm behind axle) |
+| Estimated mass | 61.3 kg |
+| Centre of gravity (x, y, z) | (135, 37, 236) mm |
+| Load on drive wheels | 50.4 kg (82 %) |
+| Load on casters | 10.9 kg (18 %) |
+| Max cart tongue weight before casters unload | 24 kg (hitch pin 350 mm behind axle) |
 | Pivot-turn swept radius (about axle centre) | 1338 mm |
 
 ### Clearance checks
@@ -28,10 +28,10 @@
 | Quantity | Value |
 |---|---|
 | Overall length × width × height | 1520 × 1402 × 985 mm |
-| Estimated mass | 77.5 kg |
-| Centre of gravity (x, y, z) | (188, 29, 211) mm |
-| Load on drive wheels | 58.3 kg (75 %) |
-| Load on casters | 19.2 kg (25 %) |
+| Estimated mass | 78.3 kg |
+| Centre of gravity (x, y, z) | (189, 29, 213) mm |
+| Load on drive wheels | 58.9 kg (75 %) |
+| Load on casters | 19.4 kg (25 %) |
 | Max cart tongue weight before casters unload | 42 kg (hitch pin 350 mm behind axle) |
 | Pivot-turn swept radius (about axle centre) | 1338 mm |
 
@@ -53,3 +53,6 @@
 ## Flat parts
 
 - `drive-fork-side-plate.dxf`: 200 × 200 mm, 6 mm steel, qty 4. The axle slot is 10.3 mm wide; **measure the motor's axle flats before cutting**.
+
+- `torque-arm.dxf`: 130 × 30 mm, 5 mm steel, qty 4 (one per fork plate). Double-D hole keyed to the axle flats; M6 holes match the fork plate. **Required** (see strength-report.md).
+- `frame-gusset.dxf`: 150 × 150 mm L-gusset, 5 mm aluminium or 3 mm steel, qty 8 (top of the rail-to-member joints at x = −120 and x = 215, both sides, plus spares for the rear corners).

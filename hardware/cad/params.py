@@ -23,6 +23,8 @@ class Params:
     # Cross-member centre positions (X). Chosen to stay clear of the mower
     # motor housings that poke up through the frame (see deck_slots).
     cross_member_x: tuple = (-285.0, -120.0, 215.0, 600.0, 850.0)
+    # Members that need more than 30x30 (strength.py): x=215 carries both decks in the twin layout.
+    cross_member_profile: dict = field(default_factory=lambda: {215.0: "30x60"})
 
     # --- Drive (10" hub motors in bolt-on forks) ---------------------------
     wheel_diameter: float = 254.0  # 10" pneumatic tire, ESTIMATE
@@ -49,6 +51,7 @@ class Params:
     deck_motor_diameter: float = 200.0  # ESTIMATE
     deck_motor_height: float = 190.0  # ESTIMATE
     deck_overlap: float = 50.0  # cut overlap between twin decks
+    deck_hanger_spread: float = 220.0  # hangers sit +/- this far either side of the deck centre (Y)
     deck_mass: float = 17.0  # ESTIMATE: ~23 kg mower minus handle, wheels, battery
 
     # --- Payload / electronics placeholders --------------------------------
@@ -80,6 +83,11 @@ class Params:
     @property
     def frame_length(self) -> float:
         return self.frame_front_x - self.frame_rear_x
+
+    def cross_profile(self, x: float):
+        """(size along X, height, name) of the cross member at x."""
+        name = self.cross_member_profile.get(x, "30x30")
+        return (30.0, 60.0, name) if name == "30x60" else (30.0, 30.0, name)
 
     @property
     def side_rail_y(self) -> float:

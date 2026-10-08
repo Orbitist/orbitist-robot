@@ -50,7 +50,6 @@ def frame(p: Params) -> list[PartRecord]:
     parts = []
     m = p.masses
     sw, sh = p.side_rail
-    cw, ch = p.cross_rail
     # Side rails (30x60, standing on edge), full frame length.
     for side, sgn in (("L", 1), ("R", -1)):
         y_out = sgn * p.frame_width / 2
@@ -65,9 +64,10 @@ def frame(p: Params) -> list[PartRecord]:
                 extrusion={"profile": "30x60", "length": p.frame_length},
             )
         )
-    # Cross members (30x30) between the side rails, flush with the frame top.
+    # Cross members between the side rails, flush with the frame top.
     length = p.frame_width - 2 * sw
     for i, x in enumerate(p.cross_member_x):
+        cw, ch, prof = p.cross_profile(x)
         x0 = max(x - cw / 2, p.frame_rear_x)
         x0 = min(x0, p.frame_front_x - cw)
         parts.append(
@@ -75,8 +75,8 @@ def frame(p: Params) -> list[PartRecord]:
                 f"cross_member_{i + 1}",
                 "frame",
                 _box(x0, x0 + cw, -length / 2, length / 2, p.frame_top_z - ch, p.frame_top_z),
-                m["extrusion_30x30_per_m"] * length / 1000,
-                extrusion={"profile": "30x30", "length": length},
+                m[f"extrusion_{prof}_per_m"] * length / 1000,
+                extrusion={"profile": prof, "length": length},
             )
         )
     return parts
@@ -104,6 +104,11 @@ def drive(p: Params) -> list[PartRecord]:
         plates = []
         for py in (y - half - p.fork_plate_t, y + half):
             plates.append(_box(fx0, fx1, py, py + p.fork_plate_t, z_bot, z_top - p.fork_top_t))
+        # Saddle tabs up both faces of the side rail, bolted into its side slots
+        # (strength.py: a bottom-slot-only joint is too weak against sideways loads).
+        rail_half = p.side_rail[0] / 2
+        for ty in (y - rail_half - p.fork_plate_t, y + rail_half):
+            plates.append(_box(fx0, fx1, ty, ty + p.fork_plate_t, z_top, z_top + p.side_rail[1] - 5))
         fork = top.fuse(*plates)
         parts.append(PartRecord(f"drive_fork_{side}", "fork", fork, m["drive_fork"],
                                 meta={"plate_height": z_top - p.fork_top_t - z_bot,
@@ -126,7 +131,8 @@ def casters(p: Params) -> list[PartRecord]:
         spindle = Pos(px, py, fork_top_z) * Cylinder(16, p.frame_bottom_z - fork_top_z,
                                                      align=(Align.CENTER, Align.CENTER, Align.MIN))
         # Mount block bridging the cross member down to the spindle housing.
-        mount = _box(px - 45, px + 45, py - 45, py + 45, p.frame_bottom_z, p.frame_top_z - p.cross_rail[1])
+        mount = _box(px - 45, px + 45, py - 45, py + 45, p.frame_bottom_z,
+                     p.frame_top_z - p.cross_profile(p.caster_pivot_x)[1])
         shape = wheel.fuse(fork, spindle)
         if mount.volume > 0:
             shape = shape.fuse(mount)

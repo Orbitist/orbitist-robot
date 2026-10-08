@@ -28,8 +28,8 @@ Purchases are grouped into waves, so money goes out only when each part is neede
 | ☐ | Battery | 36 V e-bike pack, **20 Ah**, BMS ≥ 30 A continuous, plus a matching charger. 10S Li-ion or 12S LiFePO4. | 300 |
 | ☐ | Electrical | Main fuse (40 A), key switch, precharge resistor, 36 V contactor (coil voltage to match the e-stop loop), DC-DCs 36→12 V 10 A and 36→5 V 5 A (input ≥ 50 V), XT90 connectors, 10–12 AWG silicone wire, fuse block | 150 |
 | ☐ | Safety | NC mushroom e-stop, relay module for the wireless e-stop, bumper microswitches | 100 |
-| ☐ | Frame | 30×30 aluminum T-slot (lengths from CAD cut list), 30×60 for the axle rails, corner brackets, T-nuts, stainless M6/M8 fasteners | 200 |
-| ☐ | Plates | 6 mm aluminum or 5 mm steel for dropouts and caster mounts. Hand-cut first, then send out DXFs for cutting. | 40 |
+| ☐ | Frame | 30-series slot-8 aluminum extrusion per the [cut list](../cad/exports/cut-list.md): 30×30 4 × 1220 mm; 30×60 2 × 1165 mm + 1 × 1220 mm. Corner brackets, T-nuts, stainless M6/M8 fasteners. | 230 |
+| ☐ | Plates | From `hardware/cad/exports/*.dxf`: 4× fork side plates (6 mm steel), 4× **torque arms** (5 mm steel, required), 8× frame gussets (5 mm Al), plus fork top plates and saddle tabs. Send DXFs out for cutting once the motor axle is measured. | 80 |
 | ☐ | Enclosure | IP65 polycarbonate box ~30×20×15 cm, cable glands | 70 |
 
 ## Wave 3: mower deck (whenever a good deal appears; off-season is cheapest)

@@ -11,9 +11,11 @@ The robot is modelled in Python with [build123d](https://github.com/gumyr/build1
 | `params.py` | **All dimensions and masses.** Values marked `ESTIMATE` are typical sizes for parts we haven't bought; replace them with measurements. |
 | `model.py` | Builds each part (frame, drive forks + hub motors, casters, mower decks, payload placeholders) |
 | `build.py` | Exports everything to `exports/` and runs clearance checks |
+| `strength.py` | Hand-calculation strength check → `exports/strength-report.md` |
 | `exports/platform-v1-{single,twin}.step` | Full assembly. Open in Onshape (*Import*), FreeCAD, Fusion, or any STEP viewer. |
 | `exports/*-{iso,top,side,front}.png` | Quick-look renders |
-| `exports/drive-fork-side-plate.dxf` | Flat pattern for the hub-motor dropout plates (6 mm steel, qty 4) |
+| `exports/*.dxf` | Flat patterns: drive-fork side plate (6 mm steel ×4), torque arm (5 mm steel ×4), frame gusset (×8) |
+| `exports/strength-report.md` | Load cases, stresses and safety factors for forks, joints, and frame members |
 | `exports/cut-list.md` | Extrusion lengths to cut |
 | `exports/report.md` | Envelope, mass, CG, axle loads, tongue-weight limit, clearance checks |
 
@@ -29,6 +31,7 @@ cd hardware/cad
 uv venv --python 3.12 .venv
 uv pip install --python .venv/bin/python -r requirements.txt
 .venv/bin/python build.py
+.venv/bin/python strength.py
 ```
 
 Commit the regenerated `exports/` together with the parameter change, so the repo stays readable without Python.
@@ -36,7 +39,7 @@ Commit the regenerated `exports/` together with the parameter change, so the rep
 ## What this model is (and isn't)
 
 - **Layout model (v0).** Parts are simplified as boxes and cylinders, and the extrusions are solid bars without T-slots. Its job is to settle the envelope, positions, clearances, and weight distribution before buying parts.
-- **Not a strength analysis.** Before cutting metal, the drive-fork plates, the fork-to-rail joint, and the 1.22 m cross-member span need a check. See the open items in `exports/report.md` and the design doc.
+- **Strength:** `strength.py` hand-checks the forks, joints, and members ([report](exports/strength-report.md)). It led to the torque arms, saddle-mounted forks, gussets, and the 30x60 member at x = 215. It's not FEA; the frame is simple enough that beam and plate checks catch the real risks.
 - **Fasteners, brackets, wiring, and the deck hangers** are not modelled yet. They come after real parts are measured.
 
 ## Measure when parts arrive, then update `params.py`

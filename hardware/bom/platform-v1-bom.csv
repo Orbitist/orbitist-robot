@@ -1,7 +1,7 @@
 subsystem,item,qty,est_unit_usd,est_total_usd,phase,salvage_alternative,notes
 drive,"10in pneumatic hub motor 36V 350-500W, Hall sensors, double-sided axle, with tire",2,120,240,1a,,Confirm axle flats width and Hall sensor connector
 drive,"VESC-class FOC controller (Flipsky 4.20/6.x or Makerbase 75100 class), >=50V rated",2,90,180,1a,Hoverboard mainboard + EFeru FOC (~$45 for both wheels),RC-PWM or CAN from ArduPilot
-drive,Dropout plates (6mm Al or 5mm steel) + torque washers,2,20,40,1a,,Hand-cut v1; send out for cutting once stable
+drive,"Drive fork plates (6mm steel side plates, 8mm top plate, saddle tabs) + torque arms (5mm steel) + 8 frame gussets",1,80,80,1a,,DXFs in hardware/cad/exports; torque arms required (strength-report.md)
 drive,11x4 zero-turn mower caster wheel + fork + yoke bearing,2,55,110,1a,Casters from junked riding mower,
 frame,"30x30 aluminum T-slot extrusion, brackets, T-nuts, stainless fasteners",1,230,230,1a,Steel square tube if welding,Sized for twin-deck width (~1.3-1.4m)
 frame,Rear hitch plate + 2in receiver or 5/8in pin hitch,1,40,40,3,,
