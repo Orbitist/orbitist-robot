@@ -25,7 +25,7 @@ Design rules:
 | Terrain | **Generally flat** | Rear-wheel drive with front casters has plenty of grip; 4WD is only needed for hauling in mud later |
 | Sky view | **Open sky; base station can go anywhere** | Ideal for RTK: expect a solid fix nearly everywhere. Put the base near the middle of the lawns. |
 | Layout | **Mostly open lawns joined by ~8 ft (2.4 m) paths**; small paths touched up by hand | Robot can be up to ~1.4 m wide, so the frame is **built wide enough for twin decks from the start** (§4) |
-| CAD | Open to anything | **Onshape** (§6.6) |
+| CAD | Open to anything | **Code-based CAD (build123d) in the repo**; STEP exports open in Onshape or FreeCAD (§6.6) |
 | License | Delegated to Claude | CERN-OHL-W-2.0 (hardware) · Apache-2.0 (software) · CC BY-SA 4.0 (docs). See [LICENSE.md](../../LICENSE.md). |
 
 ## 2. What changes from the vineyard concept, and why
@@ -233,7 +233,7 @@ This is designed first and tested on the bench before the blade is ever installe
 - **30×30 aluminum T-slot extrusion** for the perimeter and top deck. Cut-to-length, corner brackets, no welding. Easy to change through many iterations.
 - **Plate parts** (dropouts, caster yokes, hitch plate, deck hangers) from 6 mm aluminum or 3–5 mm steel. Hand-cut and drilled at first, then sent to an online cutting service (e.g. SendCutSend) once the design is stable.
 - **3D-printed PETG/ASA** for sensor mounts, cable guides, bumper housings, and the antenna mast base. Avoid PLA outdoors.
-- **CAD: Onshape.** It's browser-based, so the team and intern can co-edit with no install and no file merges. It has good frame (extrusion) and sheet-metal tools, and the free plan requires public documents, which fits an open-source project. At each milestone, export **STEP (whole assembly), DXF (plates for cutting), and STL (printed parts)** to `hardware/cad/` so the repo works without Onshape. *Alternatives considered:* FreeCAD 1.x (fully open with files in git, but steeper and slower for frames and assemblies); Fusion 360 (personal license is non-commercial only, so not appropriate for Orbitist).
+- **CAD: code-based, in the repo.** The frame is a parametric [build123d](https://github.com/gumyr/build123d) model ([`hardware/cad/`](../../hardware/cad/README.md)). One parameter file drives the STEP assembly, renders, cutting DXFs, extrusion cut list, mass/CG report, and strength check. It's plain text, diffable in git, free for anyone to rebuild, and lets Claude edit it directly. **Onshape** (or FreeCAD) is for viewing the STEP exports and for one-off parts that are easier to sketch by hand; anything drawn there gets exported back to `hardware/cad/`. *Considered:* Onshape as the source of truth (best interactive tool, but its files live outside git and Claude can't edit them); Fusion 360 (personal license is non-commercial only).
 - **Standard interfaces**, published as drawings so others can build compatible modules:
   - *Belly mount:* 4 hanger points on a fixed rectangle
   - *Rear hitch:* 2" receiver or 5/8" pin hitch at a fixed height
