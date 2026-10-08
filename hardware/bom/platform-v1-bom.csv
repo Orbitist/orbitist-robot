@@ -2,22 +2,23 @@ subsystem,item,qty,est_unit_usd,est_total_usd,phase,salvage_alternative,notes
 drive,"10in pneumatic hub motor 36V 350-500W, Hall sensors, double-sided axle, with tire",2,120,240,1a,,Confirm axle flats width and Hall sensor connector
 drive,"VESC-class FOC controller (Flipsky 4.20/6.x or Makerbase 75100 class), >=50V rated",2,90,180,1a,Hoverboard mainboard + EFeru FOC (~$45 for both wheels),RC-PWM or CAN from ArduPilot
 drive,"Drive fork plates (6mm steel side plates, 8mm top plate, saddle tabs) + torque arms (5mm steel) + 8 frame gussets",1,80,80,1a,,DXFs in hardware/cad/exports; torque arms required (strength-report.md)
-drive,11x4 zero-turn mower caster wheel + fork + yoke bearing,2,55,110,1a,Casters from junked riding mower,
+drive,10in pneumatic plate-mount swivel caster (4x4.5in plate),2,35,70,1a,Zero-turn mower casters (need welded spindle housing),On 8mm steel corner plates (caster-plate.dxf)
 frame,"30x30 aluminum T-slot extrusion, brackets, T-nuts, stainless fasteners",1,230,230,1a,Steel square tube if welding,Sized for twin-deck width (~1.3-1.4m)
 frame,Rear hitch plate + 2in receiver or 5/8in pin hitch,1,40,40,3,,
 power,"36V 20Ah e-bike battery w/ BMS (10S Li-ion or 12S LiFePO4), >=30A",1,300,300,1a,Salvaged e-bike pack (check cell health),
-power,"Main fuse, key switch, precharge resistor, 36V contactor",1,70,70,1a,,
+power,"Main fuse (MRBF 40A), battery disconnect, DC contactor, precharge relay+resistor, timer relays, signal relays, 58V fuses",1,160,160,1a,,See hardware/electrical/README.md
 power,DC-DC 36->12V 10A and 36->5V 5A,2,15,30,1a,,Input rated >=50V
 power,"XT90/Anderson connectors, wire, ferrules, fuse block",1,50,50,1a,,
 safety,E-stop mushroom switch (NC),1,15,15,1a,,
-safety,"Fail-safe wireless e-stop (dedicated receiver + relay module, or commercial)",1,60,60,1a,,Must stop on signal loss
-safety,Bumper switches + bump bar,1,25,25,1a,,
+safety,Wireless e-stop: Arduino Nano + ELRS PWM receiver + relay module,1,40,40,1a,,Firmware in software/estop_receiver
+safety,"Front bumper: bar, sliding arms, guides, springs, foam, 2 NC roller microswitches",1,60,60,1a,,100mm travel; protects up to 0.6 m/s
 control,ArduPilot flight controller (Pixhawk 6C mini / Matek H743 class),1,120,120,1b,,
 control,RC transmitter + ELRS receiver,1,90,90,1a,,Switch-based arming
 control,Telemetry radio pair (SiK 915MHz) or ELRS MAVLink,1,50,50,1b,,
 gnss,u-blox ZED-F9P board + multiband antenna (rover),1,250,250,1b,,
 gnss,Second ZED-F9P + antenna for GPS-yaw (optional),1,250,250,1b,,Add if compass heading is unreliable
 gnss,RTK base station: ZED-F9P + survey antenna + mount + enclosure + 915MHz radio,1,280,280,0,,Required: no correction service nearby. Fix position via NOAA OPUS.
+gnss,"Raspberry Pi for base station (logging, later NTRIP) + SD + PSU",1,75,75,0,Laptop for the 24h log,docs/guides/rtk-base-station.md
 gnss,Radio pair for RTK corrections base->rover (SiK 915MHz or XBee-socket),1,60,60,0,NTRIP over farm Wi-Fi/LTE later,Separate from telemetry radio
 electrical,"IP65 enclosure, cable glands, belly pan",1,70,70,1a,,
 mower,"Used Ryobi mower #1 (same voltage line as farm batteries), bare tool",1,100,100,1c,Curbside push mower deck + brushless motor (M3),Uses existing Ryobi batteries + charger; confirm 40V/80V/18V line

@@ -117,28 +117,46 @@ def drive(p: Params) -> list[PartRecord]:
 
 
 def casters(p: Params) -> list[PartRecord]:
+    """Plate-mount swivel casters on 8 mm steel corner plates under the side rail + front member."""
     parts = []
     r = p.caster_wheel_diameter / 2
+    plate_top = p.frame_bottom_z
+    plate_bot = plate_top - p.caster_mount_t
+    spacer = plate_bot - p.caster_height
     for side, sgn in (("L", 1), ("R", -1)):
         px, py = p.caster_pivot_x, sgn * p.caster_pivot_y
         wx = px - p.caster_trail  # wheel trails behind the pivot when driving forward
         wheel = _y_cylinder(wx, py, r, r, p.caster_wheel_width)
-        half = p.caster_wheel_width / 2 + 8
-        fork_top_z = 2 * r + 10  # yoke top; spindle housing fills the gap to the frame
-        fork = _box(wx - 30, px + 40, py - half - 6, py + half + 6, fork_top_z, fork_top_z + 8)
-        for fy in (py - half - 6, py + half):
-            fork = fork.fuse(_box(wx - 25, wx + 25, fy, fy + 6, r - 20, fork_top_z))
-        spindle = Pos(px, py, fork_top_z) * Cylinder(16, p.frame_bottom_z - fork_top_z,
-                                                     align=(Align.CENTER, Align.CENTER, Align.MIN))
-        # Mount block bridging the cross member down to the spindle housing.
-        mount = _box(px - 45, px + 45, py - 45, py + 45, p.frame_bottom_z,
-                     p.frame_top_z - p.cross_profile(p.caster_pivot_x)[1])
-        shape = wheel.fuse(fork, spindle)
-        if mount.volume > 0:
-            shape = shape.fuse(mount)
+        half = p.caster_wheel_width / 2 + 6
+        top_z = p.caster_height
+        cx, cy = p.caster_plate
+        swivel = _box(px - cx / 2, px + cx / 2, py - cy / 2, py + cy / 2, top_z - 25, top_z)
+        fork = _box(wx - 20, px + 25, py - half - 5, py + half + 5, top_z - 35, top_z - 25)
+        for fy in (py - half - 5, py + half):
+            fork = fork.fuse(_box(wx - 20, wx + 20, fy, fy + 5, r - 15, top_z - 25))
+        shape = wheel.fuse(fork, swivel)
+        if spacer > 0.5:
+            shape = shape.fuse(_box(px - cx / 2, px + cx / 2, py - cy / 2, py + cy / 2, top_z, plate_bot))
         parts.append(PartRecord(f"caster_{side}", "caster", shape, p.masses["caster"],
-                                meta={"sweep_radius": p.caster_trail + r}))
+                                meta={"sweep_radius": p.caster_trail + r, "spacer": spacer}))
+        x0, x1, y_in, y_out = caster_plate_extent(p)
+        plate = _box(x0, x1, min(sgn * y_in, sgn * y_out), max(sgn * y_in, sgn * y_out), plate_bot, plate_top)
+        parts.append(PartRecord(f"caster_plate_{side}", "fork", plate, 0.9))
     return parts
+
+
+def caster_plate_extent(p: Params):
+    """(x0, x1, y_inner, y_outer) of the caster corner plate (left side; mirror for right)."""
+    cx, cy = p.caster_plate
+    return (p.caster_pivot_x - cx / 2 - 10, p.frame_front_x,
+            p.caster_pivot_y - cy / 2 - 15, p.frame_width / 2)
+
+
+def bumper_layout(p: Params):
+    """X positions of the bumper bar, kept clear of the caster swivel sweep at full travel."""
+    sweep_front = p.caster_pivot_x + p.caster_trail + p.caster_wheel_diameter / 2
+    bar_rear = sweep_front + p.bumper_travel + 15
+    return bar_rear, bar_rear + 30, bar_rear + 30 + p.bumper_foam
 
 
 def decks(p: Params, config: str) -> list[PartRecord]:
@@ -185,15 +203,23 @@ def payload(p: Params) -> list[PartRecord]:
         8, 100, align=(Align.CENTER, Align.CENTER, Align.MIN)))
     parts.append(PartRecord("rear_hitch", "accessory", hitch, m["hitch"]))
 
-    # Front bumper bar ahead of the caster sweep, on two arms.
-    sweep = p.caster_trail + p.caster_wheel_diameter / 2
-    bump_x = p.caster_pivot_x + sweep + 30
-    arm_y = p.caster_pivot_y - 120
-    bumper = _box(bump_x, bump_x + 30, -p.frame_width / 2 + 60, p.frame_width / 2 - 60, 230, 290)
-    for ay in (-arm_y, arm_y):
-        bumper = bumper.fuse(_box(p.frame_front_x - 1, bump_x, ay - 15, ay + 15, 260, 290))
-        bumper = bumper.fuse(_box(p.frame_front_x - 30, p.frame_front_x, ay - 15, ay + 15, 260, p.frame_top_z))
+    # Front bumper: bar + foam on two arms that slide rearward in guides under the
+    # front cross member, against springs; travel trips NC switches in the e-stop loop.
+    bar0, bar1, foam1 = bumper_layout(p)
+    z0, z1 = p.bumper_z
+    half_w = p.frame_width / 2 - 60
+    bumper = _box(bar0, bar1, -half_w, half_w, z0, z1)
+    guide_z0, guide_z1 = p.frame_bottom_z - 40, p.frame_bottom_z
+    for ay in (-p.bumper_arm_y, p.bumper_arm_y):
+        bumper = bumper.fuse(_box(p.frame_front_x - 60, bar1, ay - 10, ay + 10, guide_z0 + 10, guide_z0 + 30))
     parts.append(PartRecord("front_bumper", "accessory", bumper, m["bumper"]))
+    foam = _box(bar1, foam1, -half_w, half_w, z0, z1)
+    parts.append(PartRecord("bumper_foam", "accessory", foam, 0.3))
+    guides = None
+    for ay in (-p.bumper_arm_y, p.bumper_arm_y):
+        g = _box(p.frame_front_x - 30, p.frame_front_x + 30, ay - 20, ay + 20, guide_z0, guide_z1)
+        guides = g if guides is None else guides.fuse(g)
+    parts.append(PartRecord("bumper_guides", "fork", guides, 0.6))
     return parts
 
 

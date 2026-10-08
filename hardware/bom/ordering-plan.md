@@ -12,9 +12,10 @@ Purchases are grouped into waves, so money goes out only when each part is neede
 | ☐ | 2× multiband (L1/L2) GNSS antennas | u-blox ANN-MB class for the rover; a survey-style antenna (or another ANN-MB on a ground plate) for the base | 2× 60–150 |
 | ☐ | Radio pair for corrections (base → rover) | 915 MHz SiK telemetry radio pair or an XBee-socket radio pair matching the F9P boards | 60 |
 | ☐ | Flight controller | **Holybro Pixhawk 6C (mini)** for easy connectors, or Matek H743 class. Plus a power module rated for 12S. | 120–200 |
-| ☐ | RC transmitter + receiver | ExpressLRS (ELRS) transmitter with switches + 2 ELRS receivers (one for driving, one for the wireless e-stop) | 100–150 |
+| ☐ | RC transmitter + receivers | ExpressLRS (ELRS) transmitter with switches + ELRS receiver for driving + **ELRS PWM receiver** for the wireless e-stop | 100–150 |
 | ☐ | Telemetry radio pair (robot ↔ laptop) | Second SiK 915 MHz pair, or MAVLink over ELRS | 60 |
-| ☐ | Base station mount | Pole or roof bracket, weatherproof box, 5 V power or a USB supply | 40 |
+| ☐ | Base station mount | Rigid pole or roof bracket, weatherproof box, 5 V power supply, low-loss SMA cable | 60 |
+| ☐ | Raspberry Pi for the base | Pi 4 / Pi 5 / Zero 2 W + SD card + PSU. Logs the 24 h survey and later serves NTRIP. See the [base station guide](../../docs/guides/rtk-base-station.md). | 60–90 |
 
 **Wave 1 tasks:** set up the base station and log 24 h of raw data → submit to NOAA OPUS → enter the fixed base position. Walk the lawn edges with the rover GPS → save the polygons to `software/ardupilot/missions/`. Meanwhile, run ArduPilot SITL on a laptop with those polygons.
 
@@ -24,10 +25,11 @@ Purchases are grouped into waves, so money goes out only when each part is neede
 |---|---|---|---|
 | ☐ | 2× 10" hub motors | 36 V, 350–500 W, pneumatic 10×2.5"–10×3" tire, **Hall sensors (small 5-wire connector)**, **axle with flats on both sides**. Buy both from the same listing so they match. | 2× 120 |
 | ☐ | 2× FOC motor controllers | VESC-class (Flipsky FSESC 4.20 / 6.x, Makerbase 75100), **rated ≥ 50 V**, Hall sensor input, PWM/PPM input. Budget alternative: hoverboard mainboard + ST-Link. | 2× 90 |
-| ☐ | 2× zero-turn mower caster assemblies | 11×4 or 13×5 caster wheel + fork + yoke/spindle bearing (mower replacement parts) | 2× 55 |
+| ☐ | 2× 10" pneumatic plate-mount swivel casters | 4"×4.5" top plate, ~12" overall height, ≥ 150 kg rating, ball-bearing swivel. **Measure the bolt pattern and height on arrival** (they set `caster-plate.dxf`). | 2× 35 |
 | ☐ | Battery | 36 V e-bike pack, **20 Ah**, BMS ≥ 30 A continuous, plus a matching charger. 10S Li-ion or 12S LiFePO4. | 300 |
-| ☐ | Electrical | Main fuse (40 A), key switch, precharge resistor, 36 V contactor (coil voltage to match the e-stop loop), DC-DCs 36→12 V 10 A and 36→5 V 5 A (input ≥ 50 V), XT90 connectors, 10–12 AWG silicone wire, fuse block | 150 |
-| ☐ | Safety | NC mushroom e-stop, relay module for the wireless e-stop, bumper microswitches | 100 |
+| ☐ | Electrical | Per the [electrical parts list](../electrical/README.md#7-parts-list-electrical): 40 A MRBF main fuse, battery disconnect, 12 V-coil DC contactor, precharge relay + 47 Ω 10 W resistor, on-delay and off-delay timer modules, DPDT signal relay, 58 V fuses + block, power module, DC-DCs (input ≥ 60 V), XT90s, 10–12 AWG silicone wire | 220 |
+| ☐ | Safety | NC mushroom e-stop, Arduino Nano + 5 V relay module (wireless e-stop, [firmware](../../software/estop_receiver/README.md)), 2 roller-lever NC microswitches, optocoupler module | 60 |
+| ☐ | Bumper | Aluminium bar or 30x30 extrusion, 2 sliding arms + UHMW/printed guides, return springs, 50 mm closed-cell foam | 50 |
 | ☐ | Frame | 30-series slot-8 aluminum extrusion per the [cut list](../cad/exports/cut-list.md): 30×30 4 × 1220 mm; 30×60 2 × 1165 mm + 1 × 1220 mm. Corner brackets, T-nuts, stainless M6/M8 fasteners. | 230 |
 | ☐ | Plates | From `hardware/cad/exports/*.dxf`: 4× fork side plates (6 mm steel), 4× **torque arms** (5 mm steel, required), 8× frame gussets (5 mm Al), plus fork top plates and saddle tabs. Send DXFs out for cutting once the motor axle is measured. | 80 |
 | ☐ | Enclosure | IP65 polycarbonate box ~30×20×15 cm, cable glands | 70 |

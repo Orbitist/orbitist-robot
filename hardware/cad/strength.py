@@ -15,7 +15,7 @@ from pathlib import Path
 
 import numpy as np
 
-from model import assembly
+from model import assembly, caster_plate_extent
 from params import Params
 
 OUT = Path(__file__).parent / "exports"
@@ -143,6 +143,47 @@ def side_rail_check(p: Params, loads):
     return worst
 
 
+BRAKE_DECEL = 3.0  # m/s^2: VESC timeout brake, traction-limited on grass (verify by test)
+STOP_LATENCY = 0.12  # s: switch + relay (~20 ms) + VESC signal timeout (100 ms)
+FOAM_USABLE = 0.7  # fraction of foam thickness that crushes usefully
+
+
+def bumper_section(p: Params, total_kg: float) -> list[str]:
+    avail = (p.bumper_travel + FOAM_USABLE * p.bumper_foam) / 1000
+    t, a = STOP_LATENCY, BRAKE_DECEL
+    v_max = a * (-t + (t * t + 2 * avail / a) ** 0.5)
+    lines = [
+        "",
+        "## Bumper stopping distance",
+        "",
+        "When the bumper trips, the robot keeps moving through the e-stop latency, then brakes. "
+        "The bumper's travel plus foam must absorb that distance, or the robot pushes the obstacle "
+        "with its full weight.",
+        "",
+        f"- Available: {p.bumper_travel:.0f} mm travel + {FOAM_USABLE:.0%} of {p.bumper_foam:.0f} mm foam = **{avail * 1000:.0f} mm**",
+        f"- Latency {STOP_LATENCY * 1000:.0f} ms (switch + relay + VESC 100 ms signal timeout); "
+        f"braking {BRAKE_DECEL} m/s² (VESC timeout brake, limited by grass traction: verify by test)",
+        "",
+        "| Speed | Stopping distance | Fits in bumper? | Energy at contact |",
+        "|---|---|---|---|",
+    ]
+    for v in (0.4, 0.5, 0.6, 0.8, 1.0, 1.5):
+        d = v * t + v * v / (2 * a)
+        lines.append(f"| {v} m/s | {d * 1000:.0f} mm | {'✅' if d <= avail else '❌'} | "
+                     f"{0.5 * total_kg * v * v:.0f} J |")
+    lines += [
+        "",
+        f"**Maximum speed the bumper can protect: {v_max:.2f} m/s.** v1 mows at **0.6 m/s** (ArduPilot "
+        "`CRUISE_SPEED`, and `WP_SPEED` for missions). Faster transit needs phase-2 obstacle sensing that "
+        "slows the robot before contact. The bumper is a last resort for objects, not a people-safety "
+        "system: v1 runs **supervised only**.",
+        "",
+        "Shorter latency helps most: dropping the VESC timeout from 100 ms to 50 ms raises the protected "
+        "speed by about 0.1 m/s. Test it on the bench (electrical README §8, step 7).",
+    ]
+    return lines
+
+
 def main():
     p = Params()
     rows = []
@@ -245,6 +286,22 @@ def main():
                  f"{sig:.0f} MPa", f"{AL_YIELD:.0f} MPa", s, verdict(s),
                  "Fix: A-frame drawbar to both side rails (phase 3)"))
 
+    # 9. Caster corner plate: bump load at the caster, reacted by the rail and front-member bolts.
+    x0, x1, y_in, y_out = caster_plate_extent(p)
+    f_c = BUMP * caster_n
+    arm_c = min(p.side_rail_y - p.caster_pivot_y, max(p.cross_member_x) - p.caster_pivot_x)
+    zp = (x1 - x0) * p.caster_mount_t**2 / 6
+    sig = f_c * arm_c / zp
+    s = sf(STEEL_YIELD, sig)
+    rows.append(("Caster corner plate (8 mm steel)", "Bump 2.5 g", f"{sig:.0f} MPa", f"{STEEL_YIELD:.0f} MPa", s,
+                 verdict(s), ""))
+    m_c = 0.5 * f_c * p.caster_height  # rearward bump force at the tire
+    lever = max(p.cross_member_x) - (x0 + 15)  # member bolts to rearmost rail bolt
+    t_per = m_c / lever / 2
+    s = sf(TNUT_PULLOUT_N, t_per)
+    rows.append(("Caster plate bolts", "Bump: rearward force 0.5 × vertical at the tire",
+                 f"{t_per:.0f} N per T-nut", f"{TNUT_PULLOUT_N} N pull-out", s, verdict(s), ""))
+
     # ---------------------------------------------------------- report --
     lines = [
         "# Strength check: platform v1 frame and drive forks",
@@ -281,6 +338,7 @@ def main():
     ]
     for part, case, demand, cap, s, v, note in rows:
         lines.append(f"| {part} | {case} | {demand} | {cap} | {s:.1f} | {v} | {note} |")
+    lines += bumper_section(p, total)
     lines += [
         "",
         "## What has to change before cutting metal",
@@ -295,21 +353,20 @@ def main():
         "3. **Gusset the four rail-to-cross-member joints next to the drive axle** (members at x = −120 and x = 215). "
         f"They carry the sideways-skid moment from the forks (~{m_joint / 2000:.0f} N·m each) as well as the deck "
         "loads. Plain cast corner brackets are the weakest, least stiff part of an extrusion frame. Use 5 mm "
-        "aluminium or 3 mm steel gusset plates on the top face (`frame-gusset.dxf`), 4 bolts per member.",
+        "aluminium or 3 mm steel gusset plates on the top face (`frame-gusset.dxf`), 3 M6 bolts per leg.",
         "4. **The cross member at x = 215 is 30x60** (was 30x30). It carries both decks in the twin layout, "
         "and as 30x30 it sat right at the aluminium fatigue guideline (~49 MPa). Hang the decks as close to the "
         "side rails as the deck allows, and re-run once the real hanger points are known.",
-        "5. **Towing (phase 3): A-frame drawbar.** A hitch at the middle of the rear 30x30 member is at "
+        "5. **Casters on 8 mm steel corner plates** that bolt to both the side rail and the (now 30x60) front "
+        "cross member (`caster-plate.dxf`). The plate spreads the caster's bump loads into two members.",
+        "6. **Towing (phase 3): A-frame drawbar.** A hitch at the middle of the rear 30x30 member is at "
         "SF ≈ 1 for a modest cart. Use a triangulated drawbar from the hitch pin to both side rails so the "
         "rails (SF > 20) carry the load. Until then, **don't tow from the current hitch.**",
         "",
         "## Not covered here",
         "",
-        "- **Front bumper impact** into a post or tree: the bumper must trigger the e-stop at low force, and "
-        "the arms should be sized as a crush zone. To be checked with the bumper design.",
-        "- **Caster mounts:** vertical loads are small (casters carry ~10–20 kg), but a bump puts a backward "
-        "force at the tire, which twists the front cross member. Mount each caster on a plate that bolts to "
-        "**both** the front cross member and the side rail.",
+        "- **Bumper arms and guides** under a full-speed impact after the travel is used up (they should "
+        "yield before the frame does). Size them once the spring and switch hardware is chosen.",
         "- **Frame twist** when one wheel drops into a hole is accommodated by frame flexibility, and helps keep "
         "all four wheels on the ground. Check bolt preload after the first hours of running (use thread-locker "
         "or nyloc nuts and torque-stripe paint).",

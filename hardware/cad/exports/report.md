@@ -6,13 +6,13 @@
 
 | Quantity | Value |
 |---|---|
-| Overall length × width × height | 1520 × 1402 × 985 mm |
-| Estimated mass | 61.3 kg |
-| Centre of gravity (x, y, z) | (135, 37, 236) mm |
-| Load on drive wheels | 50.4 kg (82 %) |
-| Load on casters | 10.9 kg (18 %) |
-| Max cart tongue weight before casters unload | 24 kg (hitch pin 350 mm behind axle) |
-| Pivot-turn swept radius (about axle centre) | 1338 mm |
+| Overall length × width × height | 1565 × 1402 × 1005 mm |
+| Estimated mass | 64.7 kg |
+| Centre of gravity (x, y, z) | (171, 35, 246) mm |
+| Load on drive wheels | 49.6 kg (77 %) |
+| Load on casters | 15.1 kg (23 %) |
+| Max cart tongue weight before casters unload | 32 kg (hitch pin 350 mm behind axle) |
+| Pivot-turn swept radius (about axle centre) | 1377 mm |
 
 ### Clearance checks
 
@@ -21,19 +21,20 @@
 | caster_L swivel sweep vs mower_deck_1 | ✅ clear |
 | caster_R swivel sweep vs mower_deck_1 | ✅ clear |
 | mower_deck_1 vs frame, forks, wheels, casters | ✅ clear |
-| mower_deck_1 motor top (z=360) vs frame top (z=360) | pokes up through an open frame bay ✅ |
+| mower_deck_1 motor top (z=360) vs frame top (z=380) | pokes up through an open frame bay ✅ |
+| Bumper at full travel vs caster swivel sweep | 15 mm clear ✅ |
 
 ## Configuration: twin deck
 
 | Quantity | Value |
 |---|---|
-| Overall length × width × height | 1520 × 1402 × 985 mm |
-| Estimated mass | 78.3 kg |
-| Centre of gravity (x, y, z) | (189, 29, 213) mm |
-| Load on drive wheels | 58.9 kg (75 %) |
-| Load on casters | 19.4 kg (25 %) |
-| Max cart tongue weight before casters unload | 42 kg (hitch pin 350 mm behind axle) |
-| Pivot-turn swept radius (about axle centre) | 1338 mm |
+| Overall length × width × height | 1565 × 1402 × 1005 mm |
+| Estimated mass | 81.7 kg |
+| Centre of gravity (x, y, z) | (214, 28, 222) mm |
+| Load on drive wheels | 57.7 kg (71 %) |
+| Load on casters | 24.0 kg (29 %) |
+| Max cart tongue weight before casters unload | 50 kg (hitch pin 350 mm behind axle) |
+| Pivot-turn swept radius (about axle centre) | 1377 mm |
 
 ### Clearance checks
 
@@ -44,15 +45,17 @@
 | caster_R swivel sweep vs mower_deck_1 | ✅ clear |
 | caster_R swivel sweep vs mower_deck_2 | ✅ clear |
 | mower_deck_1 vs frame, forks, wheels, casters | ✅ clear |
-| mower_deck_1 motor top (z=360) vs frame top (z=360) | pokes up through an open frame bay ✅ |
+| mower_deck_1 motor top (z=360) vs frame top (z=380) | pokes up through an open frame bay ✅ |
 | mower_deck_2 vs frame, forks, wheels, casters | ✅ clear |
-| mower_deck_2 motor top (z=360) vs frame top (z=360) | pokes up through an open frame bay ✅ |
+| mower_deck_2 motor top (z=360) vs frame top (z=380) | pokes up through an open frame bay ✅ |
+| Bumper at full travel vs caster swivel sweep | 15 mm clear ✅ |
 | Twin-deck cut overlap | 50 mm ✅ |
 | Twin-deck total cut width | 1016 mm |
 
 ## Flat parts
 
-- `drive-fork-side-plate.dxf`: 200 × 200 mm, 6 mm steel, qty 4. The axle slot is 10.3 mm wide; **measure the motor's axle flats before cutting**.
+- `drive-fork-side-plate.dxf`: 200 × 220 mm, 6 mm steel, qty 4. The axle slot is 10.3 mm wide; **measure the motor's axle flats before cutting**.
 
+- `caster-plate.dxf`: 116 × 152 mm, 8 mm steel, qty 2 (mirror one). Caster holes drilled 6.8 mm and **tapped M8**; M6 clearance holes into the side rail and front member. Needs a **7 mm spacer** under each caster (if negative, lengthen the drive forks). **Measure the caster's bolt pattern and height before cutting.**
 - `torque-arm.dxf`: 130 × 30 mm, 5 mm steel, qty 4 (one per fork plate). Double-D hole keyed to the axle flats; M6 holes match the fork plate. **Required** (see strength-report.md).
 - `frame-gusset.dxf`: 150 × 150 mm L-gusset, 5 mm aluminium or 3 mm steel, qty 8 (top of the rail-to-member joints at x = −120 and x = 215, both sides, plus spares for the rear corners).

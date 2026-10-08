@@ -16,15 +16,16 @@ class Params:
     # --- Frame -------------------------------------------------------------
     frame_width: float = 1280.0  # outer width across the side rails (Y)
     frame_rear_x: float = -300.0  # rear face of the frame
-    frame_front_x: float = 865.0  # front face of the frame
-    frame_bottom_z: float = 300.0  # underside of the side rails
+    frame_front_x: float = 850.0  # front face of the frame
+    frame_bottom_z: float = 320.0  # underside of the side rails (set by caster height)
     side_rail: tuple = (30.0, 60.0)  # side rails: 30 wide x 60 tall extrusion
     cross_rail: tuple = (30.0, 30.0)  # cross members: 30x30 extrusion
     # Cross-member centre positions (X). Chosen to stay clear of the mower
     # motor housings that poke up through the frame (see deck_slots).
-    cross_member_x: tuple = (-285.0, -120.0, 215.0, 600.0, 850.0)
-    # Members that need more than 30x30 (strength.py): x=215 carries both decks in the twin layout.
-    cross_member_profile: dict = field(default_factory=lambda: {215.0: "30x60"})
+    cross_member_x: tuple = (-285.0, -120.0, 215.0, 600.0, 835.0)
+    # Members that need more than 30x30 (strength.py): x=215 carries both decks in the twin layout;
+    # the front member is 30x60 so its underside is flush with the side rails for the caster plates.
+    cross_member_profile: dict = field(default_factory=lambda: {215.0: "30x60", 835.0: "30x60"})
 
     # --- Drive (10" hub motors in bolt-on forks) ---------------------------
     wheel_diameter: float = 254.0  # 10" pneumatic tire, ESTIMATE
@@ -36,12 +37,22 @@ class Params:
     fork_top_t: float = 8.0  # fork top plate (steel)
     fork_length_x: float = 200.0
 
-    # --- Casters (zero-turn mower replacement casters) ---------------------
-    caster_wheel_diameter: float = 280.0  # 11x4, ESTIMATE
-    caster_wheel_width: float = 100.0
-    caster_trail: float = 90.0  # pivot axis to wheel axle, ESTIMATE
-    caster_pivot_x: float = 850.0  # as far back as the twin front deck allows
+    # --- Casters (10" pneumatic plate-mount swivel casters, bolt-on) ---------
+    caster_wheel_diameter: float = 260.0  # 4.10/3.50-4 tire, ESTIMATE
+    caster_wheel_width: float = 85.0
+    caster_trail: float = 65.0  # swivel offset, pivot to wheel axle, ESTIMATE
+    caster_height: float = 305.0  # ground to top of caster plate, ESTIMATE, measure!
+    caster_plate: tuple = (102.0, 114.0)  # caster top plate (X, Y), 4" x 4.5"
+    caster_bolts: tuple = (67.0, 92.0)  # caster bolt pattern (X, Y), 2-5/8" x 3-5/8", measure!
+    caster_mount_t: float = 8.0  # steel mount plate under the frame corner
+    caster_pivot_x: float = 795.0  # caster plate must fit under the frame; front deck sets the limit
     caster_pivot_y: float = 560.0  # +/-; inboard of the side rails
+
+    # --- Front bumper (sliding bar on springs, NC switches in the e-stop loop) ---
+    bumper_travel: float = 100.0  # free travel before the bar hits its stops
+    bumper_foam: float = 50.0  # closed-cell foam on the bar face
+    bumper_z: tuple = (180.0, 300.0)  # bar face height range
+    bumper_arm_y: float = 350.0  # +/- position of the two sliding arms
 
     # --- Mower decks (Ryobi 40 V 20-21" class, handle and wheels removed) ----
     deck_housing_diameter: float = 580.0  # modelled as round, ESTIMATE

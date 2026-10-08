@@ -17,7 +17,7 @@ Design rules:
 
 | Parameter | Value | Design impact |
 |---|---|---|
-| Lawn area | **~3 acres (~12,000 m²)**, growing as the farm expands | One 21" deck needs ~8–9 h per full pass, so the robot must **mow in daily zones from a charging dock** (§5) |
+| Lawn area | **~3 acres (~12,000 m²)**, growing as the farm expands | One 21" deck needs ~12.5 h per full pass at v1's 0.6 m/s, so the robot must **mow in daily zones from a charging dock** (§5) |
 | Existing equipment | Ryobi electric push mower + several Ryobi batteries, in daily use | Mower module uses a **second, used Ryobi deck** of the same voltage line so batteries and charger are shared (§6.2) |
 | Fabrication | Any tools needed | Extrusion for fast iteration; welded steel and outsourced laser/water-jet plates where they're stronger or cheaper |
 | Connectivity | Cell coverage over the whole property; Wi-Fi can be extended | Telemetry and remote monitoring over Wi-Fi/LTE later; RTK corrections can travel over radio or network |
@@ -62,7 +62,7 @@ Ideas from the concept report that carry forward unchanged: the 36 V bus, 10" pn
 ```
               FRONT
      ┌─────────────────────────┐
-     │ (caster)       (caster) │   ← 11" zero-turn mower caster wheels on forks
+     │ (caster)       (caster) │   ← 10" pneumatic plate casters on steel corner plates
      │    ╔═══════════════╗    │   ← bump bar / bumper switches across the front
      │    ║               ║    │
      │    ║  MOWER DECK   ║    │   ← belly mount, hangs from 4 links, anti-scalp wheels
@@ -88,7 +88,7 @@ Envelope from the [first CAD model](../../hardware/cad/README.md) (`hardware/cad
 | Ground clearance under frame | ≥ 15 cm (deck hangs below) |
 | Mass, mowing config | **~61 kg** (one deck) · **~78 kg** (twin decks). Decks are ~17 kg each, the largest single item. |
 | Cut width | ~50 cm with one centered deck (v1) → **~1 m with twin decks** (v1.5) |
-| Mowing speed | 0.5–1.0 m/s |
+| Mowing speed | **0.6 m/s in v1**, the fastest the bumper can protect ([strength report](../../hardware/cad/exports/strength-report.md#bumper-stopping-distance)). Faster once phase-2 obstacle sensing slows the robot before contact. |
 | Top speed (transit) | ~1.5–2 m/s (software limited) |
 
 **What the model showed:**
@@ -123,7 +123,7 @@ Assumptions: 45 kg robot, 10" (0.254 m) wheels, rolling-resistance coefficient o
 | Electronics (autopilot, GPS, radios, Pi later) | ~20–30 W |
 | **Total** | **~300–550 W** |
 
-Coverage at 0.45 m effective swath × 0.8 m/s ≈ **1,300 m²/hour ≈ 1/3 acre per hour**. A 36 V 20 Ah pack (720 Wh, ~575 Wh usable) gives **~1–1.5 h, or roughly 0.3–0.5 acre per charge**. Ways to extend that:
+Coverage at 0.45 m effective swath × 0.8 m/s ≈ **1,300 m²/hour ≈ 1/3 acre per hour** (v1 actually runs at 0.6 m/s, see the table below). A 36 V 20 Ah pack (720 Wh, ~575 Wh usable) gives **~1–1.5 h, or roughly 0.3–0.5 acre per charge**. Ways to extend that:
 
 - Mow more often and cut less each time, as commercial robot mowers do. Blade power drops sharply.
 - Run the blade from its own tool battery (see §6), which roughly doubles available energy.
@@ -134,15 +134,16 @@ Coverage at 0.45 m effective swath × 0.8 m/s ≈ **1,300 m²/hour ≈ 1/3 acre 
 
 | Configuration | Effective swath × speed | Coverage | Time per full pass | Energy per pass |
 |---|---|---|---|---|
-| One 21" deck, 0.8 m/s | 0.45 m × 0.8 m/s | ~1,300 m²/h | **~9 h** | ~3.5 kWh |
-| One 21" deck, 1.0 m/s | 0.45 m × 1.0 m/s | ~1,600 m²/h | ~7.5 h | ~3 kWh |
-| Twin decks (~1 m cut), 1.0 m/s | 0.95 m × 1.0 m/s | ~3,400 m²/h | ~3.5 h | ~2.4 kWh |
+| **One 21" deck, 0.6 m/s (v1)** | 0.45 m × 0.6 m/s | ~970 m²/h | **~12.5 h** | ~4.5 kWh |
+| **Twin decks (~1 m cut), 0.6 m/s (v1.5)** | 0.95 m × 0.6 m/s | ~2,050 m²/h | **~6 h** | ~3 kWh |
+| One 21" deck, 1.0 m/s (phase 2, with obstacle sensing) | 0.45 m × 1.0 m/s | ~1,600 m²/h | ~7.5 h | ~3 kWh |
+| Twin decks, 1.0 m/s (phase 2) | 0.95 m × 1.0 m/s | ~3,400 m²/h | ~3.5 h | ~2.4 kWh |
 
-So the operating model is **mowing a zone each day from a charging dock**, the way commercial robot mowers work. About 1.3–1.5 h of mowing per day covers all 3 acres roughly once a week with a single deck. That fits within one 720 Wh pack per day, keeps grass short so blade power stays low, and scales as the farm grows: add zones, then add a second deck or a second robot.
+So the operating model is **mowing a zone each day from a charging dock**, the way commercial robot mowers work. At v1's 0.6 m/s, about 1.8 h of mowing per day covers all 3 acres roughly once a week with a single deck. That's roughly one 720 Wh pack per day, so expect a mid-session battery swap until the dock exists. It keeps grass short so blade power stays low, and scales as the farm grows: add zones, then add a second deck or a second robot.
 
 Consequences:
 - **The charging dock moves up** to the first item in phase 2, right after supervised mowing works. Until then, swap batteries manually.
-- **The twin-deck module** (~1 m cut) is the v1.5 upgrade, and the frame is built for it from day one (§4). With twin decks, about 30–40 min of mowing per day covers 3 acres weekly, which leaves room for the farm to grow.
+- **The twin-deck module** (~1 m cut) is the v1.5 upgrade, and the frame is built for it from day one (§4). With twin decks, about 50 min of mowing per day at 0.6 m/s covers 3 acres weekly, which leaves room for the farm to grow.
 - **Open sky** means RTK should hold a fixed solution almost everywhere. Narrow paths and tree edges get touched up by hand.
 
 ## 6. Subsystems
@@ -153,7 +154,7 @@ Consequences:
 |---|---|---|---|
 | Motors | 2× 10" pneumatic hub motor, 36 V 350–500 W, **Hall sensors**, double-sided axle | same | Power-wheelchair gearmotors with brakes (24 V) |
 | Controller | 2× VESC-class FOC (e.g. Flipsky 4.20/6.x, Makerbase 75100 class), RC-PWM or CAN from ArduPilot | 1× hoverboard mainboard + [EFeru FOC firmware](https://github.com/EFeru/hoverboard-firmware-hack-FOC), PWM/PPM variant, **tank mixing off** | Sabertooth 2x32 or RoboClaw 2x30 |
-| Casters | 2× 11×4 zero-turn mower caster wheels + forks + yokes (mower replacement parts) | same | Casters from a junked riding mower |
+| Casters | 2× 10" pneumatic **plate-mount** swivel casters (4"×4.5" top plate) on 8 mm steel corner plates: bolt-on, no welding | same | Zero-turn mower casters from a junked rider (needs a welded spindle housing) |
 
 Mechanical notes from the e-bike world:
 
@@ -194,7 +195,7 @@ The mower is a **module that bolts to the belly mount**, not part of the robot. 
 
 - **Autopilot:** ArduPilot Rover 4.6.x on a Pixhawk-class or Matek H743-class board. Set it up as a skid-steer rover (`SERVO1_FUNCTION=73` throttle-left, `SERVO3_FUNCTION=74` throttle-right). Use a **switch** to arm, never stick arming. ArduPilot's built-in IMU covers tilt and lift detection.
 - **GPS:** u-blox ZED-F9P board + survey-grade multiband antenna on a mast. **Heading:** compasses do poorly near hub-motor magnets and steel. ArduPilot supports **GPS-yaw (moving baseline)** with two F9Ps about 50 cm or more apart, which is the recommended upgrade if heading proves noisy.
-- **RTK corrections: our own base station** (no known service nearby):
+- **RTK corrections: our own base station** (no known service nearby). Step-by-step setup: [`docs/guides/rtk-base-station.md`](../guides/rtk-base-station.md).
   - **Hardware:** a ZED-F9P + survey multiband antenna on a fixed mount with clear sky, on a barn or house roof or a post. Power and a small enclosure.
   - **Absolute position:** let the base "survey in," or better, log 24 h of raw data and submit it to the free **NOAA OPUS** service or a PPP service. That fixes the base's coordinates, so lawn maps and fences stay accurate even if the base is moved or replaced.
   - **Link to the robot, v1:** a 915 MHz telemetry radio straight from the base to the rover GPS. No network or internet needed. SiK-class radios cover typical farm distances easily.
@@ -207,6 +208,8 @@ The mower is a **module that bolts to the belly mount**, not part of the robot. 
 
 ### 6.4 Safety and kill chain
 
+*Detailed design, wiring, and commissioning tests: [`hardware/electrical/README.md`](../../hardware/electrical/README.md). Wireless e-stop firmware: [`software/estop_receiver`](../../software/estop_receiver/README.md).*
+
 This is designed first and tested on the bench before the blade is ever installed.
 
 1. **Hardware e-stop loop (normally-closed, series):** mushroom button on the robot → wireless e-stop receiver relay → bumper switches. Any break opens the **main contactor** (drive power) and the **blade relay**.
@@ -215,7 +218,8 @@ This is designed first and tested on the bench before the blade is ever installe
 4. **Blade brake:** the M1 mower deck has one built in. For M3 we'd need a VESC brake with a mechanical backup. Target: blade stops in under 3 s.
 5. **Geofence** with action = Hold/disarm.
 6. **Supervised operation only in v1:** someone is present with the e-stop and no people, kids, pets, or livestock are in the zone. Obstacle detection (OAK-D Lite or a cheap ToF/radar ring) comes in phase 2 before any unsupervised mowing.
-7. Precharge resistor, main fuse, per-rail fuses, and fused battery leads, as in the concept report.
+7. **Stop, then disconnect (Category 1 stop):** an e-stop first cuts the motor-controller signals so the VESCs brake, then opens the main contactor ~1 s later. Cutting power instantly would let the hub motors coast for ~0.5 m.
+8. Precharge, main fuse, per-rail fuses rated for 58 V DC, and fused battery leads.
 
 ### 6.5 Electrical
 

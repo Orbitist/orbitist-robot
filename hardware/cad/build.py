@@ -35,7 +35,7 @@ from build123d import (
 )
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-from model import assembly
+from model import assembly, bumper_layout, caster_plate_extent
 from params import Params
 
 OUT = Path(__file__).parent / "exports"
@@ -145,6 +145,30 @@ def gusset_dxf(path: Path):
     write_dxf(outline, path)
 
 
+def caster_plate_dxf(p: Params, path: Path):
+    """Left caster corner plate (flip for the right). Origin = plate rear-inner corner."""
+    x0, x1, y_in, y_out = caster_plate_extent(p)
+    w, h = x1 - x0, y_out - y_in
+    plate = Pos(w / 2, h / 2) * Rectangle(w, h)
+    px, py = p.caster_pivot_x - x0, p.caster_pivot_y - y_in
+    bx, by = p.caster_bolts
+    holes = []
+    for dx in (-bx / 2, bx / 2):  # caster bolts: drill 6.8, tap M8 (bolts from below)
+        for dy in (-by / 2, by / 2):
+            holes.append((px + dx, py + dy, 3.4))
+    rail_y = p.side_rail_y - y_in  # M6 into the side rail's bottom slot
+    holes += [(15.0, rail_y, 3.3), (px, rail_y, 3.3)]
+    member_x = max(p.cross_member_x) - x0  # M6 into the front member's bottom slot
+    holes += [(member_x, py - 15, 3.3), (member_x, py + 20, 3.3)]
+    for i, (ax, ay, _) in enumerate(holes):
+        for bx_, by_, _ in holes[i + 1:]:
+            assert ((ax - bx_) ** 2 + (ay - by_) ** 2) ** 0.5 > 15, "caster plate holes too close"
+    for hx, hy, r in holes:
+        plate = plate - Pos(hx, hy) * Circle(r)
+    write_dxf(plate, path)
+    return w, h
+
+
 # ---------------------------------------------------------------- reports --
 def cut_list(p: Params, parts) -> str:
     counts = Counter(
@@ -239,6 +263,10 @@ def clearance_checks(p: Params, parts) -> list[str]:
             xy_overlap = eb.min.X < cx + r and cx - r < eb.max.X and eb.min.Y < cy + r and cy - r < eb.max.Y
             if xy_overlap and eb.min.Z - d.meta["motor_top_z"] < 30:
                 lines.append(f"| {e.name} vs {d.name} motor | ❌ less than 30 mm above the motor |")
+    bar_rear = bumper_layout(p)[0]
+    sweep_front = p.caster_pivot_x + p.caster_trail + p.caster_wheel_diameter / 2
+    gap = bar_rear - p.bumper_travel - sweep_front
+    lines.append(f"| Bumper at full travel vs caster swivel sweep | {gap:.0f} mm clear " + ("✅" if gap > 0 else "❌") + " |")
     # Uncut strip check for twin decks.
     if len(decks) == 2:
         (x1, y1), (x2, y2) = (d.meta["center"] for d in decks)
@@ -273,6 +301,12 @@ def main():
                f"The axle slot is {p.axle_flats + 0.3:.1f} mm wide; **measure the motor's axle flats before cutting**.",
                ""]
     torque_arm_dxf(p, OUT / "torque-arm.dxf")
+    cw_, ch_ = caster_plate_dxf(p, OUT / "caster-plate.dxf")
+    spacer = p.frame_bottom_z - p.caster_mount_t - p.caster_height
+    report += [f"- `caster-plate.dxf`: {cw_:.0f} × {ch_:.0f} mm, {p.caster_mount_t:.0f} mm steel, qty 2 (mirror one). "
+               f"Caster holes drilled 6.8 mm and **tapped M8**; M6 clearance holes into the side rail and front member. "
+               f"Needs a **{spacer:.0f} mm spacer** under each caster (if negative, lengthen the drive forks). "
+               "**Measure the caster's bolt pattern and height before cutting.**"]
     gusset_dxf(OUT / "frame-gusset.dxf")
     report += [f"- `torque-arm.dxf`: 130 × 30 mm, 5 mm steel, qty 4 (one per fork plate). Double-D hole keyed "
                f"to the axle flats; M6 holes match the fork plate. **Required** (see strength-report.md).",

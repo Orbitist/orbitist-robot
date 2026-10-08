@@ -16,9 +16,14 @@ docs/
   concept/     Original concept work (Sept 2026 vineyard robot design report)
   design/      Current design documents (platform-v1.md)
   decisions/   Decision log: what we chose and why
+  guides/      How-to guides (RTK base station setup)
 hardware/
-  bom/         Bills of materials (CSV)
-software/      ArduPilot params/scripts, later ROS 2 workspace
+  bom/         Bills of materials (CSV) and ordering plan
+  cad/         Parametric CAD model, renders, cutting DXFs, strength check
+  electrical/  Power distribution, e-stop safety chain, wiring, commissioning tests
+software/
+  base-station/    RTK base (u-blox ZED-F9P) configuration script
+  estop_receiver/  Fail-safe wireless e-stop firmware (Arduino)
 ```
 
 ## License

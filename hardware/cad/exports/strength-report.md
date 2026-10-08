@@ -4,9 +4,9 @@
 
 ## Load cases and assumptions
 
-- Heaviest configuration (twin deck): **78.3 kg**, giving **29.4 kg per drive wheel** and 9.7 kg per caster (static).
+- Heaviest configuration (twin deck): **81.7 kg**, giving **28.9 kg per drive wheel** and 12.0 kg per caster (static).
 - **Bump:** 2.5 × static, vertical (ruts and roots at ~1.5 m/s).
-- **Sideways skid:** 0.7 × 1.5 × static wheel load = **303 N** applied at the tire contact patch. Pure pivot turns don't skid the drive wheels sideways, so this covers sliding into a rut or bumping something side-on.
+- **Sideways skid:** 0.7 × 1.5 × static wheel load = **297 N** applied at the tire contact patch. Pure pivot turns don't skid the drive wheels sideways, so this covers sliding into a rut or bumping something side-on.
 - **Motor torque:** 40 N·m peak per wheel. Set the VESC motor-current limit so this isn't exceeded.
 - **Towing (phase 3):** 20 kg tongue weight and 160 N drawbar pull, × 2 dynamic.
 - **Materials:** 6063-T5 aluminium extrusion, yield 145 MPa, with a **fatigue guideline of 50 MPa** for the bump case (aluminium has no endurance limit and the frame vibrates for hours). Mild-steel plate, yield 235 MPa. T-nut pull-out allowable 2500 N (conservative; check the supplier's figure).
@@ -19,28 +19,50 @@ Target: safety factor ≥ 2 on yield in the worst case, and bump-case stress in 
 
 | Part | Load case | Demand | Capacity | SF | | Note |
 |---|---|---|---|---|---|---|
-| Fork side plates (6 mm steel) | Sideways skid | 38 MPa bending | 235 MPa yield | 6.2 | ✅ |  |
-| Fork top plate (8 mm steel) | Bump 2.5 g | 7 MPa | 235 MPa | 32.3 | ✅ |  |
-| Dropout slot bearing | Bump 2.5 g | 5 MPa | 235 MPa | 46.9 | ✅ |  |
+| Fork side plates (6 mm steel) | Sideways skid | 40 MPa bending | 235 MPa yield | 5.9 | ✅ |  |
+| Fork top plate (8 mm steel) | Bump 2.5 g | 7 MPa | 235 MPa | 32.9 | ✅ |  |
+| Dropout slot bearing | Bump 2.5 g | 5 MPa | 235 MPa | 47.8 | ✅ |  |
 | Axle flats in slot, **no torque arm** | 40 N·m peak torque | 253 MPa contact | 235 MPa | 0.9 | ❌ | Slot wallows out and the axle spins: the classic e-bike failure |
 | Torque arm (keyed plate + M6 at 50 mm) | 40 N·m peak torque | 400 N shear | 7718 N | 19.3 | ✅ | Fix for the row above |
-| Fork → rail joint, **bottom slot only** | Sideways skid | 1516 N per T-nut | 2500 N pull-out | 1.6 | ⚠️ | 91 N·m reacted over a 15 mm lever |
-| Fork → rail joint, **saddle tabs** into side slots | Sideways skid | 1010 N per T-nut | 2500 N pull-out | 2.5 | ✅ | Fix for the row above |
+| Fork → rail joint, **bottom slot only** | Sideways skid | 1586 N per T-nut | 2500 N pull-out | 1.6 | ⚠️ | 95 N·m reacted over a 15 mm lever |
+| Fork → rail joint, **saddle tabs** into side slots | Sideways skid | 1057 N per T-nut | 2500 N pull-out | 2.4 | ✅ | Fix for the row above |
 | Cross member at x=-120 (30x30), single deck | Bump 2.5 g | 34 MPa | 145 MPa yield / 50 fatigue | 4.2 | ✅ | static sag 2.0 mm over 1220 mm |
 | Cross member at x=-120 (30x30), twin deck | Bump 2.5 g | 34 MPa | 145 MPa yield / 50 fatigue | 4.3 | ✅ | static sag 1.7 mm over 1220 mm |
 | Side rails (30x60) | Bump 2.5 g, twin deck | 7 MPa | 145 MPa | 22.2 | ✅ |  |
 | Rear cross member with hitch at mid-span (30x30) | Towing: 20 kg tongue + 160 N pull, ×2 | 128 MPa | 145 MPa | 1.1 | ⚠️ | Fix: A-frame drawbar to both side rails (phase 3) |
+| Caster corner plate (8 mm steel) | Bump 2.5 g | 10 MPa | 235 MPa | 24.7 | ✅ |  |
+| Caster plate bolts | Bump: rearward force 0.5 × vertical at the tire | 261 N per T-nut | 2500 N pull-out | 9.6 | ✅ |  |
+
+## Bumper stopping distance
+
+When the bumper trips, the robot keeps moving through the e-stop latency, then brakes. The bumper's travel plus foam must absorb that distance, or the robot pushes the obstacle with its full weight.
+
+- Available: 100 mm travel + 70% of 50 mm foam = **135 mm**
+- Latency 120 ms (switch + relay + VESC 100 ms signal timeout); braking 3.0 m/s² (VESC timeout brake, limited by grass traction: verify by test)
+
+| Speed | Stopping distance | Fits in bumper? | Energy at contact |
+|---|---|---|---|
+| 0.4 m/s | 75 mm | ✅ | 7 J |
+| 0.5 m/s | 102 mm | ✅ | 10 J |
+| 0.6 m/s | 132 mm | ✅ | 15 J |
+| 0.8 m/s | 203 mm | ❌ | 26 J |
+| 1.0 m/s | 287 mm | ❌ | 41 J |
+| 1.5 m/s | 555 mm | ❌ | 92 J |
+
+**Maximum speed the bumper can protect: 0.61 m/s.** v1 mows at **0.6 m/s** (ArduPilot `CRUISE_SPEED`, and `WP_SPEED` for missions). Faster transit needs phase-2 obstacle sensing that slows the robot before contact. The bumper is a last resort for objects, not a people-safety system: v1 runs **supervised only**.
+
+Shorter latency helps most: dropping the VESC timeout from 100 ms to 50 ms raises the protected speed by about 0.1 m/s. Test it on the bench (electrical README §8, step 7).
 
 ## What has to change before cutting metal
 
 1. **Torque arms on both hub motors (required).** Without them, peak motor torque crushes the slot edges and the axle spins in the dropouts, tearing the motor wires. Use a steel plate keyed to the axle flats and bolted to the fork side plate at the two M6 holes already in the DXF (`torque-arm.dxf`). Also set the VESC motor-current limit so peak torque stays under 40 N·m.
 2. **Saddle-mount the drive forks.** Bolting the fork top plate only into the rail's bottom slot leaves a 15 mm lever against sideways loads. Add two tabs that rise up both 60 mm faces of the side rail and bolt into the side slots. The model now includes them.
-3. **Gusset the four rail-to-cross-member joints next to the drive axle** (members at x = −120 and x = 215). They carry the sideways-skid moment from the forks (~45 N·m each) as well as the deck loads. Plain cast corner brackets are the weakest, least stiff part of an extrusion frame. Use 5 mm aluminium or 3 mm steel gusset plates on the top face (`frame-gusset.dxf`), 4 bolts per member.
+3. **Gusset the four rail-to-cross-member joints next to the drive axle** (members at x = −120 and x = 215). They carry the sideways-skid moment from the forks (~48 N·m each) as well as the deck loads. Plain cast corner brackets are the weakest, least stiff part of an extrusion frame. Use 5 mm aluminium or 3 mm steel gusset plates on the top face (`frame-gusset.dxf`), 3 M6 bolts per leg.
 4. **The cross member at x = 215 is 30x60** (was 30x30). It carries both decks in the twin layout, and as 30x30 it sat right at the aluminium fatigue guideline (~49 MPa). Hang the decks as close to the side rails as the deck allows, and re-run once the real hanger points are known.
-5. **Towing (phase 3): A-frame drawbar.** A hitch at the middle of the rear 30x30 member is at SF ≈ 1 for a modest cart. Use a triangulated drawbar from the hitch pin to both side rails so the rails (SF > 20) carry the load. Until then, **don't tow from the current hitch.**
+5. **Casters on 8 mm steel corner plates** that bolt to both the side rail and the (now 30x60) front cross member (`caster-plate.dxf`). The plate spreads the caster's bump loads into two members.
+6. **Towing (phase 3): A-frame drawbar.** A hitch at the middle of the rear 30x30 member is at SF ≈ 1 for a modest cart. Use a triangulated drawbar from the hitch pin to both side rails so the rails (SF > 20) carry the load. Until then, **don't tow from the current hitch.**
 
 ## Not covered here
 
-- **Front bumper impact** into a post or tree: the bumper must trigger the e-stop at low force, and the arms should be sized as a crush zone. To be checked with the bumper design.
-- **Caster mounts:** vertical loads are small (casters carry ~10–20 kg), but a bump puts a backward force at the tire, which twists the front cross member. Mount each caster on a plate that bolts to **both** the front cross member and the side rail.
+- **Bumper arms and guides** under a full-speed impact after the travel is used up (they should yield before the frame does). Size them once the spring and switch hardware is chosen.
 - **Frame twist** when one wheel drops into a hole is accommodated by frame flexibility, and helps keep all four wheels on the ground. Check bolt preload after the first hours of running (use thread-locker or nyloc nuts and torque-stripe paint).
