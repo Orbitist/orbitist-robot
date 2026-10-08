@@ -30,7 +30,7 @@ Purchases are grouped into waves, so money goes out only when each part is neede
 | ☐ | Electrical | Per the [electrical parts list](../electrical/README.md#7-parts-list-electrical): 40 A MRBF main fuse, battery disconnect, 12 V-coil DC contactor, precharge relay + 47 Ω 10 W resistor, on-delay and off-delay timer modules, DPDT signal relay, 58 V fuses + block, power module, DC-DCs (input ≥ 60 V), XT90s, 10–12 AWG silicone wire | 220 |
 | ☐ | Safety | NC mushroom e-stop, Arduino Nano + 5 V relay module (wireless e-stop, [firmware](../../software/estop_receiver/README.md)), 2 roller-lever NC microswitches, optocoupler module | 60 |
 | ☐ | Bumper | Aluminium bar or 30x30 extrusion, 2 sliding arms + UHMW/printed guides, return springs, 50 mm closed-cell foam | 50 |
-| ☐ | Frame | 30-series slot-8 aluminum extrusion per the [cut list](../cad/exports/cut-list.md): 30×30 4 × 1220 mm; 30×60 2 × 1165 mm + 1 × 1220 mm. Corner brackets, T-nuts, stainless M6/M8 fasteners. | 230 |
+| ☐ | Frame | 30-series slot-8 aluminum extrusion per the [cut list](../cad/exports/cut-list.md): 30×30 3 × 1220 mm; 30×60 2 × 1150 mm + 2 × 1220 mm (buy ~4 m of 30×30 and ~5.2 m of 30×60). Corner brackets, T-nuts, stainless M6/M8 fasteners. | 230 |
 | ☐ | Plates | From `hardware/cad/exports/*.dxf`: 4× fork side plates (6 mm steel), 4× **torque arms** (5 mm steel, required), 8× frame gussets (5 mm Al), plus fork top plates and saddle tabs. Send DXFs out for cutting once the motor axle is measured. | 80 |
 | ☐ | Enclosure | IP65 polycarbonate box ~30×20×15 cm, cable glands | 70 |
 
