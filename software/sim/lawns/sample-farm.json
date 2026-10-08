@@ -1,0 +1,36 @@
+{
+  "_comment": "SAMPLE layout (~3 acres in 3 zones joined by 8 ft paths) for planning and simulation until the real lawns are mapped with the RTK rover. Coordinates are metres east (x) / north (y) of 'origin'. The origin is ArduPilot's standard SITL test site, not the farm.",
+  "origin": {"lat": -35.363261, "lon": 149.165230, "alt": 584.0},
+  "dock": [5.0, -6.0],
+  "zones": [
+    {
+      "name": "house",
+      "boundary": [[0, 0], [70, 0], [70, 55], [40, 62], [0, 60]],
+      "exclusions": [
+        {"name": "oak", "circle": [25, 30, 2.5]},
+        {"name": "flower bed", "polygon": [[50, 40], [58, 40], [58, 46], [50, 46]]}
+      ],
+      "approach": [[5.0, -6.0], [5.0, 1.5]]
+    },
+    {
+      "name": "east",
+      "boundary": [[82, -10], [150, -10], [150, 45], [82, 45]],
+      "exclusions": [
+        {"name": "maple", "circle": [115, 20, 3.0]}
+      ],
+      "approach": [[5.0, -6.0], [5.0, -3.8], [76.0, -3.8], [84.0, -3.8]]
+    },
+    {
+      "name": "north",
+      "boundary": [[0, 74], [55, 74], [70, 95], [70, 130], [0, 130]],
+      "exclusions": [],
+      "approach": [[5.0, -6.0], [5.0, 1.5], [1.6, 3.0], [1.6, 58.0], [1.6, 64.0], [11.2, 66.0], [11.2, 76.0]]
+    }
+  ],
+  "paths": [
+    {"name": "dock apron", "polygon": [[2, -9], [10, -9], [10, 0.5], [2, 0.5]]},
+    {"name": "house to east", "polygon": [[0, -5], [86, -5], [86, -2.6], [0, -2.6]]},
+    {"name": "house west edge to north", "polygon": [[0, 0], [3.2, 0], [3.2, 74.5], [0, 74.5]]},
+    {"name": "north gate", "polygon": [[0, 62], [12.4, 62], [12.4, 76], [10, 76], [10, 67.2], [0, 67.2]]}
+  ]
+}

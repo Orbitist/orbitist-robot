@@ -115,11 +115,14 @@ class Params:
         twin: staggered so the cuts overlap by deck_overlap while the round
         housings just clear each other (rear deck right, front deck left).
         """
+        dy = (self.deck_cut_width - self.deck_overlap) / 2
+        d = self.deck_housing_diameter
+        dx = (d**2 - (2 * dy) ** 2) ** 0.5 + 10.0  # +10 mm clearance
+        rear_right, front_left = (50.0, -dy), (50.0 + dx, dy)
         if config == "single":
-            return [(50.0, 0.0)]
+            # v1 uses the twin layout's rear-right slot: the cut reaches within ~16 cm of the
+            # robot's right side for edging, and the twin upgrade only adds the front-left deck.
+            return [rear_right]
         if config == "twin":
-            dy = (self.deck_cut_width - self.deck_overlap) / 2
-            d = self.deck_housing_diameter
-            dx = (d**2 - (2 * dy) ** 2) ** 0.5 + 10.0  # +10 mm clearance
-            return [(50.0, -dy), (50.0 + dx, dy)]
+            return [rear_right, front_left]
         raise ValueError(config)

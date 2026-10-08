@@ -2,6 +2,18 @@
 
 Purchases are grouped into waves, so money goes out only when each part is needed and early parts can be tested before the next wave. Prices are rough estimates as of Oct 2026. Full list with costs: [`platform-v1-bom.csv`](platform-v1-bom.csv).
 
+## Wave 0: de-risking tests (now, ~$350, all parts needed anyway)
+
+See the [confidence plan](../../docs/design/confidence-plan.md). These measurements decide the battery, the drive motors, and the final plate DXFs **before** the main order.
+
+| ✓ | Item | Why first | ~$ |
+|---|---|---|---|
+| ☐ | **Used Ryobi mower** (same voltage as the farm's batteries) | T1: measure blade power on the real lawn, deck geometry, and blade switching. Decides the battery. | 50–150 |
+| ☐ | **One** 10" hub motor + **one** VESC | T3: bench test of torque constant, low-speed smoothness, 30 min thermal at mowing torque, timeout brake. Buy the second only if it passes. | 210 |
+| ☐ | Current-limited bench supply (≥ 50 V, 5 A) | Safe first power-up for T1/T3, and later for commissioning | 60–100 |
+| ☐ | One 10" plate caster | T4: bolt pattern and height for the caster-plate DXF | 35 |
+| ☐ | DC clamp meter (optional) | T1 blade current; useful for the rest of the build | 40 |
+
 ## Wave 1: GPS + autopilot (order now, ~$700–900)
 
 **Why first:** the base station needs a day of logging to fix its position. We can also **map the lawn boundaries this fall, before snow**, by putting the rover GPS on a wheelbarrow or garden cart and walking the edges. That map becomes our geofences and mowing zones, and it means navigation is proven before the robot exists.
@@ -19,14 +31,14 @@ Purchases are grouped into waves, so money goes out only when each part is neede
 
 **Wave 1 tasks:** set up the base station and log 24 h of raw data → submit to NOAA OPUS → enter the fixed base position. Walk the lawn edges with the rover GPS → save the polygons to `software/ardupilot/missions/`. Meanwhile, run ArduPilot SITL on a laptop with those polygons.
 
-## Wave 2: drive and power (Nov, ~$1,100)
+## Wave 2: drive and power (after T1–T4, ~$1,100)
 
 | ✓ | Item | What to look for | ~$ |
 |---|---|---|---|
-| ☐ | 2× 10" hub motors | 36 V, 350–500 W, pneumatic 10×2.5"–10×3" tire, **Hall sensors (small 5-wire connector)**, **axle with flats on both sides**. Buy both from the same listing so they match. | 2× 120 |
-| ☐ | 2× FOC motor controllers | VESC-class (Flipsky FSESC 4.20 / 6.x, Makerbase 75100), **rated ≥ 50 V**, Hall sensor input, PWM/PPM input. Budget alternative: hoverboard mainboard + ST-Link. | 2× 90 |
+| ☐ | Second 10" hub motor (first bought in Wave 0) | 36 V, 350–500 W, pneumatic 10×2.5"–10×3" tire, **Hall sensors (small 5-wire connector)**, **axle with flats on both sides**. Same listing as the Wave 0 motor, so they match. | 120 |
+| ☐ | Second FOC motor controller | VESC-class (Flipsky FSESC 4.20 / 6.x, Makerbase 75100), **rated ≥ 50 V**, Hall sensor input, PWM/PPM input. Budget alternative: hoverboard mainboard + ST-Link. | 90 |
 | ☐ | 2× 10" pneumatic plate-mount swivel casters | 4"×4.5" top plate, ~12" overall height, ≥ 150 kg rating, ball-bearing swivel. **Measure the bolt pattern and height on arrival** (they set `caster-plate.dxf`). | 2× 35 |
-| ☐ | Battery | 36 V e-bike pack, **20 Ah**, BMS ≥ 30 A continuous, plus a matching charger. 10S Li-ion or 12S LiFePO4. | 300 |
+| ☐ | Battery | **Size set by T1** (blade power): 36 V 20 Ah if the deck stays on Ryobi packs; 30–40 Ah (or two 20 Ah) if the deck runs from the robot. BMS ≥ 30 A continuous, plus a matching charger. 10S Li-ion or 12S LiFePO4. | 300–450 |
 | ☐ | Electrical | Per the [electrical parts list](../electrical/README.md#7-parts-list-electrical): 40 A MRBF main fuse, battery disconnect, 12 V-coil DC contactor, precharge relay + 47 Ω 10 W resistor, on-delay and off-delay timer modules, DPDT signal relay, 58 V fuses + block, power module, DC-DCs (input ≥ 60 V), XT90s, 10–12 AWG silicone wire | 220 |
 | ☐ | Safety | NC mushroom e-stop, Arduino Nano + 5 V relay module (wireless e-stop, [firmware](../../software/estop_receiver/README.md)), 2 roller-lever NC microswitches, optocoupler module | 60 |
 | ☐ | Bumper | Aluminium bar or 30x30 extrusion, 2 sliding arms + UHMW/printed guides, return springs, 50 mm closed-cell foam | 50 |

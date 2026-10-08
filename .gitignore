@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .DS_Store
+software/sim/ardupilot/
+software/sim/runs/
+software/sim/build.log

@@ -206,6 +206,9 @@ def mass_report(p: Params, parts, config: str) -> list[str]:
     r_caster = total * cg[0] / caster_contact_x
     r_drive = total - r_caster
     hitch_x = p.frame_rear_x - 50  # hitch pin position
+    cuts = [r.meta["center"][1] for r in parts if r.group == "deck"]
+    edge_r = (min(cuts) - p.deck_cut_width / 2) - bb.min.Y
+    edge_l = bb.max.Y - (max(cuts) + p.deck_cut_width / 2)
     return [
         f"## Configuration: {config} deck",
         "",
@@ -217,6 +220,8 @@ def mass_report(p: Params, parts, config: str) -> list[str]:
         f"| Load on drive wheels | {r_drive:.1f} kg ({100 * r_drive / total:.0f} %) |",
         f"| Load on casters | {r_caster:.1f} kg ({100 * r_caster / total:.0f} %) |",
         f"| Max cart tongue weight before casters unload | {total * cg[0] / abs(hitch_x):.0f} kg (hitch pin {abs(hitch_x):.0f} mm behind axle) |",
+        f"| Closest cut to an obstacle, right side / left side | {edge_r:.0f} mm / {edge_l:.0f} mm "
+        "(cut edge to the robot's outermost part) |",
         f"| Pivot-turn swept radius (about axle centre) | {np.hypot(max(abs(bb.min.X), bb.max.X), max(abs(bb.min.Y), bb.max.Y)):.0f} mm |",
         "",
     ]

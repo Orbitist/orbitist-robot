@@ -87,7 +87,8 @@ Envelope from the [first CAD model](../../hardware/cad/README.md) (`hardware/cad
 | Frame height | rails 300–360 mm above ground; mower motors poke up through open frame bays |
 | Ground clearance under frame | ≥ 15 cm (deck hangs below) |
 | Mass, mowing config | **~61 kg** (one deck) · **~78 kg** (twin decks). Decks are ~17 kg each, the largest single item. |
-| Cut width | ~50 cm with one centered deck (v1) → **~1 m with twin decks** (v1.5) |
+| Cut width | ~53 cm with one deck in the **rear-right** slot (v1) → **~1 m with twin decks** (v1.5) |
+| Closest cut to an obstacle | **~19 cm** on the right side (deck side), vs ~43 cm with a centred deck |
 | Mowing speed | **0.6 m/s in v1**, the fastest the bumper can protect ([strength report](../../hardware/cad/exports/strength-report.md#bumper-stopping-distance)). Faster once phase-2 obstacle sensing slows the robot before contact. |
 | Top speed (transit) | ~1.5–2 m/s (software limited) |
 
@@ -98,7 +99,7 @@ Envelope from the [first CAD model](../../hardware/cad/README.md) (`hardware/cad
 
 **Strength check:** see [`strength-report.md`](../../hardware/cad/exports/strength-report.md). It requires torque arms on the hub motors, saddle-mounted drive forks, gussets at the joints next to the drive axle, a 30x60 cross member at x = 215, and an A-frame drawbar before any towing.
 
-**Why build wide now:** on 3+ acres with 8 ft paths, the twin-deck upgrade roughly halves mowing time (§5). Cutting the extrusion 50 cm longer now costs ~$30. Rebuilding a narrow frame later would mean redoing the drive mounts, wiring, and CAD. v1 runs with one deck centered; the second deck bolts onto the same belly mount. The twin decks can sit side by side, or staggered front-left / rear-right with ~5 cm overlap. We'll decide in CAD based on how the Ryobi deck housing looks.
+**Why build wide now:** on 3+ acres with 8 ft paths, the twin-deck upgrade roughly halves mowing time (§5). Cutting the extrusion 50 cm longer now costs ~$30. Rebuilding a narrow frame later would mean redoing the drive mounts, wiring, and CAD. The twin decks are **staggered** (rear-right, front-left) so their cuts overlap by 5 cm; side by side would leave an uncut strip because the housing is wider than the blade. **v1 runs one deck in the rear-right slot**, not centred. The robot can then edge along beds and fences on its right side, the planner drives laps with the deck facing the boundary, and the twin upgrade only adds the front-left deck.
 
 **Why the battery sits over the drive axle:** in a zero-turn layout the casters carry weight without providing traction. Every kilogram over the rear axle helps on slopes, as §5 shows.
 
@@ -130,21 +131,23 @@ Coverage at 0.45 m effective swath × 0.8 m/s ≈ **1,300 m²/hour ≈ 1/3 acre 
 - Use two packs: swap one while the other charges.
 - Phase 2: add a charging dock and mow in daily chunks.
 
-**Applied to our ~3 acres (12,000 m²):**
+**Applied to our ~3 acres, from the coverage planner calibrated against simulation** ([sample-farm plans](../../software/sim/plans), [drive-energy report](../../hardware/cad/exports/drive-energy-report.md)):
 
-| Configuration | Effective swath × speed | Coverage | Time per full pass | Energy per pass |
-|---|---|---|---|---|
-| **One 21" deck, 0.6 m/s (v1)** | 0.45 m × 0.6 m/s | ~970 m²/h | **~12.5 h** | ~4.5 kWh |
-| **Twin decks (~1 m cut), 0.6 m/s (v1.5)** | 0.95 m × 0.6 m/s | ~2,050 m²/h | **~6 h** | ~3 kWh |
-| One 21" deck, 1.0 m/s (phase 2, with obstacle sensing) | 0.45 m × 1.0 m/s | ~1,600 m²/h | ~7.5 h | ~3 kWh |
-| Twin decks, 1.0 m/s (phase 2) | 0.95 m × 1.0 m/s | ~3,400 m²/h | ~3.5 h | ~2.4 kWh |
+| Configuration | Mowing time per week (≈3 acres) | Per day (6 days) | Energy per day (typical / worst) |
+|---|---|---|---|
+| **One deck, 0.6 m/s (v1)** | **~17 h** | ~2.8 h | ~1.1 / 2.1 kWh (drive + blade) |
+| **Twin decks, 0.6 m/s (v1.5)** | **~8 h** | ~1.3 h | ~0.9 / 1.6 kWh |
+| Faster (1.0 m/s) | needs phase-2 obstacle sensing: the bumper only protects ≤ 0.6 m/s | | |
 
-So the operating model is **mowing a zone each day from a charging dock**, the way commercial robot mowers work. At v1's 0.6 m/s, about 1.8 h of mowing per day covers all 3 acres roughly once a week with a single deck. That's roughly one 720 Wh pack per day, so expect a mid-session battery swap until the dock exists. It keeps grass short so blade power stays low, and scales as the farm grows: add zones, then add a second deck or a second robot.
+These include two perimeter laps, 15 cm pass overlap, pivots at every stripe end, and transits around trees. They're about 35 % longer than the first back-of-envelope estimate.
+
+So the operating model is **mowing a zone each day from a charging dock**, the way commercial robot mowers work.
 
 Consequences:
-- **The charging dock moves up** to the first item in phase 2, right after supervised mowing works. Until then, swap batteries manually.
-- **The twin-deck module** (~1 m cut) is the v1.5 upgrade, and the frame is built for it from day one (§4). With twin decks, about 50 min of mowing per day at 0.6 m/s covers 3 acres weekly, which leaves room for the farm to grow.
-- **Open sky** means RTK should hold a fixed solution almost everywhere. Narrow paths and tree edges get touched up by hand.
+- **Twin decks matter more than first thought.** One deck needs nearly 3 h a day. **Buy the second used Ryobi early** (see [confidence plan](confidence-plan.md) T1).
+- **The blade is the energy driver,** and its power is still a guess. One deck from Ryobi packs means **4–5 pack swaps a day**, which is impractical. Moving the deck onto the robot pack, and the battery size, are decided after measuring the blade (T1). A 20 Ah pack covers the drive only.
+- **The charging dock** is still the first item in phase 2.
+- **Open sky** means RTK should hold a fixed solution almost everywhere. The robot pauses automatically if it doesn't (§6.3).
 
 ## 6. Subsystems
 
@@ -177,7 +180,7 @@ The mower is a **module that bolts to the belly mount**, not part of the robot. 
 
 **Power for M1, phase 1:** the blade runs **from Ryobi batteries we already own**. That keeps the blade electrically isolated from the drive bus, avoids handshake problems, and adds energy. A 40 V 6 Ah pack (~216 Wh) runs a 21" deck for roughly 40–60 minutes. The robot only controls a relay that is part of the kill chain (§6.4).
 
-**Phase 2, once the dock exists:** feed the deck from the robot's main bus through a Ryobi battery adapter so the dock recharges everything, removing the need to swap Ryobi packs every day. This depends on the bench test above. If the mower requires a battery handshake, keep a Ryobi pack on the deck and charge it on the dock with a Ryobi charger.
+**Phase 2, once the dock exists (or sooner, see §5):** feed the deck from the robot's main bus through a Ryobi battery adapter so the dock recharges everything, removing the need to swap Ryobi packs every day. This depends on the bench test above. If the mower requires a battery handshake, keep a Ryobi pack on the deck and charge it on the dock with a Ryobi charger.
 
 **Deck suspension:** hang the deck on four short links or chains with anti-scalp wheels, as mid-mount riding mowers do. The deck then follows the ground and doesn't scalp on bumps.
 
@@ -202,8 +205,9 @@ The mower is a **module that bolts to the belly mount**, not part of the robot. 
   - **Link, later:** a Raspberry Pi at the base runs an NTRIP caster (e.g. RTKLIB `str2str`) over farm Wi-Fi or LTE. Any number of robots, a tractor, or survey gear can use the same corrections.
   - One base covers everything within ~10 km, so it serves the whole farm as it expands.
   - *Worth a 10-minute check:* look for a state DOT CORS station or community RTK2go base within ~20 km. If one exists, it's a free backup.
-- **Mowing patterns:** Mission Planner's polygon "survey/grid" tool creates back-and-forth passes with overlap, and fences mark the hard boundary. Later, [Fields2Cover](https://github.com/Fields2Cover/Fields2Cover) (ROS 2) can produce better coverage paths with headland turns.
-- **Simulation all winter:** ArduPilot SITL (optionally with Gazebo) lets us practice missions, geofences, and failsafes before the hardware exists.
+- **Mowing patterns: our own planner** ([`software/sim/coverage.py`](../../software/sim/coverage.py)). It runs two perimeter laps with the deck facing the boundary, then stripes at the angle with the fewest turns. It routes around trees and beds with a visibility graph, keeps every leg ≥ 0.17 m from the no-go fences, and writes one mission and one fence per zone (Mission Planner and QGroundControl formats). Mission Planner's generic grid tool doesn't know about the offset deck, the robot's width, or obstacle clearance.
+- **Blade control** goes through a Lua interlock ([`blade_interlock.lua`](../../software/ardupilot/scripts/blade_interlock.lua)): missions *request* the blade, and the script switches the relay only when armed, in AUTO, with an RTK fix, inside the fence, level, and with the e-stop loop OK. It also **pauses the mission if RTK is lost for 2 s** and resumes when the fix is back. Without that, ArduPilot dead-reckons ~8 m before its own failsafe (found in simulation).
+- **Simulation (set up):** ArduPilot Rover 4.6.3 SITL runs our parameter file, the Lua script, and the planned missions through acceptance tests (mission, RC loss, e-stop, restart, GPS loss, fence). **13/13 pass.** It found eight problems before any hardware existed; see [`software/sim/README.md`](../../software/sim/README.md) and the [confidence plan](confidence-plan.md).
 - **Tree cover:** RTK degrades to "float" under trees and near buildings. v1 mows open areas only and pauses when the fix drops. Phase 2 adds wheel odometry and camera-based fallback for edges.
 
 ### 6.4 Safety and kill chain
@@ -247,7 +251,7 @@ This is designed first and tested on the bench before the blade is ever installe
 
 | Phase | Timeframe | Goal | Exit criterion |
 |---|---|---|---|
-| **0. Design + sim** | Oct–Nov 2026 | Finalize this doc, CAD in Onshape, order parts, **set up the RTK base and survey its position**, ArduPilot SITL missions | BOM ordered; base surveyed; SITL mows a polygon of our real lawn |
+| **0. Design + sim + de-risk** | Oct–Nov 2026 | ✅ CAD, strength, simulation. **De-risking tests T1–T4** ([confidence plan](confidence-plan.md)): used Ryobi blade-power test, RTK cart survey of the real lawns, one-motor bench test, caster measurements. Then order Wave 2. | SITL acceptance tests pass on the **real** lawn file; battery and drive choices based on measurements |
 | **1a. Rolling chassis** | Dec 2026 | Frame, drive, battery, kill chain, RC driving | Drives under RC with a working e-stop; tested on snow/gravel |
 | **1b. Autonomy without blade** | Jan–Feb 2027 | Autopilot, RTK, tuning, missions on dormant lawn or snow; **map lawn zones and fences** | Runs a 50×20 m grid, passes within ±5 cm |
 | **1c. Mowing** | Apr–May 2027 | Install Ryobi deck module, blade interlocks, supervised mowing with battery swaps | Mows one zone, supervised, with no missed strips |

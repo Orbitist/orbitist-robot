@@ -1,0 +1,18 @@
+{
+  "_comment": "Small test plot for fast simulation runs (one zone, one tree). Metres east/north of the SITL test site.",
+  "origin": {"lat": -35.363261, "lon": 149.165230, "alt": 584.0},
+  "dock": [3.0, -5.0],
+  "zones": [
+    {
+      "name": "plot",
+      "boundary": [[0, 0], [24, 0], [24, 16], [0, 16]],
+      "exclusions": [
+        {"name": "tree", "circle": [14, 8, 1.5]}
+      ],
+      "approach": [[3.0, -5.0], [3.0, 1.2]]
+    }
+  ],
+  "paths": [
+    {"name": "dock apron", "polygon": [[0, -8], [6, -8], [6, 1], [0, 1]]}
+  ]
+}

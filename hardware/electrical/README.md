@@ -120,6 +120,7 @@ These live in configuration rather than wiring, but the design depends on them. 
 | Battery current max | 14 A | Two VESCs stay under the 30 A BMS limit |
 | Motor current max | ~50 A | ≈ 28 N·m with a typical torque constant of ~0.57 N·m/A. Keeps torque under the 40 N·m the forks and torque arms were checked for. Re-compute from the measured motor constant after VESC motor detection. |
 | Motor current max brake | 30 A | Braking torque |
+| App: PPM, **control type "PID speed"**, max ERPM ≈ 2 m/s wheel speed | — | Throttle maps linearly to wheel speed, so 0.6 m/s is 30 % throttle instead of ~7 % duty. Gives finer low-speed control and an easier ArduPilot speed tune (`CRUISE_THROTTLE 30`). |
 | App: PPM, **timeout 100 ms**, **timeout brake current 20 A** | — | This is what stops the robot when K4 cuts the signal or the autopilot dies |
 | Battery cutoff start/end | Set for the pack chemistry | Protects the battery before the BMS has to |
 

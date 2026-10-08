@@ -1,0 +1,70 @@
+# Orbitist platform v1 - ArduPilot Rover 4.6 baseline parameters
+# Load on top of the firmware defaults (Mission Planner: Config > Full Parameter List > Load from file).
+# Values marked TUNE are starting points; set them during commissioning and commit the result.
+# Every value here is also exercised in simulation (software/sim, run_sitl.py).
+
+# --- Frame: skid steer, one VESC per side ----------------------------------
+FRAME_CLASS      1
+SERVO1_FUNCTION  73      # throttle left  -> VESC L (through K4 signal relay)
+SERVO3_FUNCTION  74      # throttle right -> VESC R
+MOT_PWM_TYPE     0
+MOT_SAFE_DISARM  1       # no PWM pulses while disarmed -> VESC timeout brake holds the robot
+
+# --- Speeds: v1 mows at 0.6 m/s (the bumper protects up to 0.61 m/s) -------
+CRUISE_SPEED     0.6
+CRUISE_THROTTLE  30      # TUNE: with VESC 'PID speed' PPM control scaled to ~2 m/s at 100 %
+WP_SPEED         0.6
+WP_RADIUS        0.2     # SITL: 0.3 cut corners into tree fences, 0.1 made the robot hunt at waypoints
+WP_ACCEL         0.5
+WP_PIVOT_ANGLE   30      # pivot in place for heading changes above 30 deg
+WP_PIVOT_RATE    45      # deg/s while pivoting
+ATC_ACCEL_MAX    0.5
+ATC_DECEL_MAX    2.0
+ATC_STR_RAT_MAX  60      # TUNE
+ATC_STR_RAT_FF   0.3     # TUNE: ~1 / (max pivot rate, rad/s) = 1 / (2 x 2 m/s / 1.25 m track)
+
+# --- Arming: switch only, never sticks -----------------------------------------
+ARMING_RUDDER    0
+RC7_OPTION       153     # ArmDisarm switch on the transmitter
+ARMING_REQUIRE   1
+
+# --- Failsafes -----------------------------------------------------------------
+FS_ACTION        2       # Hold
+FS_TIMEOUT       1.0
+FS_THR_ENABLE    1       # RC loss -> FS_ACTION
+FS_GCS_ENABLE    0       # v1 supervision is the wireless e-stop + RC; enable once telemetry is reliable
+FS_EKF_ACTION    1       # Hold
+FS_CRASH_CHECK   2       # stuck or blocked -> Hold and disarm
+BATT_MONITOR     4       # analog voltage + current (power module)
+BATT_LOW_VOLT    34.0    # 10S Li-ion; 12S LiFePO4 would be ~37.5
+BATT_CRT_VOLT    32.5    # 12S LiFePO4: ~36.0
+BATT_FS_LOW_ACT  2       # Hold
+BATT_FS_CRT_ACT  2       # Hold
+
+# --- Geofence: lawn zones + paths as inclusion polygons, trees/beds excluded --
+FENCE_ENABLE     1
+FENCE_TYPE       4       # polygon fences only
+FENCE_ACTION     2       # Hold
+FENCE_MARGIN     0.1
+AVOID_ENABLE     2       # proximity sensors only (phase 2). Fence *avoidance* (bit 0) keeps the robot
+                         # AVOID_MARGIN from the fence and stalls the perimeter laps; the fence
+                         # still enforces a hard stop (FENCE_ACTION) and the planner keeps paths inside.
+AVOID_MARGIN     0.5
+
+# --- GPS ---------------------------------------------------------------------
+GPS1_TYPE        1       # auto (u-blox ZED-F9P)
+GPS_AUTO_CONFIG  1
+
+# --- Blade: relay 1 drives K5, owned by scripts/blade_interlock.lua -------------
+RELAY1_FUNCTION  1
+RELAY1_PIN       -1      # set at commissioning to the AUX output wired to the K5 relay module
+RELAY1_DEFAULT   0       # off at boot
+SCR_ENABLE       1       # Lua scripting (copy scripts/ to the SD card APM/scripts/)
+
+# --- Missions: a zone can need ~700 waypoints; store missions on the SD card ---
+BRD_SD_MISSION   64      # kB, ~4000 waypoints at 15 bytes each
+BRD_SD_FENCE     16      # kB; the internal fence store holds only 84 points (planner stays under 80 anyway)
+
+# Script parameters (appear after the first boot with the script installed, set from the GCS):
+#   BLD_MIN_FIX = 6 (RTK fixed), BLD_ESTOP_SRC = 1 (GPIO), BLD_ESTOP_PIN = <ESTOP_OK input>,
+#   BLD_TILT_DEG = 25, BLD_RELAY = 0, BLD_MSG_ID = 1, BLD_FIX_PAUSE = 2 (s)

@@ -7,7 +7,10 @@ An open-source, general-purpose farm robot that farmers can build from off-the-s
 
 ## Status
 
-Design / brainstorm. Start with the **[Platform v1 design](docs/design/platform-v1.md)**.
+Design, analysis, and simulation, done before buying parts. Start with:
+- **[Platform v1 design](docs/design/platform-v1.md)**: what we're building and why
+- **[Confidence plan](docs/design/confidence-plan.md)**: what's verified, what isn't, and the tests to run before the main purchase
+- **[Simulation](software/sim/README.md)**: plan mowing and run the autopilot in software
 
 ## Repository layout
 
@@ -22,6 +25,8 @@ hardware/
   cad/         Parametric CAD model, renders, cutting DXFs, strength check
   electrical/  Power distribution, e-stop safety chain, wiring, commissioning tests
 software/
+  ardupilot/       Autopilot parameters + blade-interlock Lua script
+  sim/             Coverage planner + ArduPilot SITL acceptance tests
   base-station/    RTK base (u-blox ZED-F9P) configuration script
   estop_receiver/  Fail-safe wireless e-stop firmware (Arduino)
 ```

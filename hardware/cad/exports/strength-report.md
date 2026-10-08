@@ -26,7 +26,7 @@ Target: safety factor ≥ 2 on yield in the worst case, and bump-case stress in 
 | Torque arm (keyed plate + M6 at 50 mm) | 40 N·m peak torque | 400 N shear | 7718 N | 19.3 | ✅ | Fix for the row above |
 | Fork → rail joint, **bottom slot only** | Sideways skid | 1586 N per T-nut | 2500 N pull-out | 1.6 | ⚠️ | 95 N·m reacted over a 15 mm lever |
 | Fork → rail joint, **saddle tabs** into side slots | Sideways skid | 1057 N per T-nut | 2500 N pull-out | 2.4 | ✅ | Fix for the row above |
-| Cross member at x=-120 (30x30), single deck | Bump 2.5 g | 34 MPa | 145 MPa yield / 50 fatigue | 4.2 | ✅ | static sag 2.0 mm over 1220 mm |
+| Cross member at x=-120 (30x30), single deck | Bump 2.5 g | 34 MPa | 145 MPa yield / 50 fatigue | 4.3 | ✅ | static sag 1.7 mm over 1220 mm |
 | Cross member at x=-120 (30x30), twin deck | Bump 2.5 g | 34 MPa | 145 MPa yield / 50 fatigue | 4.3 | ✅ | static sag 1.7 mm over 1220 mm |
 | Side rails (30x60) | Bump 2.5 g, twin deck | 7 MPa | 145 MPa | 22.2 | ✅ |  |
 | Rear cross member with hitch at mid-span (30x30) | Towing: 20 kg tongue + 160 N pull, ×2 | 128 MPa | 145 MPa | 1.1 | ⚠️ | Fix: A-frame drawbar to both side rails (phase 3) |

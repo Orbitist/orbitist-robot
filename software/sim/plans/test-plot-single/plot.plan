@@ -1,0 +1,4885 @@
+{
+ "fileType": "Plan",
+ "version": 1,
+ "groundStation": "QGroundControl",
+ "mission": {
+  "version": 2,
+  "firmwareType": 3,
+  "vehicleType": 10,
+  "cruiseSpeed": 0.6,
+  "hoverSpeed": 0.6,
+  "plannedHomePosition": [
+   -35.36330591555875,
+   149.16526304643273,
+   584.0
+  ],
+  "items": [
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 178,
+    "doJumpId": 1,
+    "frame": 3,
+    "params": [
+     1,
+     0.6,
+     -1,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 2,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363250220265904,
+     149.16526304643273,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 3,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36325438842975,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 4,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 5,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36325438842975,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 6,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36312388178225,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 7,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36312388178225,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 8,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36325438842975,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 9,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 10,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319926200022,
+     149.1653598726643,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 11,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 12,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319377872254,
+     149.16535748814337,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 13,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319029122193,
+     149.1653569251284,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 14,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318449148946,
+     149.16535748814337,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 15,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317900821179,
+     149.1653598726643,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 16,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363174215065214,
+     149.16536391619013,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 17,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.1653717986533,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 18,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 19,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316687886603,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 20,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.1653899108882,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 21,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 22,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317258007038,
+     149.1654025122811,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 23,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317900821179,
+     149.16540856070785,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 24,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318449148946,
+     149.16541094522879,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 25,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319029122193,
+     149.16541150824375,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 26,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319377872254,
+     149.16541094522879,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 27,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320126445175,
+     149.1654071430288,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 28,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363204055146795,
+     149.16540451718203,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 29,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320898763317,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 30,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321033375816,
+     149.16539264963376,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 31,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321139134597,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 32,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321093220781,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 33,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363207831517244,
+     149.1653693431612,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 34,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363205690141626,
+     149.16536592109105,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 35,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319926200022,
+     149.1653598726643,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 36,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 37,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36325094789795,
+     149.16524232631943,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 38,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 39,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36325094789795,
+     149.16548204514243,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 40,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36312732231405,
+     149.16548204514243,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 41,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36312732231405,
+     149.16524232631943,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 42,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36325094789795,
+     149.16524232631943,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 43,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 44,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320057863474,
+     149.16535597488317,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 45,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 46,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319732880153,
+     149.16535432420687,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 47,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363194669197696,
+     149.16535341297194,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 48,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319029122193,
+     149.1653527062005,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 49,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363187529910554,
+     149.165352742294,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 50,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318404240995,
+     149.16535330530897,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 51,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318094141047,
+     149.16535432420687,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 52,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317769157726,
+     149.16535597488317,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 53,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317528549435,
+     149.1653576366446,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 54,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317178224184,
+     149.1653609329576,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 55,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316985051298,
+     149.16536335277047,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 56,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167709137365,
+     149.1653667748406,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 57,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316610394192,
+     149.16537018413948,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 58,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316475781693,
+     149.16537416922458,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 59,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363164014705674,
+     149.16537743054508,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 60,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316343833423,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 61,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316346776846,
+     149.1653861850457,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 62,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316392690662,
+     149.1653904615688,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 63,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316475781693,
+     149.16539426414758,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 64,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316610394192,
+     149.16539824923268,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 65,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316745910682,
+     149.16540119967493,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 66,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317014724701,
+     149.16540549551365,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 67,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317212060216,
+     149.16540786428257,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 68,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317491129719,
+     149.16541049012937,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 69,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317769157726,
+     149.165412458489,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 70,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318094141047,
+     149.16541410916528,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 71,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363183601014306,
+     149.16541502040022,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 72,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318797899007,
+     149.16541572717165,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 73,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319074030145,
+     149.16541569107815,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 74,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363194227802055,
+     149.1654151280632,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 75,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319732880153,
+     149.16541410916528,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 76,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320057863474,
+     149.165412458489,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 77,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320298471765,
+     149.16541079672757,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 78,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320648797016,
+     149.16540750041457,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 79,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320841969902,
+     149.16540508060172,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 80,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321056107464,
+     149.16540165853155,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 81,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321216627009,
+     149.16539824923268,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 82,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321351239507,
+     149.16539426414758,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 83,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321425550633,
+     149.16539100282708,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 84,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321483187777,
+     149.1653856343651,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 85,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363214802443544,
+     149.16538224832647,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 86,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321434330538,
+     149.16537797180337,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 87,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321351239507,
+     149.16537416922458,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 88,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321216627009,
+     149.16537018413948,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 89,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321081110518,
+     149.16536723369725,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 90,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320812296499,
+     149.1653629378585,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 91,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363206149609844,
+     149.1653605690896,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 92,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320335891481,
+     149.1653579432428,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 93,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320057863474,
+     149.16535597488317,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 94,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 95,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36324973517787,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 96,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 97,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36324973517787,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 98,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363250633489045,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 99,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36324285411427,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 100,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36324285411427,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 101,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36324375242544,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 102,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363235973050664,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 103,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363235973050664,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 104,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36323687136184,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 105,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363229091987066,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 106,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363229091987066,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 107,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363229990298244,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 108,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36322221092347,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 109,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36322221092347,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 110,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36322310923464,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 111,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321532985986,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 112,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321532985986,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 113,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321622817104,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 114,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363208448796264,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 115,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363208448796264,
+     149.16537065420945,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 116,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 117,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321093220781,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 118,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321139134597,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 119,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321033375816,
+     149.16539264963376,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 120,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363208448796264,
+     149.1653977791627,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 121,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 122,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320934710744,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 123,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320934710744,
+     149.16539557052678,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 124,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 125,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321093220781,
+     149.1653899108882,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 126,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321139134597,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 127,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321093220781,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 128,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320934710744,
+     149.16537286284537,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 129,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 130,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320934710744,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 131,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363201567732666,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 132,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363201567732666,
+     149.16536157570926,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 133,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 134,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363205690141626,
+     149.16536592109105,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 135,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363207831517244,
+     149.1653693431612,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 136,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321093220781,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 137,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321139134597,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 138,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321033375816,
+     149.16539264963376,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 139,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320898763317,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 140,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363205690141626,
+     149.1654025122811,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 141,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363201567732666,
+     149.1654068576629,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 142,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 143,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320246604384,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 144,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320246604384,
+     149.1654060124156,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 145,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 146,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363205690141626,
+     149.1654025122811,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 147,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320898763317,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 148,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321033375816,
+     149.16539264963376,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 149,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321139134597,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 150,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321093220781,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 151,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363207831517244,
+     149.1653693431612,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 152,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363205690141626,
+     149.16536592109105,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 153,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320246604384,
+     149.16536242095657,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 154,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 155,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320246604384,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 156,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319468666906,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 157,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319468666906,
+     149.1653577864681,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 158,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 159,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319926200022,
+     149.1653598726643,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 160,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363205690141626,
+     149.16536592109105,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 161,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363207831517244,
+     149.1653693431612,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 162,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321093220781,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 163,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321139134597,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 164,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321033375816,
+     149.16539264963376,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 165,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320898763317,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 166,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363205690141626,
+     149.1654025122811,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 167,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320126445175,
+     149.1654071430288,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 168,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319468666906,
+     149.16541064690406,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 169,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 170,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319558498024,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 171,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319558498024,
+     149.16541035174524,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 172,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 173,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320126445175,
+     149.1654071430288,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 174,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363204055146795,
+     149.16540451718203,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 175,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36320898763317,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 176,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321033375816,
+     149.16539264963376,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 177,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321139134597,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 178,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36321093220781,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 179,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363207831517244,
+     149.1653693431612,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 180,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363205690141626,
+     149.16536592109105,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 181,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319926200022,
+     149.1653598726643,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 182,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319558498024,
+     149.16535808162692,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 183,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 184,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36319558498024,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 185,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318780560546,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 186,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318780560546,
+     149.16535695311927,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 187,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 188,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363182258044986,
+     149.16535822198801,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 189,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317900821179,
+     149.1653598726643,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 190,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363174215065214,
+     149.16536391619013,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 191,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.1653717986533,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 192,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 193,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316687886603,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 194,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.1653899108882,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 195,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 196,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317258007038,
+     149.1654025122811,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 197,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317900821179,
+     149.16540856070785,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 198,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363182258044986,
+     149.16541021138414,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 199,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318780560546,
+     149.16541148025289,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 200,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 201,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318780560546,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 202,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318870391664,
+     149.16541150824375,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 203,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 204,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318449148946,
+     149.16541094522879,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 205,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317900821179,
+     149.16540856070785,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 206,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363174215065214,
+     149.16540451718203,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 207,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 208,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.1653899108882,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 209,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316687886603,
+     149.1653856343651,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 210,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 211,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.1653717986533,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 212,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317258007038,
+     149.16536592109105,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 213,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317900821179,
+     149.1653598726643,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 214,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318449148946,
+     149.16535748814337,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 215,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318870391664,
+     149.1653569251284,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 216,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 217,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36318870391664,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 218,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363180924541865,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 219,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363180924541865,
+     149.16535889930955,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 220,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 221,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317700576025,
+     149.16536129034336,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 222,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363174215065214,
+     149.16536391619013,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 223,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.1653717986533,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 224,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 225,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316687886603,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 226,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.1653899108882,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 227,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 228,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317258007038,
+     149.1654025122811,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 229,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317700576025,
+     149.1654071430288,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 230,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363180924541865,
+     149.1654095340626,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 231,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 232,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363180924541865,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 233,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363181822853036,
+     149.16540999033862,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 234,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 235,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317700576025,
+     149.1654071430288,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 236,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363174215065214,
+     149.16540451718203,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 237,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 238,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.1653899108882,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 239,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316687886603,
+     149.1653856343651,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 240,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 241,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.1653717986533,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 242,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317258007038,
+     149.16536592109105,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 243,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317700576025,
+     149.16536129034336,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 244,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363181822853036,
+     149.16535844303354,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 245,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 246,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363181822853036,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 247,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317404347826,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 248,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317404347826,
+     149.1653641265974,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 249,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 250,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.1653717986533,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 251,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 252,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316687886603,
+     149.16538279900706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 253,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.1653899108882,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 254,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 255,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317404347826,
+     149.16540430677475,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 256,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 257,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317404347826,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 258,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317494178944,
+     149.16540520097814,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 259,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 260,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317258007038,
+     149.1654025122811,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 261,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.16539663471886,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 262,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.1653899108882,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 263,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316687886603,
+     149.1653856343651,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 264,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363167338004196,
+     149.16537852248396,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 265,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316928257883,
+     149.1653717986533,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 266,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317258007038,
+     149.16536592109105,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 267,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317494178944,
+     149.16536323239401,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 268,
+    "frame": 3,
+    "params": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 269,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36317494178944,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 270,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316716241466,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 271,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316716241466,
+     149.16538015796706,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 272,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316716241466,
+     149.1653882754051,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 273,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316716241466,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 274,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316806072584,
+     149.1653930175301,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 275,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316687886603,
+     149.1653856343651,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 276,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316806072584,
+     149.16537541584205,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 277,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36316806072584,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 278,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363160281351064,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 279,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363160281351064,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 280,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363161179662235,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 281,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36315340028746,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 282,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36315340028746,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 283,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36315429859864,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 284,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36314651922386,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 285,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36314651922386,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 286,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36314741753503,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 287,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36313963816026,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 288,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36313963816026,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 289,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363140536471434,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 290,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36313275709666,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 291,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36313275709666,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 292,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363133655407836,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 293,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36312587603306,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 294,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36312587603306,
+     149.16548626407035,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 295,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36312677434423,
+     149.1652381073915,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 217,
+    "doJumpId": 296,
+    "frame": 3,
+    "params": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 297,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.363250220265904,
+     149.16526304643273,
+     0
+    ]
+   },
+   {
+    "type": "SimpleItem",
+    "autoContinue": true,
+    "command": 16,
+    "doJumpId": 298,
+    "frame": 3,
+    "params": [
+     0,
+     0,
+     0,
+     0,
+     -35.36330591555875,
+     149.16526304643273,
+     0
+    ]
+   }
+  ]
+ },
+ "geoFence": {
+  "version": 2,
+  "circles": [],
+  "polygons": [
+   {
+    "inclusion": true,
+    "polygon": [
+     [
+      -35.363333044556235,
+      149.16529631317502
+     ],
+     [
+      -35.363333044556235,
+      149.16522977969046
+     ],
+     [
+      -35.36325183722602,
+      149.16522977969046
+     ],
+     [
+      -35.36325183722602,
+      149.16523458243867
+     ],
+     [
+      -35.36312100718649,
+      149.16523458243867
+     ],
+     [
+      -35.36312100718649,
+      149.16548978902318
+     ],
+     [
+      -35.36325726302552,
+      149.16548978902318
+     ],
+     [
+      -35.36325726302552,
+      149.16529631317502
+     ]
+    ],
+    "version": 1
+   },
+   {
+    "inclusion": false,
+    "polygon": [
+     [
+      -35.3631833691384,
+      149.16540829652007
+     ],
+     [
+      -35.36317366785717,
+      149.1654006513429
+     ],
+     [
+      -35.36316887731815,
+      149.16538778827834
+     ],
+     [
+      -35.36317051848365,
+      149.16537379125847
+     ],
+     [
+      -35.3631780702952,
+      149.1653631042382
+     ],
+     [
+      -35.363189135106005,
+      149.16535912027095
+     ],
+     [
+      -35.363200199916804,
+      149.1653631042382
+     ],
+     [
+      -35.36320775172836,
+      149.16537379125847
+     ],
+     [
+      -35.36320939289385,
+      149.16538778827834
+     ],
+     [
+      -35.363204602354834,
+      149.1654006513429
+     ],
+     [
+      -35.363194901073605,
+      149.16540829652007
+     ]
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "rallyPoints": {
+  "version": 2,
+  "points": []
+ }
+}

@@ -1,0 +1,17 @@
+# Simulation-only overrides, loaded after orbitist-v1.param by software/sim/sitl.py.
+# Never load this on the real robot.
+
+RELAY1_PIN       13      # any valid SITL pin, so the relay exists
+SIM_GPS_TYPE     1
+SIM_GPS_NOISE    0.02    # ~2 cm position noise, like an RTK fix
+ARMING_CHECK     1
+MOT_SAFE_DISARM  0       # SITL reads "no pulses" as full reverse; neutral models the VESC timeout brake
+CRUISE_THROTTLE  15      # SITL skid model: 4 m/s at 100 % throttle
+SIM_BATT_VOLTAGE 40.0    # a charged 10S pack
+SIM_BATT_CAP_AH  20      # 20 Ah
+SIM_GPS_HZ       10      # RTK receiver rate / latency
+SIM_GPS_LAG_MS   50
+# Steering tuned for the SITL skid model (140 deg/s max turn rate): halves the weave vs defaults.
+# The real robot is tuned during commissioning; these numbers don't transfer.
+ATC_STR_RAT_FF   0.41
+PSC_POS_P        0.5

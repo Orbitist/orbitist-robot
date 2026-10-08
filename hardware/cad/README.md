@@ -12,6 +12,7 @@ The robot is modelled in Python with [build123d](https://github.com/gumyr/build1
 | `model.py` | Builds each part (frame, drive forks + hub motors, casters, mower decks, payload placeholders) |
 | `build.py` | Exports everything to `exports/` and runs clearance checks |
 | `strength.py` | Hand-calculation strength check → `exports/strength-report.md` |
+| `drive_energy.py` | Hub-motor operating points, heating, and the daily energy budget → `exports/drive-energy-report.md` |
 | `exports/platform-v1-{single,twin}.step` | Full assembly. Open in Onshape (*Import*), FreeCAD, Fusion, or any STEP viewer. |
 | `exports/*-{iso,top,side,front}.png` | Quick-look renders |
 | `exports/*.dxf` | Flat patterns: drive-fork side plate (6 mm steel ×4), torque arm (5 mm steel ×4), frame gusset (×8) |
@@ -21,7 +22,7 @@ The robot is modelled in Python with [build123d](https://github.com/gumyr/build1
 
 ## Configurations
 
-- **single**: v1, one Ryobi deck centred just ahead of the drive axle (no scuffing during pivot turns).
+- **single**: v1, one Ryobi deck in the twin layout's **rear-right** slot, so the robot can cut within ~19 cm of obstacles on its right and the twin upgrade only adds a deck.
 - **twin**: v1.5, two decks **staggered** (rear-right, front-left) so their cuts overlap by 50 mm. Two decks side by side would leave an uncut strip, because the deck housing is wider than the blade. The frame is the same for both.
 
 ## Regenerate
@@ -32,6 +33,7 @@ uv venv --python 3.12 .venv
 uv pip install --python .venv/bin/python -r requirements.txt
 .venv/bin/python build.py
 .venv/bin/python strength.py
+.venv/bin/python drive_energy.py
 ```
 
 Commit the regenerated `exports/` together with the parameter change, so the repo stays readable without Python.

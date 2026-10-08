@@ -8,10 +8,11 @@
 |---|---|
 | Overall length × width × height | 1565 × 1402 × 1005 mm |
 | Estimated mass | 64.7 kg |
-| Centre of gravity (x, y, z) | (171, 35, 246) mm |
+| Centre of gravity (x, y, z) | (171, -28, 246) mm |
 | Load on drive wheels | 49.6 kg (77 %) |
 | Load on casters | 15.1 kg (23 %) |
 | Max cart tongue weight before casters unload | 32 kg (hitch pin 350 mm behind axle) |
+| Closest cut to an obstacle, right side / left side | 193 mm / 676 mm (cut edge to the robot's outermost part) |
 | Pivot-turn swept radius (about axle centre) | 1377 mm |
 
 ### Clearance checks
@@ -34,6 +35,7 @@
 | Load on drive wheels | 57.7 kg (71 %) |
 | Load on casters | 24.0 kg (29 %) |
 | Max cart tongue weight before casters unload | 50 kg (hitch pin 350 mm behind axle) |
+| Closest cut to an obstacle, right side / left side | 193 mm / 193 mm (cut edge to the robot's outermost part) |
 | Pivot-turn swept radius (about axle centre) | 1377 mm |
 
 ### Clearance checks
