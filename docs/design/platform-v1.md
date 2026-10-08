@@ -22,7 +22,11 @@ Design rules:
 | Fabrication | Any tools needed | Extrusion for fast iteration; welded steel and outsourced laser/water-jet plates where they're stronger or cheaper |
 | Connectivity | Cell coverage over the whole property; Wi-Fi can be extended | Telemetry and remote monitoring over Wi-Fi/LTE later; RTK corrections can travel over radio or network |
 | RTK correction service | **None known nearby** | **Our own RTK base station** on a farm building is required in phase 1. It serves every future robot on the farm. |
+| Terrain | **Generally flat** | Rear-wheel drive with front casters has plenty of grip; 4WD is only needed for hauling in mud later |
+| Sky view | **Open sky; base station can go anywhere** | Ideal for RTK: expect a solid fix nearly everywhere. Put the base near the middle of the lawns. |
+| Layout | **Mostly open lawns joined by ~8 ft (2.4 m) paths**; small paths touched up by hand | Robot can be up to ~1.4 m wide, so the frame is **built wide enough for twin decks from the start** (§4) |
 | CAD | Open to anything | **Onshape** (§6.6) |
+| License | Delegated to Claude | CERN-OHL-W-2.0 (hardware) · Apache-2.0 (software) · CC BY-SA 4.0 (docs). See [LICENSE.md](../../LICENSE.md). |
 
 ## 2. What changes from the vineyard concept, and why
 
@@ -76,15 +80,17 @@ Target envelope, to be refined in CAD:
 
 | Parameter | Target |
 |---|---|
-| Overall width | ~80–85 cm (fits garden gates, under 2.4 m vineyard aisles) |
-| Length | ~95–105 cm |
+| Overall width | **~1.3–1.4 m**, frame sized for twin decks from day one (fits 2.4 m farm paths and vineyard aisles; too wide for a man-door, so store in a garage/barn bay) |
+| Length | ~100–110 cm |
 | Frame | 30×30 mm aluminum T-slot (axle and hitch rails 30×60 or steel plate) |
 | Wheelbase (caster pivots to drive axle) | ~70 cm |
 | Ground clearance under frame | ≥ 15 cm (deck hangs below) |
-| Mass, mowing config | ~40–50 kg |
-| Cut width | ~45–55 cm (one deck) |
+| Mass, mowing config | ~45–55 kg (one deck) · ~60–70 kg (twin decks) |
+| Cut width | ~50 cm with one centered deck (v1) → **~1 m with twin decks** (v1.5) |
 | Mowing speed | 0.5–1.0 m/s |
 | Top speed (transit) | ~1.5–2 m/s (software limited) |
+
+**Why build wide now:** on 3+ acres with 8 ft paths, the twin-deck upgrade roughly halves mowing time (§5). Cutting the extrusion 50 cm longer now costs ~$30. Rebuilding a narrow frame later would mean redoing the drive mounts, wiring, and CAD. v1 runs with one deck centered; the second deck bolts onto the same belly mount. The twin decks can sit side by side, or staggered front-left / rear-right with ~5 cm overlap. We'll decide in CAD based on how the Ryobi deck housing looks.
 
 **Why the battery sits over the drive axle:** in a zero-turn layout the casters carry weight without providing traction. Every kilogram over the rear axle helps on slopes, as §5 shows.
 
@@ -94,7 +100,7 @@ Assumptions: 45 kg robot, 10" (0.254 m) wheels, rolling-resistance coefficient o
 
 **Torque on a 15° slope:** grade force 45·9.81·sin15° ≈ 114 N, plus rolling resistance ≈ 44 N, gives ≈ 160 N total. That works out to **≈ 10 N·m per wheel**. A 36 V 350 W 10" hub motor is typically rated around 10–15 N·m continuous with higher peak, so torque is adequate.
 
-**Traction is the real limit:** normal load on the drive wheels ≈ 287 N. With grass friction μ ≈ 0.35 (wet) to 0.6 (dry), the robot can push 100–170 N before slipping. That means **dry 15° slopes are marginal and wet 15° slopes will slip.** The v1 spec is therefore **10° slopes reliably, 15° in dry conditions**, with ballast over the axle as the first fix and the 4WD variant (Option C) as the real one.
+**Traction is the real limit** (a general-user concern; our farm is flat): normal load on the drive wheels ≈ 287 N. With grass friction μ ≈ 0.35 (wet) to 0.6 (dry), the robot can push 100–170 N before slipping. That means **dry 15° slopes are marginal and wet 15° slopes will slip.** The v1 spec is therefore **10° slopes reliably, 15° in dry conditions**, with ballast over the axle as the first fix and the 4WD variant (Option C) as the real one.
 
 **Towing a garden cart:** a 100 kg load in a 15 kg cart on flat grass needs ≈ 113 N, plus the robot's own ≈ 44 N, for ≈ 160 N. That's feasible on dry flat ground, especially with some tongue weight on the hitch. Mulch at roughly 250–400 kg per cubic yard means **partial loads, many trips**. That's fine for a robot that doesn't get tired.
 
@@ -128,8 +134,8 @@ So the operating model is **mowing a zone each day from a charging dock**, the w
 
 Consequences:
 - **The charging dock moves up** to the first item in phase 2, right after supervised mowing works. Until then, swap batteries manually.
-- **A wider twin-deck module** (~1 m cut, ~1.2 m overall width) is the v1.5 upgrade if weekly coverage isn't enough. Check gate widths first.
-- **Tree cover** is still unknown. Walk the lawns with a phone GPS app, or with the RTK rover once it's built, and mark the areas under canopy. Those zones may need a manual pass or a camera fallback.
+- **The twin-deck module** (~1 m cut) is the v1.5 upgrade, and the frame is built for it from day one (§4). With twin decks, about 30–40 min of mowing per day covers 3 acres weekly, which leaves room for the farm to grow.
+- **Open sky** means RTK should hold a fixed solution almost everywhere. Narrow paths and tree edges get touched up by hand.
 
 ## 6. Subsystems
 
@@ -239,14 +245,11 @@ This is designed first and tested on the bench before the blade is ever installe
 
 ## 8. Open questions for us to decide
 
-*Answered 2026-10-08:* ~3 acres and growing; Ryobi mower + batteries on hand; any tools available; cell coverage and extendable Wi-Fi; no known RTK service; CAD open to recommendation. See §1a.
+*Answered 2026-10-08:* ~3 acres and growing; Ryobi mower + batteries on hand; any tools available; cell coverage and extendable Wi-Fi; no known RTK service; CAD open to recommendation; flat terrain; open sky; lawns joined by ~8 ft paths; license delegated. See §1a.
 
-Still open:
-1. **Ryobi model number:** 40 V, 80 V, or 18 V ONE+? And which battery sizes (Ah) are on hand?
-2. **Terrain:** steepest slope on the lawns, roughly how many separate lawn areas, and how much tree cover? These decide 2WD vs 4WD and which zones need a fallback to GPS.
-3. **Base station site:** which building has clear sky and power, and is it roughly central to the lawns?
-4. **Gate and path widths** between lawn areas. This caps robot width, especially for a twin-deck upgrade.
-5. **License:** suggest CERN-OHL-S for hardware and Apache-2.0 for software. Confirm before we publish.
+Still open, none blocking:
+1. **Ryobi voltage line:** check the label on the batteries already on hand (40 V, 80 V, or 18 V) and buy the used robot mower in the same line. If the batteries are 40 V, look for a used **Ryobi 40 V brushless 20–21" mower**, ideally two eventually for the twin deck.
+2. **Number of separate lawn zones**, to plan the mowing schedule and choose the dock location. This can be mapped with the robot itself in phase 1b.
 
 ## 9. References
 

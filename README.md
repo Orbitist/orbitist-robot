@@ -23,4 +23,4 @@ software/      ArduPilot params/scripts, later ROS 2 workspace
 
 ## License
 
-To be decided. Proposed: CERN-OHL-S (hardware) + Apache-2.0 (software).
+Hardware: [CERN-OHL-W-2.0](LICENSES/CERN-OHL-W-2.0.txt) · Software: [Apache-2.0](LICENSES/Apache-2.0.txt) · Docs: [CC BY-SA 4.0](LICENSES/CC-BY-SA-4.0.txt). See [LICENSE.md](LICENSE.md) for what applies where.

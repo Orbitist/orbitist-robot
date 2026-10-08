@@ -3,7 +3,7 @@ drive,"10in pneumatic hub motor 36V 350-500W, Hall sensors, double-sided axle, w
 drive,"VESC-class FOC controller (Flipsky 4.20/6.x or Makerbase 75100 class), >=50V rated",2,90,180,1a,Hoverboard mainboard + EFeru FOC (~$45 for both wheels),RC-PWM or CAN from ArduPilot
 drive,Dropout plates (6mm Al or 5mm steel) + torque washers,2,20,40,1a,,Hand-cut v1; send out for cutting once stable
 drive,11x4 zero-turn mower caster wheel + fork + yoke bearing,2,55,110,1a,Casters from junked riding mower,
-frame,"30x30 aluminum T-slot extrusion, brackets, T-nuts, stainless fasteners",1,200,200,1a,Steel square tube if welding,
+frame,"30x30 aluminum T-slot extrusion, brackets, T-nuts, stainless fasteners",1,230,230,1a,Steel square tube if welding,Sized for twin-deck width (~1.3-1.4m)
 frame,Rear hitch plate + 2in receiver or 5/8in pin hitch,1,40,40,3,,
 power,"36V 20Ah e-bike battery w/ BMS (10S Li-ion or 12S LiFePO4), >=30A",1,300,300,1a,Salvaged e-bike pack (check cell health),
 power,"Main fuse, key switch, precharge resistor, 36V contactor",1,70,70,1a,,
@@ -18,8 +18,10 @@ control,Telemetry radio pair (SiK 915MHz) or ELRS MAVLink,1,50,50,1b,,
 gnss,u-blox ZED-F9P board + multiband antenna (rover),1,250,250,1b,,
 gnss,Second ZED-F9P + antenna for GPS-yaw (optional),1,250,250,1b,,Add if compass heading is unreliable
 gnss,RTK base station: ZED-F9P + survey antenna + mount + enclosure + 915MHz radio,1,280,280,0,,Required: no correction service nearby. Fix position via NOAA OPUS.
+gnss,Radio pair for RTK corrections base->rover (SiK 915MHz or XBee-socket),1,60,60,0,NTRIP over farm Wi-Fi/LTE later,Separate from telemetry radio
 electrical,"IP65 enclosure, cable glands, belly pan",1,70,70,1a,,
-mower,"Second used Ryobi mower (same voltage line as farm mower), bare tool",1,100,100,1c,Curbside push mower deck + brushless motor (M3),Uses existing Ryobi batteries + charger; confirm 40V/80V/18V line
+mower,"Used Ryobi mower #1 (same voltage line as farm batteries), bare tool",1,100,100,1c,Curbside push mower deck + brushless motor (M3),Uses existing Ryobi batteries + charger; confirm 40V/80V/18V line
+mower,Used Ryobi mower #2 (same model) for twin-deck upgrade,1,100,100,1.5,,Frame built for twin decks from day one
 mower,"Deck hanger links, anti-scalp wheels, blade relay",1,50,50,1c,,
 compute,Raspberry Pi 5 8GB + cooler + NVMe,1,130,130,2,,Phase 2 companion (ROS 2)
 compute,Luxonis OAK-D Lite,1,150,150,2,,Obstacle detection
