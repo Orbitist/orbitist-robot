@@ -3,7 +3,7 @@
 | Folder | Contents |
 |---|---|
 | `bom/` | Bills of materials as CSV (one file per platform version) and the [ordering plan](bom/ordering-plan.md) (what to buy when). Prices are rough estimates as of Oct 2026. |
-| `cad/` | *(planned)* Frame, dropout plates, mounts. Source files plus exported STEP/STL/DXF. |
+| `cad/` | [Parametric build123d model](cad/README.md) of the frame: STEP, renders, DXF plates, cut list, mass/CG report |
 | `electrical/` | *(planned)* Wiring diagram, kill-chain schematic, connector pinouts. |
 
 Design rationale lives in [`docs/design/platform-v1.md`](../docs/design/platform-v1.md).

@@ -76,19 +76,25 @@ Ideas from the concept report that carry forward unchanged: the 36 V bus, 10" pn
    RTK antenna(s) on a mast above the deck · e-stop mushroom at rear top
 ```
 
-Target envelope, to be refined in CAD:
+Envelope from the [first CAD model](../../hardware/cad/README.md) (`hardware/cad/exports/report.md`, regenerated from `params.py`):
 
 | Parameter | Target |
 |---|---|
-| Overall width | **~1.3–1.4 m**, frame sized for twin decks from day one (fits 2.4 m farm paths and vineyard aisles; too wide for a man-door, so store in a garage/barn bay) |
-| Length | ~100–110 cm |
+| Overall width | **1.40 m** over the tires (frame 1.28 m), sized for twin decks from day one. Fits 2.4 m farm paths and vineyard aisles; too wide for a man-door, so store in a garage or barn bay. |
+| Length | **1.52 m** bumper to hitch (frame 1.17 m) |
 | Frame | 30×30 mm aluminum T-slot (axle and hitch rails 30×60 or steel plate) |
-| Wheelbase (caster pivots to drive axle) | ~70 cm |
+| Wheelbase (drive axle to caster pivots) | 85 cm |
+| Frame height | rails 300–360 mm above ground; mower motors poke up through open frame bays |
 | Ground clearance under frame | ≥ 15 cm (deck hangs below) |
-| Mass, mowing config | ~45–55 kg (one deck) · ~60–70 kg (twin decks) |
+| Mass, mowing config | **~61 kg** (one deck) · **~78 kg** (twin decks). Decks are ~17 kg each, the largest single item. |
 | Cut width | ~50 cm with one centered deck (v1) → **~1 m with twin decks** (v1.5) |
 | Mowing speed | 0.5–1.0 m/s |
 | Top speed (transit) | ~1.5–2 m/s (software limited) |
+
+**What the model showed:**
+- **About 80 % of the weight sits on the drive wheels**, which gives good traction. The casters carry only 11–19 kg.
+- **Tongue-weight limit:** a cart pressing down on the hitch more than **~23 kg** (single deck) or ~42 kg (twin) lifts the front casters. Carts must be loaded so they're balanced over their own wheels, or the hitch must move closer to the axle. Revisit in phase 3.
+- **Twin decks must be staggered,** because two decks side by side would leave a ~5 cm uncut strip. Staggering adds about 33 cm of length.
 
 **Why build wide now:** on 3+ acres with 8 ft paths, the twin-deck upgrade roughly halves mowing time (§5). Cutting the extrusion 50 cm longer now costs ~$30. Rebuilding a narrow frame later would mean redoing the drive mounts, wiring, and CAD. v1 runs with one deck centered; the second deck bolts onto the same belly mount. The twin decks can sit side by side, or staggered front-left / rear-right with ~5 cm overlap. We'll decide in CAD based on how the Ryobi deck housing looks.
 
