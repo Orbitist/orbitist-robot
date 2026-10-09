@@ -11,6 +11,7 @@ Design, analysis, and simulation, done before buying parts. Start with:
 - **[Platform v1 design](docs/design/platform-v1.md)**: what we're building and why
 - **[Confidence plan](docs/design/confidence-plan.md)**: what's verified, what isn't, and the tests to run before the main purchase
 - **[Simulation](software/sim/README.md)**: plan mowing and run the autopilot in software
+- **[Build tutorial](docs/build/README.md)**: step-by-step assembly with purchase links, one step at a time
 
 ## Repository layout
 
@@ -20,6 +21,7 @@ docs/
   design/      Current design documents (platform-v1.md)
   decisions/   Decision log: what we chose and why
   guides/      How-to guides (RTK base station setup)
+  build/       Step-by-step build tutorial with purchase links and a measurements record
 hardware/
   bom/         Bills of materials (CSV) and ordering plan
   cad/         Parametric CAD model, renders, cutting DXFs, strength check

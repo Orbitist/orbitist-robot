@@ -1,5 +1,7 @@
 # Ordering plan: Platform v1
 
+> The step-by-step version of this, with checked purchase links per step, is the [build tutorial](../../docs/build/README.md). This page stays as the one-screen summary.
+
 Purchases are grouped into waves, so money goes out only when each part is needed and early parts can be tested before the next wave. Prices are rough estimates as of Oct 2026. Full list with costs: [`platform-v1-bom.csv`](platform-v1-bom.csv).
 
 ## Wave 0: de-risking tests (now, ~$350, all parts needed anyway)
