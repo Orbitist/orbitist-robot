@@ -48,6 +48,16 @@ exports with the measurement.
 | Spin-down time after power-off (s) | | — (brake needed if > 3 s) |
 | Panel: size (mm), Voc, Isc flat at midday, Isc bright overcast | | `panel_size`, `panel_w_peak` |
 
+## Reel mower test (step 1, T1b)
+
+| Measurement | Value | Feeds |
+|---|---|---|
+| Mower model, cut width, blade count | | — |
+| Pull force at 0.6 m/s, strip mown yesterday (N) | | D31 decision |
+| Pull force, 3-day strip (N) | | D31 decision |
+| Jams per 100 m; uncut stalks per 100 m | | D31 decision |
+| Mass whole / stripped to reel + wheels (kg) | | deck mass if chosen |
+
 ## Battery and enclosure (step 7)
 
 | Measurement | Value | `params.py` field |

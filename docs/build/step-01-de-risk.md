@@ -30,6 +30,16 @@ Also needed, no purchase: a laptop with [VESC Tool](https://vesc-project.com/ves
 4. **Stop time:** cut the power; time how long the disc spins. If more than 3 s, note it: the driver needs a brake input, or a small blade brake.
 5. **Panel:** lay the panel flat in the sun at midday, short it through the clamp meter for the short-circuit current and read the open-circuit voltage; the product (× 0.75) approximates its real output flat on the roof. Repeat on a bright overcast day.
 
+### T1b. The reel alternative (D31): one push reel mower on the same strips
+
+Same afternoon, same lawn as T1. Borrow or buy one used 16–20" push reel mower (~$0–130).
+1. Pick up sticks on a 100 m strip mown yesterday with the Ryobi, and leave a 100 m strip three days old.
+2. Push the reel mower at 0.6 m/s (a slow walk; time 10 m in ~17 s) with a luggage scale hooked between your hand and the handle. Log the steady pull force on each strip.
+3. Count jams and uncut stalks per 100 m. Note the cut quality against the razor-disc strip.
+4. Weigh the mower, and the reel cartridge + wheels alone if you can strip it.
+
+**Decision rule:** reel gang if pull force < 60 N per unit, fewer than one jam per 500 m after the stick pick-up, and a clean cut; otherwise razor discs. Either way, record the numbers in `measurements.md`.
+
 ### T3. One motor on the bench
 
 1. **Measure the motor** before anything else: tire diameter and width, axle shoulder-to-shoulder, width across the flats, axle diameter, protrusion past each shoulder. These numbers set the fork plates and torque arms.
@@ -49,8 +59,8 @@ Write everything into [`measurements.md`](measurements.md), then update `hardwar
 
 ## Done when
 
-- [ ] Disc cutting power and panel yield are measured numbers, not ranges.
+- [ ] Disc cutting power and panel yield are measured numbers, not ranges; reel pull force and jam rate recorded (T1b).
 - [ ] The motor ran 30 minutes at mowing load and stayed under 70 °C.
 - [ ] The motor brakes and holds when the signal stops.
 - [ ] `params.py` has the real axle, tire and caster dimensions, and the DXFs regenerated.
-- [ ] Decision recorded in the [decision log](../decisions/README.md): drive motor type confirmed (or changed); pack size for step 7 (10 or 15 Ah); disc count (4, or 3 if power allows a bigger disc).
+- [ ] Decision recorded in the [decision log](../decisions/README.md): drive motor type confirmed (or changed); pack size for step 7 (10 or 15 Ah); disc count (4, or 3 if power allows a bigger disc), or the reel gang instead (D31).
