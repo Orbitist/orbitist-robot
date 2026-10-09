@@ -81,12 +81,12 @@ Envelope from the [first CAD model](../../hardware/cad/README.md) (`hardware/cad
 | Parameter | Target |
 |---|---|
 | Overall width | **1.40 m** over the tires (frame 1.28 m), sized for twin decks from day one. Fits 2.4 m farm paths and vineyard aisles; too wide for a man-door, so store in a garage or barn bay. |
-| Length | **1.52 m** bumper to hitch (frame 1.17 m) |
+| Length | **1.62 m** bumper foam to hitch pin (frame 1.15 m) |
 | Frame | 30×30 mm aluminum T-slot (axle and hitch rails 30×60 or steel plate) |
 | Wheelbase (drive axle to caster pivots) | 85 cm |
 | Frame height | rails 300–360 mm above ground; mower motors poke up through open frame bays |
 | Ground clearance under frame | ≥ 15 cm (deck hangs below) |
-| Mass, mowing config | **~61 kg** (one deck) · **~78 kg** (twin decks). Decks are ~17 kg each, the largest single item. |
+| Mass, mowing config | **~73 kg** (one deck) · **~91 kg** (twin decks), from the detailed model including brackets, gussets, fasteners, hangers and hitch. Decks are ~17 kg each, the largest single item. |
 | Cut width | ~53 cm with one deck in the **rear-right** slot (v1) → **~1 m with twin decks** (v1.5) |
 | Closest cut to an obstacle | **~19 cm** on the right side (deck side), vs ~43 cm with a centred deck |
 | Mowing speed | **0.6 m/s in v1**, the fastest the bumper can protect ([strength report](../../hardware/cad/exports/strength-report.md#bumper-stopping-distance)). Faster once phase-2 obstacle sensing slows the robot before contact. |
@@ -94,7 +94,7 @@ Envelope from the [first CAD model](../../hardware/cad/README.md) (`hardware/cad
 
 **What the model showed:**
 - **About 80 % of the weight sits on the drive wheels**, which gives good traction. The casters carry only 11–19 kg.
-- **Tongue-weight limit:** a cart pressing down on the hitch more than **~23 kg** (single deck) or ~42 kg (twin) lifts the front casters. Carts must be loaded so they're balanced over their own wheels, or the hitch must move closer to the axle. Revisit in phase 3.
+- **Tongue-weight limit:** a cart pressing down on the hitch more than **~32 kg** (single deck) or ~51 kg (twin) lifts the front casters. Carts must be loaded so they're balanced over their own wheels, or the hitch must move closer to the axle. Revisit in phase 3.
 - **Twin decks must be staggered,** because two decks side by side would leave a ~5 cm uncut strip. Staggering adds about 33 cm of length.
 
 **Strength check:** see [`strength-report.md`](../../hardware/cad/exports/strength-report.md). It requires torque arms on the hub motors, saddle-mounted drive forks, gussets at the joints next to the drive axle, a 30x60 cross member at x = 215, and an A-frame drawbar before any towing.

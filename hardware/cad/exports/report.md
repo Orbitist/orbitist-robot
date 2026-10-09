@@ -6,11 +6,11 @@
 
 | Quantity | Value |
 |---|---|
-| Overall length × width × height | 1565 × 1402 × 1005 mm |
-| Estimated mass | 64.7 kg |
-| Centre of gravity (x, y, z) | (171, -28, 246) mm |
-| Load on drive wheels | 49.6 kg (77 %) |
-| Load on casters | 15.1 kg (23 %) |
+| Overall length × width × height | 1615 × 1402 × 1008 mm |
+| Estimated mass | 72.6 kg |
+| Centre of gravity (x, y, z) | (153, -19, 270) mm |
+| Load on drive wheels | 57.4 kg (79 %) |
+| Load on casters | 15.2 kg (21 %) |
 | Max cart tongue weight before casters unload | 32 kg (hitch pin 350 mm behind axle) |
 | Closest cut to an obstacle, right side / left side | 193 mm / 676 mm (cut edge to the robot's outermost part) |
 | Pivot-turn swept radius (about axle centre) | 1377 mm |
@@ -19,22 +19,22 @@
 
 | Check | Result |
 |---|---|
-| caster_L swivel sweep vs mower_deck_1 | ✅ clear |
-| caster_R swivel sweep vs mower_deck_1 | ✅ clear |
-| mower_deck_1 vs frame, forks, wheels, casters | ✅ clear |
-| mower_deck_1 motor top (z=360) vs frame top (z=380) | pokes up through an open frame bay ✅ |
+| caster_L swivel sweep vs decks and bumper parts | ✅ clear |
+| caster_R swivel sweep vs decks and bumper parts | ✅ clear |
+| decks (shell, blade, motor, rollers) vs frame, brackets, forks, wheels, casters | ✅ clear |
+| mower_deck_1_motor top (z=360) vs frame top (z=380) | pokes up through an open frame bay ✅ |
 | Bumper at full travel vs caster swivel sweep | 15 mm clear ✅ |
 
 ## Configuration: twin deck
 
 | Quantity | Value |
 |---|---|
-| Overall length × width × height | 1565 × 1402 × 1005 mm |
-| Estimated mass | 81.7 kg |
-| Centre of gravity (x, y, z) | (214, 28, 222) mm |
-| Load on drive wheels | 57.7 kg (71 %) |
-| Load on casters | 24.0 kg (29 %) |
-| Max cart tongue weight before casters unload | 50 kg (hitch pin 350 mm behind axle) |
+| Overall length × width × height | 1615 × 1402 × 1008 mm |
+| Estimated mass | 90.6 kg |
+| Centre of gravity (x, y, z) | (199, 32, 254) mm |
+| Load on drive wheels | 65.9 kg (73 %) |
+| Load on casters | 24.6 kg (27 %) |
+| Max cart tongue weight before casters unload | 51 kg (hitch pin 350 mm behind axle) |
 | Closest cut to an obstacle, right side / left side | 193 mm / 193 mm (cut edge to the robot's outermost part) |
 | Pivot-turn swept radius (about axle centre) | 1377 mm |
 
@@ -42,14 +42,11 @@
 
 | Check | Result |
 |---|---|
-| caster_L swivel sweep vs mower_deck_1 | ✅ clear |
-| caster_L swivel sweep vs mower_deck_2 | ✅ clear |
-| caster_R swivel sweep vs mower_deck_1 | ✅ clear |
-| caster_R swivel sweep vs mower_deck_2 | ✅ clear |
-| mower_deck_1 vs frame, forks, wheels, casters | ✅ clear |
-| mower_deck_1 motor top (z=360) vs frame top (z=380) | pokes up through an open frame bay ✅ |
-| mower_deck_2 vs frame, forks, wheels, casters | ✅ clear |
-| mower_deck_2 motor top (z=360) vs frame top (z=380) | pokes up through an open frame bay ✅ |
+| caster_L swivel sweep vs decks and bumper parts | ✅ clear |
+| caster_R swivel sweep vs decks and bumper parts | ✅ clear |
+| decks (shell, blade, motor, rollers) vs frame, brackets, forks, wheels, casters | ✅ clear |
+| mower_deck_1_motor top (z=360) vs frame top (z=380) | pokes up through an open frame bay ✅ |
+| mower_deck_2_motor top (z=360) vs frame top (z=380) | pokes up through an open frame bay ✅ |
 | Bumper at full travel vs caster swivel sweep | 15 mm clear ✅ |
 | Twin-deck cut overlap | 50 mm ✅ |
 | Twin-deck total cut width | 1016 mm |
@@ -57,7 +54,6 @@
 ## Flat parts
 
 - `drive-fork-side-plate.dxf`: 200 × 220 mm, 6 mm steel, qty 4. The axle slot is 10.3 mm wide; **measure the motor's axle flats before cutting**.
-
-- `caster-plate.dxf`: 116 × 152 mm, 8 mm steel, qty 2 (mirror one). Caster holes drilled 6.8 mm and **tapped M8**; M6 clearance holes into the side rail and front member. Needs a **7 mm spacer** under each caster (if negative, lengthen the drive forks). **Measure the caster's bolt pattern and height before cutting.**
 - `torque-arm.dxf`: 130 × 30 mm, 5 mm steel, qty 4 (one per fork plate). Double-D hole keyed to the axle flats; M6 holes match the fork plate. **Required** (see strength-report.md).
-- `frame-gusset.dxf`: 150 × 150 mm L-gusset, 5 mm aluminium or 3 mm steel, qty 8 (top of the rail-to-member joints at x = −120 and x = 215, both sides, plus spares for the rear corners).
+- `frame-gusset.dxf`: 150 × 150 mm L-gusset, 5 mm aluminium or 3 mm steel, qty 8 (top of the rail-to-member joints at x = −120 and x = 215, both sides, both faces).
+- `caster-plate.dxf`: 116 × 152 mm, 8 mm steel, qty 2 (mirror one). Caster holes drilled 6.8 mm and **tapped M8**; M6 clearance holes into the side rail and front member. Needs a **7 mm spacer** under each caster (if negative, lengthen the drive forks). **Measure the caster's bolt pattern and height before cutting.**

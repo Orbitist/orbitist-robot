@@ -83,6 +83,8 @@ def member_loads(p: Params, parts, factor):
         c = r.shape.center()
         w = r.mass * G * factor
         if r.group == "deck":
+            if "center" not in r.meta:
+                continue  # blade / rollers: < 1 kg, carried by the shell's hangers
             x, y = r.meta["center"]
             a, b = nearest_members(p, x)
             fa = (b - x) / (b - a)

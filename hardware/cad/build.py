@@ -6,11 +6,12 @@ Usage (from hardware/cad/):
 Writes to hardware/cad/exports/:
     platform-v1-<config>.step      full assembly (import into Onshape, FreeCAD, Fusion)
     platform-v1-<config>-*.png     iso / top / side renders
-    drive-fork-side-plate.dxf      flat patterns for cutting (+ torque-arm, frame-gusset)
+    *.dxf                          flat patterns for cutting (fork plate, torque arm, gusset, caster plate)
     cut-list.md                    extrusion cut list
     report.md                      envelope, mass, CG, axle loads, clearance checks
 """
 
+import time
 from collections import Counter
 from pathlib import Path
 
@@ -19,24 +20,12 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-from build123d import (
-    Align,
-    Circle,
-    Color,
-    Compound,
-    Cylinder,
-    ExportDXF,
-    Polygon,
-    Pos,
-    Rectangle,
-    SlotCenterPoint,
-    Unit,
-    export_step,
-)
+from build123d import Align, Box, Color, Compound, Cylinder, ExportDXF, Pos, Unit, export_step
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-from model import assembly, bumper_layout, caster_plate_extent
+from model import assembly, bumper_layout
 from params import Params
+from parts import plates
 
 OUT = Path(__file__).parent / "exports"
 CONFIGS = ("single", "twin")
@@ -73,7 +62,7 @@ def render(parts, path_prefix: Path, title: str):
             n /= np.linalg.norm(n, axis=1, keepdims=True) + 1e-9
             shade = 0.45 + 0.55 * np.abs(n @ light)
             fc = np.clip(c[None, :] * shade[:, None], 0, 1)
-            ax.add_collection3d(Poly3DCollection(tri, facecolors=fc, edgecolors="none"))
+            ax.add_collection3d(Poly3DCollection(tri, facecolors=fc, edgecolors=fc, linewidths=0.1))
         # Ground footprint outline.
         gx = [lo[0], hi[0], hi[0], lo[0], lo[0]]
         gy = [lo[1], lo[1], hi[1], hi[1], lo[1]]
@@ -94,27 +83,55 @@ def render(parts, path_prefix: Path, title: str):
         plt.close(fig)
 
 
-def fork_plate_dxf(p: Params, rec, path: Path):
-    """Dropout side plate: open slot from the bottom edge up to the axle centre."""
-    h = rec.meta["plate_height"]
-    w = p.fork_length_x
-    axle_z = rec.meta["axle_z_in_plate"]
-    slot_w = p.axle_flats + 0.3  # slip fit over the axle flats
-    plate = Pos(0, h / 2) * Rectangle(w, h)
-    # Slot: rounded top at the axle centre, open through the bottom edge.
-    slot = SlotCenterPoint((0, axle_z / 2 - 1), (0, axle_z), slot_w)
-    plate = plate - slot
-    # Bolt holes along the top edge (M8 clearance) to fix the plate to the fork top plate.
-    for x in (-70, 0, 70):
-        plate = plate - Pos(x, h - 15) * Circle(4.5)
-    # Torque-arm holes either side of the axle (M6).
-    for x in (-50, 50):
-        plate = plate - Pos(x, axle_z) * Circle(3.3)
-    exp = ExportDXF(unit=Unit.MM)
-    exp.add_layer("cut")
-    exp.add_shape(plate, layer="cut")
-    exp.write(str(path))
-    return w, h
+DETAIL_VIEWS = {
+    # name: (xmin, xmax, ymin, ymax, zmin, zmax, elev, azim)
+    "detail-drive": (-230, 230, 430, 720, 0, 420, 22, -150),
+    "detail-front-corner": (620, 1200, 260, 700, 0, 420, 24, 150),
+    "detail-deck-hangers": (-320, 320, -560, 60, 0, 420, 18, -140),
+    "detail-rear": (-460, -40, -600, 250, 250, 600, 26, 140),
+}
+
+
+def render_details(parts, path_prefix: Path):
+    """Close-up renders of the fiddly regions: each part is clipped to the view box."""
+    light = np.array([0.4, 0.3, 0.85])
+    light /= np.linalg.norm(light)
+    for name, (x0, x1, y0, y1, z0, z1, elev, azim) in DETAIL_VIEWS.items():
+        clip = Pos(x0, y0, z0) * Box(x1 - x0, y1 - y0, z1 - z0, align=(Align.MIN,) * 3)
+        fig = plt.figure(figsize=(9, 7), dpi=130)
+        ax = fig.add_subplot(projection="3d", proj_type="persp")
+        for rec in parts:
+            bb = rec.shape.bounding_box()
+            if bb.max.X < x0 or bb.min.X > x1 or bb.max.Y < y0 or bb.min.Y > y1 or bb.max.Z < z0 or bb.min.Z > z1:
+                continue
+            inside = bb.min.X >= x0 and bb.max.X <= x1 and bb.min.Y >= y0 and bb.max.Y <= y1 and bb.min.Z >= z0 and bb.max.Z <= z1
+            shape = rec.shape if inside else rec.shape.intersect(clip)
+            if shape is None:
+                continue
+            shapes = list(shape) if isinstance(shape, (list, tuple)) else [shape]
+            for sh in shapes:
+                if sh.volume < 1e-3:
+                    continue
+                verts, tris = sh.tessellate(0.8, 0.2)
+                if not tris:
+                    continue
+                v = np.array([(q.X, q.Y, q.Z) for q in verts])
+                tri = v[np.array(tris)]
+                n = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+                n /= np.linalg.norm(n, axis=1, keepdims=True) + 1e-9
+                shade = 0.45 + 0.55 * np.abs(n @ light)
+                fc = np.clip(np.array(rec.color)[None, :] * shade[:, None], 0, 1)
+                ax.add_collection3d(Poly3DCollection(tri, facecolors=fc, edgecolors=fc, linewidths=0.15))
+        ax.set_xlim(x0, x1)
+        ax.set_ylim(y0, y1)
+        ax.set_zlim(z0, z1)
+        ax.set_box_aspect((x1 - x0, y1 - y0, z1 - z0))
+        ax.view_init(elev=elev, azim=azim)
+        ax.set_axis_off()
+        ax.set_title(name.replace("detail-", "").replace("-", " "))
+        fig.tight_layout()
+        fig.savefig(f"{path_prefix}-{name}.png")
+        plt.close(fig)
 
 
 def write_dxf(shape, path: Path):
@@ -124,49 +141,30 @@ def write_dxf(shape, path: Path):
     exp.write(str(path))
 
 
-def torque_arm_dxf(p: Params, path: Path):
-    """Plate keyed to the axle flats, bolted to the fork plate's M6 holes at +/-50 mm."""
-    arm = Rectangle(130, 30)
-    # Double-D hole: 12 mm axle circle trimmed to the flats (+0.2 mm fit).
-    double_d = Circle(6.1) & Rectangle(p.axle_flats + 0.2, 12.2)
-    arm = arm - double_d
-    for x in (-50, 50):
-        arm = arm - Pos(x, 0) * Circle(3.3)
-    write_dxf(arm, path)
-
-
-def gusset_dxf(path: Path):
-    """L-gusset for the top face of a side-rail / cross-member joint (30-series, M6)."""
-    outline = Polygon((0, 0), (150, 0), (150, 30), (30, 150), (0, 150), align=None)
-    for x in (60, 105, 135):  # leg over the side rail
-        outline = outline - Pos(x, 15) * Circle(3.3)
-    for y in (60, 105, 135):  # leg over the cross member
-        outline = outline - Pos(15, y) * Circle(3.3)
-    write_dxf(outline, path)
-
-
-def caster_plate_dxf(p: Params, path: Path):
-    """Left caster corner plate (flip for the right). Origin = plate rear-inner corner."""
-    x0, x1, y_in, y_out = caster_plate_extent(p)
-    w, h = x1 - x0, y_out - y_in
-    plate = Pos(w / 2, h / 2) * Rectangle(w, h)
-    px, py = p.caster_pivot_x - x0, p.caster_pivot_y - y_in
-    bx, by = p.caster_bolts
-    holes = []
-    for dx in (-bx / 2, bx / 2):  # caster bolts: drill 6.8, tap M8 (bolts from below)
-        for dy in (-by / 2, by / 2):
-            holes.append((px + dx, py + dy, 3.4))
-    rail_y = p.side_rail_y - y_in  # M6 into the side rail's bottom slot
-    holes += [(15.0, rail_y, 3.3), (px, rail_y, 3.3)]
-    member_x = max(p.cross_member_x) - x0  # M6 into the front member's bottom slot
-    holes += [(member_x, py - 15, 3.3), (member_x, py + 20, 3.3)]
-    for i, (ax, ay, _) in enumerate(holes):
-        for bx_, by_, _ in holes[i + 1:]:
-            assert ((ax - bx_) ** 2 + (ay - by_) ** 2) ** 0.5 > 15, "caster plate holes too close"
-    for hx, hy, r in holes:
-        plate = plate - Pos(hx, hy) * Circle(r)
-    write_dxf(plate, path)
-    return w, h
+def flat_parts(p: Params) -> list[str]:
+    """Export every cut plate from the same 2D outlines the 3D model is built from."""
+    sk, w, h, _ = plates.fork_side_plate(p)
+    write_dxf(sk, OUT / "drive-fork-side-plate.dxf")
+    write_dxf(plates.torque_arm(p), OUT / "torque-arm.dxf")
+    write_dxf(plates.gusset()[0], OUT / "frame-gusset.dxf")
+    csk, cw, ch, _ = plates.caster_plate(p)
+    write_dxf(csk, OUT / "caster-plate.dxf")
+    spacer = p.frame_bottom_z - p.caster_mount_t - p.caster_height
+    return [
+        "## Flat parts",
+        "",
+        f"- `drive-fork-side-plate.dxf`: {w:.0f} × {h:.0f} mm, {p.fork_plate_t:.0f} mm steel, qty 4. The axle slot is "
+        f"{p.axle_flats + 0.3:.1f} mm wide; **measure the motor's axle flats before cutting**.",
+        "- `torque-arm.dxf`: 130 × 30 mm, 5 mm steel, qty 4 (one per fork plate). Double-D hole keyed to the axle "
+        "flats; M6 holes match the fork plate. **Required** (see strength-report.md).",
+        "- `frame-gusset.dxf`: 150 × 150 mm L-gusset, 5 mm aluminium or 3 mm steel, qty 8 (top of the "
+        "rail-to-member joints at x = −120 and x = 215, both sides, both faces).",
+        f"- `caster-plate.dxf`: {cw:.0f} × {ch:.0f} mm, {p.caster_mount_t:.0f} mm steel, qty 2 (mirror one). Caster holes "
+        "drilled 6.8 mm and **tapped M8**; M6 clearance holes into the side rail and front member. Needs a "
+        f"**{spacer:.0f} mm spacer** under each caster (if negative, lengthen the drive forks). "
+        "**Measure the caster's bolt pattern and height before cutting.**",
+        "",
+    ]
 
 
 # ---------------------------------------------------------------- reports --
@@ -206,7 +204,7 @@ def mass_report(p: Params, parts, config: str) -> list[str]:
     r_caster = total * cg[0] / caster_contact_x
     r_drive = total - r_caster
     hitch_x = p.frame_rear_x - 50  # hitch pin position
-    cuts = [r.meta["center"][1] for r in parts if r.group == "deck"]
+    cuts = [r.meta["center"][1] for r in parts if r.group == "deck" and "center" in r.meta]
     edge_r = (min(cuts) - p.deck_cut_width / 2) - bb.min.Y
     edge_l = bb.max.Y - (max(cuts) + p.deck_cut_width / 2)
     return [
@@ -231,50 +229,65 @@ def overlap_volume(a, b) -> float:
     if not a.bounding_box().overlaps(b.bounding_box()):
         return 0.0
     common = a.intersect(b)
-    return common.volume if common is not None else 0.0
+    if common is None:
+        return 0.0
+    if isinstance(common, (list, tuple)):  # compounds can return a ShapeList
+        return sum(c.volume for c in common)
+    return common.volume
 
 
 def clearance_checks(p: Params, parts) -> list[str]:
     by_name = {r.name: r for r in parts}
-    decks = [r for r in parts if r.group == "deck"]
-    hard = [r for r in parts if r.group in ("frame", "fork", "drive", "caster")]
+    deck_parts = [r for r in parts if r.group == "deck"]
+    deck_refs = [r for r in deck_parts if "center" in r.meta and r.name.endswith("_motor")]
+    hard = [r for r in parts if r.group in ("frame", "fork", "drive", "caster", "bracket")]
     lines = ["| Check | Result |", "|---|---|"]
-    for d in decks:
+    problems = []
+    for d in deck_parts:
         for h in hard:
             vol = overlap_volume(d.shape, h.shape)
             if vol > 1:
-                lines.append(f"| {d.name} vs {h.name} | ❌ overlaps ({vol / 1000:.0f} cm³) |")
-    # Caster swivel sweep: the wheel can swing anywhere within this radius.
+                problems.append(f"| {d.name} vs {h.name} | ❌ overlaps ({vol / 1000:.1f} cm³) |")
+    lines += problems
     for side in ("L", "R"):
         c = by_name[f"caster_{side}"]
         sgn = 1 if side == "L" else -1
         sweep = Pos(p.caster_pivot_x, sgn * p.caster_pivot_y, 0) * Cylinder(
             c.meta["sweep_radius"], p.caster_wheel_diameter, align=(Align.CENTER, Align.CENTER, Align.MIN))
-        for d in decks:
-            vol = overlap_volume(d.shape, sweep)
-            lines.append(f"| caster_{side} swivel sweep vs {d.name} | "
-                         + ("✅ clear" if vol < 1 else f"❌ overlaps ({vol / 1000:.0f} cm³)") + " |")
-    for d in decks:
-        clear = all(overlap_volume(d.shape, h.shape) <= 1 for h in hard)
-        lines.append(f"| {d.name} vs frame, forks, wheels, casters | " + ("✅ clear" if clear else "❌ see above") + " |")
+        worst = max((overlap_volume(d.shape, sweep) for d in deck_parts), default=0)
+        for other in (r for r in parts if r.name.startswith("bumper_")):
+            worst = max(worst, overlap_volume(other.shape, sweep))
+        lines.append(f"| caster_{side} swivel sweep vs decks and bumper parts | "
+                     + ("✅ clear" if worst < 1 else f"❌ overlaps ({worst / 1000:.0f} cm³)") + " |")
+    names = sorted({r.name.rsplit("_", 1)[0] if not r.name.endswith(("deck_1", "deck_2")) else r.name
+                    for r in deck_parts})
+    lines.append(f"| decks (shell, blade, motor, rollers) vs frame, brackets, forks, wheels, casters | "
+                 + ("✅ clear" if not problems else "❌ see above") + " |")
+    for d in deck_refs:
         top = d.meta["motor_top_z"]
-        lines.append(f"| {d.name} motor top (z={top:.0f}) vs frame top (z={p.frame_top_z:.0f}) | "
+        lines.append(f"| {d.name} top (z={top:.0f}) vs frame top (z={p.frame_top_z:.0f}) | "
                      + ("pokes up through an open frame bay ✅" if top > p.frame_bottom_z else "below frame") + " |")
     # Top-mounted payload must clear the mower motors poking through the frame.
     for e in (r for r in parts if r.group == "electrical"):
         eb = e.shape.bounding_box()
-        for d in decks:
-            (cx, cy), r = d.meta["center"], p.deck_motor_diameter / 2
+        for d in deck_refs:
+            (cx, cy), r = d.meta["center"], p.deck_motor_diameter / 2 + 5
             xy_overlap = eb.min.X < cx + r and cx - r < eb.max.X and eb.min.Y < cy + r and cy - r < eb.max.Y
             if xy_overlap and eb.min.Z - d.meta["motor_top_z"] < 30:
-                lines.append(f"| {e.name} vs {d.name} motor | ❌ less than 30 mm above the motor |")
+                lines.append(f"| {e.name} vs {d.name} | ❌ less than 30 mm above the motor |")
+    # Hangers must not pass through anything but the deck tab and the member.
+    for hng in (r for r in parts if r.group == "hanger"):
+        for h in (r for r in parts if r.group in ("electrical", "accessory", "fork", "drive", "caster")):
+            vol = overlap_volume(hng.shape, h.shape)
+            if vol > 1:
+                lines.append(f"| {hng.name} vs {h.name} | ❌ overlaps ({vol / 1000:.0f} cm³) |")
     bar_rear = bumper_layout(p)[0]
     sweep_front = p.caster_pivot_x + p.caster_trail + p.caster_wheel_diameter / 2
     gap = bar_rear - p.bumper_travel - sweep_front
     lines.append(f"| Bumper at full travel vs caster swivel sweep | {gap:.0f} mm clear " + ("✅" if gap > 0 else "❌") + " |")
     # Uncut strip check for twin decks.
-    if len(decks) == 2:
-        (x1, y1), (x2, y2) = (d.meta["center"] for d in decks)
+    if len(deck_refs) == 2:
+        (x1, y1), (x2, y2) = (d.meta["center"] for d in deck_refs)
         overlap = p.deck_cut_width - abs(y2 - y1)
         lines.append(f"| Twin-deck cut overlap | {overlap:.0f} mm "
                      + ("✅" if overlap > 0 else "❌ uncut strip") + " |")
@@ -283,8 +296,12 @@ def clearance_checks(p: Params, parts) -> list[str]:
 
 
 def main():
+    import sys
     OUT.mkdir(exist_ok=True)
     p = Params()
+    if "--details" in sys.argv:  # quick path while adjusting the close-up views
+        render_details(assembly(p, "single"), OUT / "platform-v1")
+        return
     report = [
         "# Platform v1 model report",
         "",
@@ -296,28 +313,12 @@ def main():
         export_assembly(parts, OUT / f"platform-v1-{config}.step")
         render(parts, OUT / f"platform-v1-{config}", f"Orbitist platform v1 ({config} deck)")
         report += mass_report(p, parts, config)
+        t1 = time.time()
         report += ["### Clearance checks", ""] + clearance_checks(p, parts)
-        print(f"built {config}")
+        print(f"built {config} (clearance checks {time.time() - t1:.0f} s)")
     parts = assembly(p, "single")
-    fork = next(r for r in parts if r.name == "drive_fork_L")
-    w, h = fork_plate_dxf(p, fork, OUT / "drive-fork-side-plate.dxf")
-    report += ["## Flat parts", "",
-               f"- `drive-fork-side-plate.dxf`: {w:.0f} × {h:.0f} mm, {p.fork_plate_t:.0f} mm steel, qty 4. "
-               f"The axle slot is {p.axle_flats + 0.3:.1f} mm wide; **measure the motor's axle flats before cutting**.",
-               ""]
-    torque_arm_dxf(p, OUT / "torque-arm.dxf")
-    cw_, ch_ = caster_plate_dxf(p, OUT / "caster-plate.dxf")
-    spacer = p.frame_bottom_z - p.caster_mount_t - p.caster_height
-    report += [f"- `caster-plate.dxf`: {cw_:.0f} × {ch_:.0f} mm, {p.caster_mount_t:.0f} mm steel, qty 2 (mirror one). "
-               f"Caster holes drilled 6.8 mm and **tapped M8**; M6 clearance holes into the side rail and front member. "
-               f"Needs a **{spacer:.0f} mm spacer** under each caster (if negative, lengthen the drive forks). "
-               "**Measure the caster's bolt pattern and height before cutting.**"]
-    gusset_dxf(OUT / "frame-gusset.dxf")
-    report += [f"- `torque-arm.dxf`: 130 × 30 mm, 5 mm steel, qty 4 (one per fork plate). Double-D hole keyed "
-               f"to the axle flats; M6 holes match the fork plate. **Required** (see strength-report.md).",
-               "- `frame-gusset.dxf`: 150 × 150 mm L-gusset, 5 mm aluminium or 3 mm steel, qty 8 (top of the "
-               "rail-to-member joints at x = −120 and x = 215, both sides, plus spares for the rear corners).",
-               ""]
+    render_details(parts, OUT / "platform-v1")
+    report += flat_parts(p)
     (OUT / "cut-list.md").write_text(cut_list(p, parts))
     (OUT / "report.md").write_text("\n".join(report))
     print("\n".join(report))

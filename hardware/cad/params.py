@@ -26,6 +26,7 @@ class Params:
     # Members that need more than 30x30 (strength.py): x=215 carries both decks in the twin layout;
     # the front member is 30x60 so its underside is flush with the side rails for the caster plates.
     cross_member_profile: dict = field(default_factory=lambda: {215.0: "30x60", 835.0: "30x60"})
+    gusset_members: tuple = (-120.0, 215.0)  # joints that get top-face gussets (strength.py)
 
     # --- Drive (10" hub motors in bolt-on forks) ---------------------------
     wheel_diameter: float = 254.0  # 10" pneumatic tire, ESTIMATE
@@ -52,7 +53,7 @@ class Params:
     bumper_travel: float = 100.0  # free travel before the bar hits its stops
     bumper_foam: float = 50.0  # closed-cell foam on the bar face
     bumper_z: tuple = (180.0, 300.0)  # bar face height range
-    bumper_arm_y: float = 350.0  # +/- position of the two sliding arms
+    bumper_arm_y: float = 300.0  # +/- position of the two sliding arms (clear of the caster sweep)
 
     # --- Mower decks (Ryobi 40 V 20-21" class, handle and wheels removed) ----
     deck_housing_diameter: float = 580.0  # modelled as round, ESTIMATE
@@ -72,7 +73,8 @@ class Params:
     ebox_pos: tuple = (-185.0, -60.0)  # rear bay, clear of the rear deck motor
     mast_pos: tuple = (-120.0, 150.0)
     mast_height: float = 600.0  # above the frame top
-    hitch_height_z: float = 330.0
+    estop_pos: tuple = (-285.0, -500.0)  # on the rear cross member, reachable from behind
+    hitch_height_z: float = 288.0  # receiver tube centre: under the rear member, above the ground
 
     # --- Masses (kg) for the CG / axle-load estimate ------------------------
     masses: dict = field(
@@ -83,8 +85,14 @@ class Params:
             "battery": 6.5,
             "ebox": 3.0,
             "mast_gnss": 1.0,
-            "hitch": 1.5,
+            "hitch": 2.5,
             "bumper": 1.5,
+            "bracket": 0.03,
+            "gusset": 0.1,
+            "hanger": 0.15,
+            "roller": 0.2,
+            "spring": 0.05,
+            "switch": 0.03,
             "extrusion_30x30_per_m": 0.85,
             "extrusion_30x60_per_m": 1.5,
         }

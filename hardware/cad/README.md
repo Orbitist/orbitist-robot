@@ -9,12 +9,20 @@ The robot is modelled in Python with [build123d](https://github.com/gumyr/build1
 | File | What it is |
 |---|---|
 | `params.py` | **All dimensions and masses.** Values marked `ESTIMATE` are typical sizes for parts we haven't bought; replace them with measurements. |
-| `model.py` | Builds each part (frame, drive forks + hub motors, casters, mower decks, payload placeholders) |
+| `model.py` | Assembles the parts and re-exports the helpers the analyses use |
+| `parts/common.py` | T-slot extrusion profile (30-series, slot 8), hex bolts and nuts, rods, colours by material |
+| `parts/plates.py` | **2D outlines of every cut plate** (fork side plate, torque arm, gusset, caster plate). The 3D model extrudes them and the DXFs are exported from them, so they can't drift apart. |
+| `parts/frame.py` | Rails and members with real T-slot sections, cast corner brackets, top-face gussets, battery support rails, all bolts |
+| `parts/drive.py` | Hub motors (treaded tire, rim, can, side covers, flatted axle), bolt-on forks with saddle tabs, torque arms, axle nuts, motor cables |
+| `parts/casters.py` | Plate-mount swivel casters (top plate with bolt pattern, raceway, yoke legs, axle, hub) on the steel corner plates |
+| `parts/deck.py` | Ryobi-class deck shells (revolved pan with skirt and rib), blades with lift wings, finned motor housings, anti-scalp rollers, four threaded-rod hangers per deck with drop-in slot blocks |
+| `parts/payload.py` | Battery with handle and connector on a lipped tray with strap, IP65 box with lid, glands and mounting feet, GNSS mast with ground plane and antenna, e-stop, 2" hitch receiver with pin, sprung bumper with guide blocks, trip collars and roller microswitches |
 | `build.py` | Exports everything to `exports/` and runs clearance checks |
 | `strength.py` | Hand-calculation strength check → `exports/strength-report.md` |
 | `drive_energy.py` | Hub-motor operating points, heating, and the daily energy budget → `exports/drive-energy-report.md` |
 | `exports/platform-v1-{single,twin}.step` | Full assembly. Open in Onshape (*Import*), FreeCAD, Fusion, or any STEP viewer. |
 | `exports/*-{iso,top,side,front}.png` | Quick-look renders |
+| `exports/platform-v1-detail-*.png` | Close-ups: drive module, front corner (caster + bumper), deck hangers, rear (electronics, hitch, e-stop) |
 | `exports/*.dxf` | Flat patterns: drive-fork side plate (6 mm steel ×4), torque arm (5 mm steel ×4), frame gusset (×8) |
 | `exports/strength-report.md` | Load cases, stresses and safety factors for forks, joints, and frame members |
 | `exports/cut-list.md` | Extrusion lengths to cut |
@@ -36,13 +44,16 @@ uv pip install --python .venv/bin/python -r requirements.txt
 .venv/bin/python drive_energy.py
 ```
 
+`build.py --details` regenerates only the close-up renders (fast) while adjusting views. A full build takes about a minute, most of it in clearance checks and renders.
+
 Commit the regenerated `exports/` together with the parameter change, so the repo stays readable without Python.
 
 ## What this model is (and isn't)
 
-- **Layout model (v0).** Parts are simplified as boxes and cylinders, and the extrusions are solid bars without T-slots. Its job is to settle the envelope, positions, clearances, and weight distribution before buying parts.
+- **Detailed layout model (v1).** Every structural part is modelled the way it would be built: real T-slot sections, bolted joints with brackets and gussets, plates from the same outlines as the DXFs, fasteners at every joint. Purchased parts (hub motors, casters, the Ryobi deck, battery, enclosure) are modelled from typical catalog dimensions and will be replaced by measured ones (below). The STEP has ~350 solids and opens in Onshape or FreeCAD.
+- **Clearance checks** run on the full model: decks (shell, blade, motor, rollers) against the frame, brackets, forks, wheels and casters; caster swivel sweep against the decks and bumper parts; hangers against everything they shouldn't touch; payload against the deck motors; bumper travel against the caster sweep. The detailed model caught one clash the block model missed: the right hub motor's cable exit ran into deck 1's skirt, which is only ~18 mm from the axle end. The cable now turns up at the axle.
 - **Strength:** `strength.py` hand-checks the forks, joints, and members ([report](exports/strength-report.md)). It led to the torque arms, saddle-mounted forks, gussets, and the 30x60 member at x = 215. It's not FEA; the frame is simple enough that beam and plate checks catch the real risks.
-- **Fasteners, brackets, wiring, and the deck hangers** are not modelled yet. They come after real parts are measured.
+- **Not modelled yet:** wiring beyond the motor cables, the belly pan, the VESCs inside the enclosure, the deck's blade-brake and switch wiring, and the charging-dock contacts (phase 2).
 
 ## Measure when parts arrive, then update `params.py`
 
