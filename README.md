@@ -12,6 +12,7 @@ Design, analysis, and simulation, done before buying parts. Start with:
 - **[Confidence plan](docs/design/confidence-plan.md)**: what's verified, what isn't, and the tests to run before the main purchase
 - **[Simulation](software/sim/README.md)**: plan mowing and run the autopilot in software
 - **[Build tutorial](docs/build/README.md)**: step-by-step assembly with purchase links, one step at a time
+- **[Form factors from first principles](docs/design/form-factor-exploration.md)**: swarms, gantries, cable robots, animals, solar: what shape of robot a polyculture farm needs, and what it changes for v1
 
 ## Repository layout
 
