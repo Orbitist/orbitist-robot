@@ -51,14 +51,11 @@ class Robot:
 
     # overlap 0.15 m: SITL tracking (p95 ~0.14 m) left strips uncut at 0.075. Revisit once the real
     # robot's tracking is measured; 0.10 is likely with RTK + tuned steering.
-    def __init__(self, config="single", overlap=0.15, speed=0.6, pivot_rate=45.0, obstacle_clearance=0.25):
+    def __init__(self, config="razor", overlap=0.15, speed=0.6, pivot_rate=45.0, obstacle_clearance=0.25):
         p = Params()
-        self.cut = p.deck_cut_width / 1000
-        decks = p.deck_slots(config)
-        ys = [y / 1000 for _, y in decks]
         # Lateral extent of the cut relative to the robot centreline (left positive).
-        self.cut_right = min(ys) - self.cut / 2
-        self.cut_left = max(ys) + self.cut / 2
+        lo, hi = p.cut_span(config)
+        self.cut_right, self.cut_left = lo / 1000, hi / 1000
         self.cut_width = self.cut_left - self.cut_right
         self.cut_centre = (self.cut_left + self.cut_right) / 2  # negative = right of centreline
         outer_fork = p.side_rail_y + p.dropout_spacing / 2 + p.fork_plate_t
@@ -526,7 +523,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("lawn", type=Path)
     ap.add_argument("--zone", help="plan only this zone")
-    ap.add_argument("--config", default="single", choices=["single", "twin"])
+    ap.add_argument("--config", default="razor", choices=["razor", "single", "twin"])
     ap.add_argument("--laps", type=int, default=2, help="perimeter laps before striping")
     ap.add_argument("--out", type=Path, help="output directory (default plans/<lawn name>)")
     args = ap.parse_args()
@@ -559,7 +556,7 @@ def main():
     lines = [
         f"# Coverage plan: {args.lawn.name} ({args.config} deck)",
         "",
-        f"Robot: cut {robot.cut_width:.3f} m, pass spacing {robot.spacing:.3f} m, body half-width "
+        f"Robot ({args.config}): cut {robot.cut_width:.3f} m, pass spacing {robot.spacing:.3f} m, body half-width "
         f"{robot.half_width:.2f} m, {robot.speed} m/s, pivot {robot.pivot_rate:.0f}°/s.",
         "",
         "| Zone | Lawn area | Cut | Missed | Stripe angle | Stripes | Blade-on / transit distance | "

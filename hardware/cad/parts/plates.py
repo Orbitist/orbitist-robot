@@ -92,3 +92,25 @@ def caster_plate(p: Params):
     for hx, hy, r, _ in holes:
         plate = plate - Pos(hx, hy) * Circle(r)
     return plate, w, h, holes
+
+
+def razor_disc(p: Params):
+    """Blade carrier disc: 3 mm aluminium, three pivoting razor blades on shoulder screws.
+
+    The blades (standard robot-mower razor blades, ~35 mm long) swing on M6 shoulder screws at
+    radius R_pivot so the cutting circle is razor_disc_diameter. Returns (sketch, pivot_radius).
+    """
+    blade_reach = 28.0  # pivot to blade tip
+    r_disc = p.razor_disc_diameter / 2 - blade_reach + 8  # disc edge just past the pivots
+    r_pivot = p.razor_disc_diameter / 2 - blade_reach
+    disc = Circle(r_disc)
+    disc = disc - Circle(4.0)  # motor shaft (bore to suit the motor's shaft adapter)
+    for k in range(4):  # motor hub screws, 4 x M4 on a 25 mm circle
+        a = k * 90.0
+        import math
+        disc = disc - Pos(12.5 * math.cos(math.radians(a)), 12.5 * math.sin(math.radians(a))) * Circle(2.2)
+    for k in range(3):  # blade pivots
+        import math
+        a = k * 120.0
+        disc = disc - Pos(r_pivot * math.cos(math.radians(a)), r_pivot * math.sin(math.radians(a))) * Circle(3.1)
+    return disc, r_pivot

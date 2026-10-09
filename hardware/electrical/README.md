@@ -33,7 +33,8 @@ flowchart LR
 
 - **Electronics stay powered during an e-stop** (they're fed before K1), so the autopilot keeps logging, GPS keeps its fix, and the robot can report what happened. SW1 is the only thing that turns everything off.
 - **Precharge:** VESCs have large input capacitors. Closing K1 onto empty capacitors arcs and eventually welds the contactor. K2 + R1 charge the capacitors first (τ ≈ 47 Ω × ~3000 µF ≈ 0.15 s), and K1 closes 1.5 s later.
-- **Blade power is separate:** the Ryobi deck runs on its own Ryobi battery in phase 1. Only its control circuit passes through the robot (K5, below).
+- **Blade power (razor deck, D27):** the four disc drivers take 36 V from the motor bus through F6 (15 A) and are switched together by K5's contacts on their enable lines, so one relay drops all four discs. (The earlier Ryobi-deck plan, with the deck on its own battery, is kept in §6 for the `twin` configuration.)
+- **Solar (D28):** the MPPT charge controller's output connects to the battery side of F1 through its own 15 A fuse, so it charges whether or not SW1 is on; its panel input comes down from the roof through a gland.
 
 ## 2. Safety chain (e-stop loop)
 

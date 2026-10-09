@@ -1,6 +1,6 @@
 # Coverage plan: sample-farm.json (twin deck)
 
-Robot: cut 1.016 m, pass spacing 0.866 m, body half-width 0.74 m, 0.6 m/s, pivot 45°/s.
+Robot (twin): cut 1.016 m, pass spacing 0.866 m, body half-width 0.74 m, 0.6 m/s, pivot 45°/s.
 
 | Zone | Lawn area | Cut | Missed | Stripe angle | Stripes | Blade-on / transit distance | Time (of which turning) | Mission items |
 |---|---|---|---|---|---|---|---|---|

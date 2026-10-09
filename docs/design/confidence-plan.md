@@ -1,6 +1,6 @@
 # Confidence plan: what's verified, what isn't, and how we close the gaps before buying
 
-*Status 2026-10-08. Companion to [platform-v1.md](platform-v1.md). Update the status column as tests complete.*
+*Status 2026-10-09 (revised for the razor deck and solar roof, D27/D28). Companion to [platform-v1.md](platform-v1.md). Update the status column as tests complete.*
 
 The aim: spend the big money (motors, battery, frame, electronics ≈ $1,500) only after the riskiest assumptions are measured. Most risks can be retired with **about $350 of parts we need anyway**.
 
@@ -12,9 +12,9 @@ The aim: spend the big money (motors, battery, frame, electronics ≈ $1,500) on
 | Frame and bracket strength | Hand calculations, 2.5 g bumps, side skid, motor torque | ✅ High, given catalog extrusion properties | [`strength-report.md`](../../hardware/cad/exports/strength-report.md) |
 | Bumper stopping distance → 0.6 m/s mowing speed | Kinematics with an assumed 3 m/s² braking | 🟡 Medium: braking rate must be measured | strength report §bumper |
 | Autopilot configuration, failsafes, blade interlock | **ArduPilot SITL**: 13/13 acceptance checks (mission, RC loss, e-stop, restart, GPS loss, fence) | ✅ High for logic; vehicle dynamics are generic | [`results/test-plot.md`](../../software/sim/results/test-plot.md) |
-| Coverage pattern and mowing time | Planner + SITL. Full-size sample zone (4,100 m², tree + bed, 781 waypoints): **mission completed, 97.5 % cut vs 98.0 % planned, 6.13 h vs 6.1 h predicted** | ✅ High for the sample layout; the real lawns aren't mapped yet | [`results/sample-farm.md`](../../software/sim/results/sample-farm.md), [`plans/`](../../software/sim/plans) |
+| Coverage pattern and mowing time | Planner + SITL. Full-size sample zone with the Ryobi deck: mission completed, 97.5 % cut vs 98.0 % planned, 6.13 h vs 6.1 h predicted. Razor deck (1.06 m cut): 13/13 checks on the test plot, 93.7 % cut vs 94.1 % planned; 3 acres ≈ **7.7 h/week** | ✅ High for the sample layout; the real lawns aren't mapped yet | [`results/sample-farm.md`](../../software/sim/results/sample-farm.md), [`plans/`](../../software/sim/plans) |
 | Hub motors at mowing speed (45 rpm) | Operating-point model with uncertainty ranges | 🟡 OK in the typical case; **worst case overheats** | [`drive-energy-report.md`](../../hardware/cad/exports/drive-energy-report.md) |
-| Daily energy and battery size | Energy model from coverage time × power | 🔴 **Blade power is a 150–400 W guess**, and it's the biggest energy term | drive-energy report §2 |
+| Daily energy, battery size, solar balance | Energy model from coverage time × power, solar yield from panel rating × sun-hours | 🟡 Razor-disc power (10–20 W each) and panel yield are typical values, not measured; typical day has ~3× solar margin, poor-sun worst case is short by ~140 Wh | drive-energy report §2–3 |
 | RTK fix over the actual lawns | Not tested | 🟡 Open sky reported; untested near trees and buildings | — |
 | Ryobi deck: mass, size, blade switching | Estimates (17 kg, 580 mm housing) | 🔴 Unknown model and wiring | — |
 
@@ -37,7 +37,7 @@ In this order. Each feeds a number back into `params.py`, `drive_energy.py`, or 
 
 | # | Test | Buy | ~$ | Answers | Decides |
 |---|---|---|---|---|---|
-| **T1** | **Used Ryobi mower on the farm lawn.** Time one 6 Ah pack to empty while mowing normally (or log current with a DC clamp meter). Measure the deck with the handle and wheels off: housing outline, motor height, mass. Open the handle wiring: bail-switch current, start circuit, blade-brake stop time. Try powering it from a bench supply or a printed battery adapter. | Used Ryobi mower (same voltage as the farm's batteries) | 50–150 | **Blade power** (the biggest energy unknown), deck geometry, how the robot switches the blade, whether the deck can run from the robot pack | Battery size and chemistry; K5 relay vs contactor; deck hangers in CAD; whether phase 1 needs daily Ryobi pack swaps |
+| **T1** | **One razor disc on the bench and on the lawn.** One brushless disc motor + driver, one disc cut from `razor-disc.dxf` with three razor blades, run from the bench supply at 36 V: measure current while cutting a maintained lawn (push it on a hand frame or the deck plate), and while cutting a week's growth. Time the stop after power-off. Also measure one solar panel's midday output lying flat. | 1 disc motor + driver, blades, 1 panel | 80–150 | **Cutting power per disc** (sets the solar balance), blade stop time, panel yield | Pack size (10 vs 15 Ah), disc count, whether a blade brake is needed |
 | **T2** | **RTK on a cart.** Set up the base station (guide), put the rover GPS + flight controller on a wheelbarrow, and walk every lawn edge, tree, and bed. | Wave 1 GNSS kit (needed anyway) | (700–900) | RTK fix availability across the real lawns; the **real lawn file** | Real mowing hours and coverage per zone; where the robot can't mow; dock location |
 | **T3** | **One hub motor + one VESC on the bench.** Run VESC motor detection (torque constant, resistance), check the axle flats and dropout spacing, test smooth low-speed Hall FOC at 45 rpm, run **30 minutes at mowing torque** (≈ 4–6 N·m: drag a weighted tire or sled) and measure motor temperature, and test the VESC timeout brake. | 1 hub motor + 1 VESC + current-limited bench supply | 210 + 60 | Whether hub motors run cool at mowing speed; real torque constant; braking rate for the bumper calculation | Buy the second motor, or switch to geared or wheelchair motors; final fork-plate DXF; VESC current limits |
 | **T4** | **One caster.** Measure the bolt pattern, height, and swivel offset. | 1 caster (need 2 anyway) | 35 | Caster geometry | Caster plate DXF and frame height |
@@ -48,9 +48,9 @@ In this order. Each feeds a number back into `params.py`, `drive_energy.py`, or 
 
 | Risk | Likelihood | Impact | Status | Retire by |
 |---|---|---|---|---|
-| Blade power higher than assumed → battery too small, too many pack swaps | Medium | High | 🔴 Open | **T1** |
+| Razor-disc power higher than assumed on farm turf → solar can't keep up | Medium | Medium | 🔴 Open | **T1**; fallback is a bigger pack and occasional mains charging |
+| **Robot fails to keep up** (rain week, breakdown) and razors can't cut the backlog | Certain, sometimes | Low | 🟡 Known | The Ryobi/Swisher catch-up mow is part of the operating model |
 | Hub motors overheat at mowing speed | Low–medium | High | 🟡 Open | **T3** (fallback: wheelchair or geared motors; frame accepts swappable drive modules) |
-| Ryobi needs a battery handshake, so the deck can't run from the robot pack | Medium | Medium (daily swaps in phase 1) | 🔴 Open | **T1** (fallback: keep a Ryobi pack on the deck and charge it on the dock) |
 | RTK float/no-fix near buildings and trees | Medium | Medium | 🟡 Open | **T2**; the robot pauses on fix loss (SITL-verified) |
 | Path tracking on grass worse than ±10 cm → uncut strips | Medium | Low (one more overlap step) | 🟡 Open | Phase 1b field tuning; overlap is one planner parameter |
 | Braking on wet grass < 3 m/s² → bumper speed limit < 0.6 m/s | Medium | Medium | 🟡 Open | T3 brake test, then commissioning step 7 |
@@ -62,6 +62,6 @@ In this order. Each feeds a number back into `params.py`, `drive_energy.py`, or 
 
 ## 5. Decision points
 
-- **After T1:** battery choice (36 V 20 Ah, 30 Ah, or two packs), K5 type, deck hangers. If the blade draws ≥ 300 W, buy the second Ryobi deck for v1 and go twin straight away. It halves mowing hours, while blade energy per acre stays about the same.
+- **After T1:** pack size (10 or 15 Ah) and disc count from the measured disc power and panel yield.
 - **After T2:** confirm 3 zones (or more) and the dock location; regenerate plans from the real lawn file.
 - **After T3:** commit to hub motors, or switch drive modules before buying the second motor.

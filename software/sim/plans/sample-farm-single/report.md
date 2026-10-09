@@ -1,6 +1,6 @@
 # Coverage plan: sample-farm.json (single deck)
 
-Robot: cut 0.533 m, pass spacing 0.383 m, body half-width 0.74 m, 0.6 m/s, pivot 45°/s.
+Robot (single): cut 0.533 m, pass spacing 0.383 m, body half-width 0.74 m, 0.6 m/s, pivot 45°/s.
 
 | Zone | Lawn area | Cut | Missed | Stripe angle | Stripes | Blade-on / transit distance | Time (of which turning) | Mission items |
 |---|---|---|---|---|---|---|---|---|

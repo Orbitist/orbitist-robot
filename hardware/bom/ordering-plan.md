@@ -10,7 +10,7 @@ See the [confidence plan](../../docs/design/confidence-plan.md). These measureme
 
 | ✓ | Item | Why first | ~$ |
 |---|---|---|---|
-| ☐ | **Used Ryobi mower** (same voltage as the farm's batteries) | T1: measure blade power on the real lawn, deck geometry, and blade switching. Decides the battery. | 50–150 |
+| ☐ | **One razor-disc unit** (brushless motor + driver, disc from `razor-disc.dxf`, 3 razor blades) and **one ~110 W semi-flexible solar panel** | T1: measure cutting power per disc and real panel yield. Decides the pack size and disc count (D27, D28). | 150–270 |
 | ☐ | **One** 10" hub motor + **one** VESC | T3: bench test of torque constant, low-speed smoothness, 30 min thermal at mowing torque, timeout brake. Buy the second only if it passes. | 210 |
 | ☐ | Current-limited bench supply (≥ 50 V, 5 A) | Safe first power-up for T1/T3, and later for commissioning | 60–100 |
 | ☐ | One 10" plate caster | T4: bolt pattern and height for the caster-plate DXF | 35 |

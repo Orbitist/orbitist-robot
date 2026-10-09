@@ -5,7 +5,7 @@ drive,"Drive fork plates (6mm steel side plates, 8mm top plate, saddle tabs) + t
 drive,10in pneumatic plate-mount swivel caster (4x4.5in plate),2,35,70,1a,Zero-turn mower casters (need welded spindle housing),On 8mm steel corner plates (caster-plate.dxf)
 frame,"30x30 aluminum T-slot extrusion, brackets, T-nuts, stainless fasteners",1,230,230,1a,Steel square tube if welding,Sized for twin-deck width (~1.3-1.4m)
 frame,Rear hitch plate + 2in receiver or 5/8in pin hitch,1,40,40,3,,
-power,"36V 20Ah e-bike battery w/ BMS (10S Li-ion or 12S LiFePO4), >=30A",1,300,300,1a,Salvaged e-bike pack (check cell health),
+power,"36V 10-15Ah e-bike battery w/ BMS (10S Li-ion or 12S LiFePO4), >=30A",1,220,220,1a,Salvaged e-bike pack (check cell health),Solar buffers the day; size confirmed by T1
 power,"Main fuse (MRBF 40A), battery disconnect, DC contactor, precharge relay+resistor, timer relays, signal relays, 58V fuses",1,160,160,1a,,See hardware/electrical/README.md
 power,DC-DC 36->12V 10A and 36->5V 5A,2,15,30,1a,,Input rated >=50V
 power,"XT90/Anderson connectors, wire, ferrules, fuse block",1,50,50,1a,,
@@ -21,10 +21,11 @@ gnss,RTK base station: ZED-F9P + survey antenna + mount + enclosure + 915MHz rad
 gnss,"Raspberry Pi for base station (logging, later NTRIP) + SD + PSU",1,75,75,0,Laptop for the 24h log,docs/guides/rtk-base-station.md
 gnss,Radio pair for RTK corrections base->rover (SiK 915MHz or XBee-socket),1,60,60,0,NTRIP over farm Wi-Fi/LTE later,Separate from telemetry radio
 electrical,"IP65 enclosure, cable glands, belly pan",1,70,70,1a,,
-mower,"Used Ryobi mower #1 (same voltage line as farm batteries), bare tool",1,100,100,1c,Curbside push mower deck + brushless motor (M3),Uses existing Ryobi batteries + charger; confirm 40V/80V/18V line
-mower,Used Ryobi mower #2 (same model) for twin-deck upgrade,1,100,100,1.5,,Frame built for twin decks from day one
-mower,"Deck hanger links, anti-scalp wheels, blade relay",1,50,50,1c,,
+solar,Semi-flexible solar panels ~110W (1.05x0.54m),2,120,240,1c,Used rigid 100W panels (heavier),One bought in step 1 for the yield test
+solar,Boost MPPT charge controller for 36V battery (Genasun GVB-8 class) + 15A fuse,1,200,200,1c,,
+solar,"Roof: 30x30 extrusion (4 posts + 4 rails), brackets, backing sheet, hinges, gas strut",1,160,160,1c,,Carries the GNSS antenna and e-stop
+mower,"Razor disc cutting units: 4x brushless motor + BLDC driver, 4x Ø280 disc (razor-disc.dxf), 12 razor blades + shoulder screws",1,320,320,1c,Robot-mower blade motors from a dead Husqvarna/Worx,One unit bought in step 1 for the T1 test
+mower,Razor deck plate (3mm Al) + HDPE skirt + hangers + anti-scalp rollers,1,110,110,1c,,
 compute,Raspberry Pi 5 8GB + cooler + NVMe,1,130,130,2,,Phase 2 companion (ROS 2)
 compute,Luxonis OAK-D Lite,1,150,150,2,,Obstacle detection
 compute,Pi Global Shutter camera + lens + AprilTag for dock,1,70,70,2,,
-dock,"Charging dock: contacts, charger (36V e-bike), AprilTag, weather cover",1,150,150,2,,First item in phase 2

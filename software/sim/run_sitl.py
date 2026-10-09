@@ -90,11 +90,11 @@ class Track:
 
 
 class Scenario:
-    def __init__(self, name, lawn_path, zone_name, speedup, instance=0, overlap=0.075):
+    def __init__(self, name, lawn_path, zone_name, speedup, instance=0, overlap=0.15, config="razor"):
         self.name = name
         self.lawn = json.loads(Path(lawn_path).read_text())
         self.zone = next(z for z in self.lawn["zones"] if zone_name in (None, z["name"]))
-        self.robot = coverage.Robot("single", overlap=overlap)
+        self.robot = coverage.Robot(config, overlap=overlap)
         self.frame = coverage.LocalFrame(self.lawn["origin"])
         self.plan = coverage.plan_zone(self.zone, self.robot)
         self.items = coverage.mission_items(self.plan, self.zone, self.frame, self.robot)
@@ -327,11 +327,12 @@ def main():
     ap.add_argument("--zone")
     ap.add_argument("--speedup", type=int, default=10)
     ap.add_argument("--overlap", type=float, default=0.15, help="pass-to-pass overlap, m (planner default)")
+    ap.add_argument("--config", default="razor", choices=["razor", "single", "twin"])
     args = ap.parse_args()
 
     rows = []
     for name in args.scenarios:
-        sc = Scenario(name, args.lawn, args.zone, args.speedup, overlap=args.overlap)
+        sc = Scenario(name, args.lawn, args.zone, args.speedup, overlap=args.overlap, config=args.config)
         t0 = time.time()
         try:
             SCENARIOS[name](sc)
@@ -346,7 +347,7 @@ def main():
 
     passed = sum(ok for _, _, ok, _ in rows)
     lines = [f"# SITL results: {Path(args.lawn).name}", "",
-             f"ArduPilot Rover 4.6.3 SITL (rover-skid model), params `software/ardupilot/params`, "
+             f"ArduPilot Rover 4.6.3 SITL (rover-skid model, {args.config} deck), params `software/ardupilot/params`, "
              f"Lua `blade_interlock.lua`. **{passed}/{len(rows)} checks passed.**", "",
              "| Scenario | Check | Result | Detail |", "|---|---|---|---|"]
     lines += [f"| {n} | {d} | {'✅' if ok else '❌'} | {det} |" for n, d, ok, det in rows]

@@ -247,7 +247,7 @@ def main():
                  f"{t_per:.0f} N per T-nut", f"{TNUT_PULLOUT_N} N pull-out", s, verdict(s), "Fix for the row above"))
 
     # 6. Cross members (decks hang from them), both configurations.
-    for config in ("single", "twin"):
+    for config in ("razor", "single", "twin"):
         parts_c, _, _, _ = static_loads(p, config)
         loads = member_loads(p, parts_c, BUMP)
         (mx, mmax, pts, _), span = cross_member_check(p, loads)

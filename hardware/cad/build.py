@@ -23,15 +23,30 @@ import numpy as np
 from build123d import Align, Box, Color, Compound, Cylinder, ExportDXF, Pos, Unit, export_step
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-from model import assembly, bumper_layout
+from model import CONFIGS, assembly, bumper_layout
 from params import Params
 from parts import plates
 
 OUT = Path(__file__).parent / "exports"
-CONFIGS = ("single", "twin")
 
 
 # ---------------------------------------------------------------- exports --
+CHUNK = 160.0  # mm; big parts are drawn as spatial patches so matplotlib's depth sort works
+
+
+def add_mesh(ax, tri, color, light, edge=True):
+    """Add triangles to a 3D axis as several collections grouped by position, shaded by normal."""
+    n = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+    n /= np.linalg.norm(n, axis=1, keepdims=True) + 1e-9
+    shade = 0.45 + 0.55 * np.abs(n @ light)
+    fc = np.clip(np.array(color)[None, :] * shade[:, None], 0, 1)
+    cells = np.floor(tri.mean(axis=1) / CHUNK).astype(int)
+    keys = cells[:, 0] * 1_000_000 + cells[:, 1] * 1_000 + cells[:, 2]
+    for key in np.unique(keys):
+        m = keys == key
+        ax.add_collection3d(Poly3DCollection(tri[m], facecolors=fc[m], edgecolors=fc[m] if edge else "none",
+                                             linewidths=0.1))
+
 def export_assembly(parts, path: Path):
     children = []
     for rec in parts:
@@ -57,12 +72,7 @@ def render(parts, path_prefix: Path, title: str):
         fig = plt.figure(figsize=(10, 7.5), dpi=130)
         ax = fig.add_subplot(projection="3d", proj_type="ortho" if view != "iso" else "persp")
         for v, t, c in meshes:
-            tri = v[t]
-            n = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
-            n /= np.linalg.norm(n, axis=1, keepdims=True) + 1e-9
-            shade = 0.45 + 0.55 * np.abs(n @ light)
-            fc = np.clip(c[None, :] * shade[:, None], 0, 1)
-            ax.add_collection3d(Poly3DCollection(tri, facecolors=fc, edgecolors=fc, linewidths=0.1))
+            add_mesh(ax, v[t], c, light)
         # Ground footprint outline.
         gx = [lo[0], hi[0], hi[0], lo[0], lo[0]]
         gy = [lo[1], lo[1], hi[1], hi[1], lo[1]]
@@ -89,6 +99,8 @@ DETAIL_VIEWS = {
     "detail-front-corner": (620, 1200, 260, 700, 0, 420, 24, 150),
     "detail-deck-hangers": (-320, 320, -560, 60, 0, 420, 18, -140),
     "detail-rear": (-460, -40, -600, 250, 250, 600, 26, 140),
+    "detail-razor-deck": (120, 700, -600, 600, 0, 420, -24, -125),
+    "detail-roof": (-360, 900, -700, 700, 350, 900, 30, -140),
 }
 
 
@@ -116,12 +128,7 @@ def render_details(parts, path_prefix: Path):
                 if not tris:
                     continue
                 v = np.array([(q.X, q.Y, q.Z) for q in verts])
-                tri = v[np.array(tris)]
-                n = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
-                n /= np.linalg.norm(n, axis=1, keepdims=True) + 1e-9
-                shade = 0.45 + 0.55 * np.abs(n @ light)
-                fc = np.clip(np.array(rec.color)[None, :] * shade[:, None], 0, 1)
-                ax.add_collection3d(Poly3DCollection(tri, facecolors=fc, edgecolors=fc, linewidths=0.15))
+                add_mesh(ax, v[np.array(tris)], rec.color, light)
         ax.set_xlim(x0, x1)
         ax.set_ylim(y0, y1)
         ax.set_zlim(z0, z1)
@@ -149,6 +156,8 @@ def flat_parts(p: Params) -> list[str]:
     write_dxf(plates.gusset()[0], OUT / "frame-gusset.dxf")
     csk, cw, ch, _ = plates.caster_plate(p)
     write_dxf(csk, OUT / "caster-plate.dxf")
+    dsk, r_pivot = plates.razor_disc(p)
+    write_dxf(dsk, OUT / "razor-disc.dxf")
     spacer = p.frame_bottom_z - p.caster_mount_t - p.caster_height
     return [
         "## Flat parts",
@@ -163,6 +172,9 @@ def flat_parts(p: Params) -> list[str]:
         "drilled 6.8 mm and **tapped M8**; M6 clearance holes into the side rail and front member. Needs a "
         f"**{spacer:.0f} mm spacer** under each caster (if negative, lengthen the drive forks). "
         "**Measure the caster's bolt pattern and height before cutting.**",
+        f"- `razor-disc.dxf`: Ø{2 * (r_pivot + 8):.0f} mm blade carrier, 3 mm aluminium, qty {len(p.razor_discs())}. Three M6 "
+        f"shoulder-screw pivots on a {2 * r_pivot:.0f} mm circle for standard robot-mower razor blades; "
+        "4 × M4 on a 25 mm circle for the motor hub (match to the motor bought in step 1).",
         "",
     ]
 
@@ -204,9 +216,9 @@ def mass_report(p: Params, parts, config: str) -> list[str]:
     r_caster = total * cg[0] / caster_contact_x
     r_drive = total - r_caster
     hitch_x = p.frame_rear_x - 50  # hitch pin position
-    cuts = [r.meta["center"][1] for r in parts if r.group == "deck" and "center" in r.meta]
-    edge_r = (min(cuts) - p.deck_cut_width / 2) - bb.min.Y
-    edge_l = bb.max.Y - (max(cuts) + p.deck_cut_width / 2)
+    cut_lo, cut_hi = p.cut_span(config)
+    edge_r = cut_lo - bb.min.Y
+    edge_l = bb.max.Y - cut_hi
     return [
         f"## Configuration: {config} deck",
         "",
@@ -239,7 +251,7 @@ def overlap_volume(a, b) -> float:
 def clearance_checks(p: Params, parts) -> list[str]:
     by_name = {r.name: r for r in parts}
     deck_parts = [r for r in parts if r.group == "deck"]
-    deck_refs = [r for r in deck_parts if "center" in r.meta and r.name.endswith("_motor")]
+    deck_refs = [r for r in deck_parts if "center" in r.meta and (r.name.endswith("_motor") or r.name == "razor_deck_plate")]
     hard = [r for r in parts if r.group in ("frame", "fork", "drive", "caster", "bracket")]
     lines = ["| Check | Result |", "|---|---|"]
     problems = []
@@ -273,7 +285,7 @@ def clearance_checks(p: Params, parts) -> list[str]:
         for d in deck_refs:
             (cx, cy), r = d.meta["center"], p.deck_motor_diameter / 2 + 5
             xy_overlap = eb.min.X < cx + r and cx - r < eb.max.X and eb.min.Y < cy + r and cy - r < eb.max.Y
-            if xy_overlap and eb.min.Z - d.meta["motor_top_z"] < 30:
+            if xy_overlap and eb.min.Z - d.meta["motor_top_z"] < 30 and eb.min.Z < p.frame_top_z + 1:
                 lines.append(f"| {e.name} vs {d.name} | ❌ less than 30 mm above the motor |")
     # Hangers must not pass through anything but the deck tab and the member.
     for hng in (r for r in parts if r.group == "hanger"):
@@ -286,7 +298,7 @@ def clearance_checks(p: Params, parts) -> list[str]:
     gap = bar_rear - p.bumper_travel - sweep_front
     lines.append(f"| Bumper at full travel vs caster swivel sweep | {gap:.0f} mm clear " + ("✅" if gap > 0 else "❌") + " |")
     # Uncut strip check for twin decks.
-    if len(deck_refs) == 2:
+    if len(deck_refs) == 2 and all(r.name.startswith("mower_deck") for r in deck_refs):
         (x1, y1), (x2, y2) = (d.meta["center"] for d in deck_refs)
         overlap = p.deck_cut_width - abs(y2 - y1)
         lines.append(f"| Twin-deck cut overlap | {overlap:.0f} mm "
@@ -300,7 +312,7 @@ def main():
     OUT.mkdir(exist_ok=True)
     p = Params()
     if "--details" in sys.argv:  # quick path while adjusting the close-up views
-        render_details(assembly(p, "single"), OUT / "platform-v1")
+        render_details(assembly(p, "razor"), OUT / "platform-v1")
         return
     report = [
         "# Platform v1 model report",
@@ -316,7 +328,7 @@ def main():
         t1 = time.time()
         report += ["### Clearance checks", ""] + clearance_checks(p, parts)
         print(f"built {config} (clearance checks {time.time() - t1:.0f} s)")
-    parts = assembly(p, "single")
+    parts = assembly(p, "razor")
     render_details(parts, OUT / "platform-v1")
     report += flat_parts(p)
     (OUT / "cut-list.md").write_text(cut_list(p, parts))

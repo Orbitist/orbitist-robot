@@ -16,21 +16,24 @@ The robot is modelled in Python with [build123d](https://github.com/gumyr/build1
 | `parts/drive.py` | Hub motors (treaded tire, rim, can, side covers, flatted axle), bolt-on forks with saddle tabs, torque arms, axle nuts, motor cables |
 | `parts/casters.py` | Plate-mount swivel casters (top plate with bolt pattern, raceway, yoke legs, axle, hub) on the steel corner plates |
 | `parts/deck.py` | Ryobi-class deck shells (revolved pan with skirt and rib), blades with lift wings, finned motor housings, anti-scalp rollers, four threaded-rod hangers per deck with drop-in slot blocks |
+| `parts/razor_deck.py` | Razor-disc deck: plate cut back to the caster swivel circle, skirt, four disc motors, discs from `razor-disc.dxf`, pivoting blades, rollers, hangers |
+| `parts/roof.py` | Solar roof: posts, rails, panels, MPPT, GNSS antenna stub and e-stop on the rear rail |
 | `parts/payload.py` | Battery with handle and connector on a lipped tray with strap, IP65 box with lid, glands and mounting feet, GNSS mast with ground plane and antenna, e-stop, 2" hitch receiver with pin, sprung bumper with guide blocks, trip collars and roller microswitches |
 | `build.py` | Exports everything to `exports/` and runs clearance checks |
 | `strength.py` | Hand-calculation strength check → `exports/strength-report.md` |
 | `drive_energy.py` | Hub-motor operating points, heating, and the daily energy budget → `exports/drive-energy-report.md` |
 | `exports/platform-v1-{single,twin}.step` | Full assembly. Open in Onshape (*Import*), FreeCAD, Fusion, or any STEP viewer. |
 | `exports/*-{iso,top,side,front}.png` | Quick-look renders |
-| `exports/platform-v1-detail-*.png` | Close-ups: drive module, front corner (caster + bumper), deck hangers, rear (electronics, hitch, e-stop) |
-| `exports/*.dxf` | Flat patterns: drive-fork side plate (6 mm steel ×4), torque arm (5 mm steel ×4), frame gusset (×8) |
+| `exports/platform-v1-detail-*.png` | Close-ups: drive module, front corner (caster + bumper), Ryobi deck hangers, rear, razor deck from below, solar roof |
+| `exports/*.dxf` | Flat patterns: drive-fork side plate (6 mm steel ×4), torque arm (5 mm steel ×4), frame gusset (×8), caster plate (×2), razor disc (3 mm aluminium ×4) |
 | `exports/strength-report.md` | Load cases, stresses and safety factors for forks, joints, and frame members |
 | `exports/cut-list.md` | Extrusion lengths to cut |
 | `exports/report.md` | Envelope, mass, CG, axle loads, tongue-weight limit, clearance checks |
 
 ## Configurations
 
-- **single**: v1, one Ryobi deck in the twin layout's **rear-right** slot, so the robot can cut within ~19 cm of obstacles on its right and the twin upgrade only adds a deck.
+- **razor** (v1 baseline, D27/D28): four Ø280 mm razor-blade discs on a 3 mm plate with an HDPE skirt, 1.06 m symmetric cut, plus the solar roof (posts, 30x30 roof frame, two panels, MPPT) carrying the GNSS antenna and e-stop.
+- **single**: one Ryobi deck in the twin layout's **rear-right** slot (weekly-capable cutting, needs the dock), no roof.
 - **twin**: v1.5, two decks **staggered** (rear-right, front-left) so their cuts overlap by 50 mm. Two decks side by side would leave an uncut strip, because the deck housing is wider than the blade. The frame is the same for both.
 
 ## Regenerate

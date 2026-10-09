@@ -36,21 +36,17 @@ exports with the measurement.
 | Bolt pattern (mm × mm) and hole diameter | | `caster_bolts` |
 | Mass (kg) | | `masses["caster"]` |
 
-## Ryobi deck (step 1)
+## Razor disc and solar panel (step 1)
 
 | Measurement | Value | `params.py` field |
 |---|---|---|
-| Model number (label under the deck) | | — |
-| Battery line (40 V / 80 V / 18 V) and pack sizes on hand | | — |
-| Housing outline: width × length (mm) and max diameter | | `deck_housing_diameter` |
-| Height, ground to top of shell at the lowest cut setting (mm) | | `deck_shell_bottom_z`, `deck_shell_height` |
-| Motor housing diameter and height above the shell (mm) | | `deck_motor_diameter`, `deck_motor_height` |
-| Mass without handle, wheels, battery (kg) | | `deck_mass` |
-| Good hanger points (4), relative to the blade centre (mm) | | `deck_hanger_spread` and tab positions |
-| Blade power test: pack Wh ÷ runtime hours = W | | `drive_energy.BLADE_W` |
-| Bail switch: signal or motor current? Start button wiring | | electrical §6 |
-| Runs from a bench supply without a battery handshake? | | — |
-| Blade stop time after releasing the bail (s) | | — (must be < 3 s) |
+| Disc motor model, driver model | | — |
+| Motor can diameter and height (mm), shaft diameter | | `razor_motor_d`, `razor_motor_h` |
+| No-load rpm at 36 V, no-load current | | — |
+| Cutting power, lawn mown yesterday (W) | | `drive_energy.RAZOR_W` |
+| Cutting power, one week's growth (W) | | — (catch-up limit) |
+| Spin-down time after power-off (s) | | — (brake needed if > 3 s) |
+| Panel: size (mm), Voc, Isc flat at midday, Isc bright overcast | | `panel_size`, `panel_w_peak` |
 
 ## Battery and enclosure (step 7)
 

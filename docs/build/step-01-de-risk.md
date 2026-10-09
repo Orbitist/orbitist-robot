@@ -1,14 +1,15 @@
 # Step 1: De-risking tests
 
-*Links and prices checked 2026-10-08. Spend: about $450–600. Time: a weekend, plus waiting for shipping.*
+*Links and prices checked 2026-10-08; revised 2026-10-09 for the razor-disc deck and solar roof (D27, D28). Spend: about $450–600. Time: a weekend, plus waiting for shipping.*
 
-**Goal:** measure the three things the rest of the design depends on before the main purchase: how much power the mower blade really draws, whether a cheap hub motor can run at mowing speed without overheating, and the exact dimensions of the motor and caster that the cut plates are drawn around. Everything bought here is used in the final robot.
+**Goal:** measure the three things the rest of the design depends on before the main purchase: how much power one razor disc draws cutting the farm's grass (and what a solar panel yields flat on the roof), whether a cheap hub motor can run at mowing speed without overheating, and the exact dimensions of the motor and caster that the cut plates are drawn around. Everything bought here is used in the final robot.
 
 ## Buy
 
 | ✓ | Item | Spec to check | Where | Price seen |
 |---|---|---|---|---|
-| ☐ | **Used Ryobi 40 V 21" mower** | Same battery line as the farm's batteries (check the label on a battery: *40V* or *40V HP*). Prefer a **brushless** 21" model. Bare tool is fine. Current new tool-only model for reference: [RY40HPLM01B at Home Depot](https://www.homedepot.com/p/RYOBI-40V-HP-Brushless-21-in-Cordless-Battery-Walk-Behind-Self-Propelled-Lawn-Mower-Tool-Only-RY40HPLM01B/332712843) ($409 new). | Facebook Marketplace / Craigslist, search "Ryobi 40V mower" | $50–150 used |
+| ☐ | **One razor-disc cutting unit** | Brushless motor, 36 V class (24–36 V nominal, no-load 2,500–3,500 rpm), ≥ 100 W, with a matching BLDC driver that takes a PWM/enable signal (robot-mower blade-motor replacements and generic "36 V 350 W BLDC driver" boards both work); one disc cut from [`razor-disc.dxf`](../../hardware/cad/exports/razor-disc.dxf) (3 mm aluminium, SendCutSend or hand-cut) with **three standard robot-mower razor blades** and M6 shoulder screws; a motor hub/shaft adapter to suit the motor | Links to be checked when ordering; blades: any "Automower-compatible razor blades" pack (~$10 per 9) | $60–120 |
+| ☐ | **One solar panel** | Semi-flexible, ~100–120 W, ~1.05 × 0.54 m, with bypass diodes; plus a 36 V-battery **boost MPPT** charge controller later (step 7) | Links to be checked when ordering | $90–150 |
 | ☐ | **One 10" hub motor** | Brushless, gearless, **Hall sensors** (5 thin wires + 3 thick), pneumatic 10×2.5–3" tire, **axle with flats on both sides** (two dropouts), 36–48 V winding, 350–1000 W. A 48 V motor is fine on our 36 V pack: it just runs slower and makes more torque per amp, which suits mowing. Avoid *geared* motors unless the listing confirms **no freewheel clutch** (the robot brakes and holds position with the motors). | [Wheelway eBay store](https://www.ebay.com/str/wheelway) (10" scooter motors; ask the seller for the axle drawing), or AliExpress search "10 inch hub motor 36V hall sensor". A US-stock but pricier option: [VXB 10" hub motor kit](https://vxb.com/products/10-inch-wheel-hub-motor-assembly-delivering-badass) ($329; confirm axle type first). | $100–240 |
 | ☐ | **One VESC controller** | VESC 6 hardware, ≥ 60 V input, Hall sensor port, PPM input, CAN. | [Flipsky 75100 Pro](https://flipsky.net/products/flipsky-75100-pro-with-aluminum-pcb-based-on-vesc-for-electric-skateboard-electric-scooter-ebike-speed-controller) ($89, 14–84 V, 100 A, Hall port, PPM/UART/CAN). Budget: the plain [Flipsky 75100](https://flipsky.net/products/flipsky-75100-75v-100a-single-esc-based-on-vesc-for-electric-skateboard-electric-scooter-ebike-speed-controller) ($65). Note Flipsky's warning: disable the phase filter in VESC Tool on firmware ≥ 5.3. | $65–89 |
 | ☐ | **One 10" pneumatic swivel caster, plate mount** | ≥ 300 lb, plate ~4" × 4.5". | [Harbor Freight Haul-Master 10" pneumatic swivel caster, SKU 63799](https://www.harborfreight.com/10-in-pneumatic-swivel-caster-63799.html) ($19.99, 300 lb, bolt pattern 3" × 3-3/8"). | $20 |
@@ -17,17 +18,17 @@
 | ☐ | 3-phase wiring bits | XT60 pair, 12 AWG silicone wire, JST-PH or the Hall connector your motor uses, crimper | Amazon / local | $20 |
 | ☐ | Digital calipers (if the shop doesn't have them) | 150 mm | any | $15–25 |
 
-Also needed, no purchase: a laptop with [VESC Tool](https://vesc-project.com/vesc_tool) (free), a bathroom scale, a stopwatch, a tape measure, something to load the motor (see T3).
+Also needed, no purchase: a laptop with [VESC Tool](https://vesc-project.com/vesc_tool) (free), a bathroom scale, a stopwatch, a tape measure, something to load the motor (see T3), and the farm's existing Ryobi mower for the catch-up cut before the razor test.
 
 ## Do
 
-### T1. Ryobi blade-power test and teardown
+### T1. One razor disc on the lawn, and one panel in the sun
 
-1. **Mow with it.** On a typical lawn on the farm, mow normally with a fully charged pack of known size (e.g. 6 Ah). Time it until the pack is empty. Blade power ≈ pack Wh ÷ hours (a 40 V 6 Ah pack is 216 Wh nominal, ~200 usable). Do this twice if you can: once on short grass, once on grass that's a week overgrown. If you bought the clamp meter, clip it around one battery lead instead and read the current while mowing: W = V × A.
-2. **Strip it.** Remove the handle, wheels and bag. Weigh the deck. Measure the housing outline, the height from ground to the shell top at the lowest cut setting, and the motor housing. Photograph the underside.
-3. **Find the switches.** Open the handle's switch housing. Identify the bail lever switch and the start button, and how they reach the mower's controller (a thin signal cable, or heavy wires carrying motor current). With the pack in and the blade *removed*, use the meter to measure the current through the bail switch while running.
-4. **Battery handshake test.** With the blade removed and the deck on a bench, connect the bench supply to the battery terminals (observe polarity; 40 V, current limit 3 A) through a printed or cut adapter, and try to start it. If it runs, the deck can later run from the robot's pack. If it refuses, it needs the real pack present.
-5. **Blade brake.** Refit the blade, guard the deck, run it, release the bail, and time the stop. Must be under 3 s.
+1. **Build the test disc.** Cut the disc from `razor-disc.dxf`, fit three razor blades on M6 shoulder screws (they must swing freely), mount it on the motor with the hub adapter, mount the motor on a scrap board with a skirt of plywood around the disc for a guard, and set the blades 50 mm above the ground on two scrap wheels or runners. Wire the driver to the bench supply at 36 V, current limit 3 A at first.
+2. **Spin-up check,** blades off: it should reach ~3,000 rpm; log the no-load current. Then with blades, in the air.
+3. **Cut the lawn** (eye protection; nobody near): push the rig at walking pace over a lawn mown yesterday with the Ryobi, then over a strip left for a week. Log the current from the bench supply or clamp meter. Watts = 36 × amps. Expect 10–20 W on the daily strip; note what the weekly strip needs and whether the blades fold back.
+4. **Stop time:** cut the power; time how long the disc spins. If more than 3 s, note it: the driver needs a brake input, or a small blade brake.
+5. **Panel:** lay the panel flat in the sun at midday, short it through the clamp meter for the short-circuit current and read the open-circuit voltage; the product (× 0.75) approximates its real output flat on the roof. Repeat on a bright overcast day.
 
 ### T3. One motor on the bench
 
@@ -48,8 +49,8 @@ Write everything into [`measurements.md`](measurements.md), then update `hardwar
 
 ## Done when
 
-- [ ] Blade power is a measured number (W), not a range.
+- [ ] Disc cutting power and panel yield are measured numbers, not ranges.
 - [ ] The motor ran 30 minutes at mowing load and stayed under 70 °C.
 - [ ] The motor brakes and holds when the signal stops.
 - [ ] `params.py` has the real axle, tire and caster dimensions, and the DXFs regenerated.
-- [ ] Decision recorded in the [decision log](../decisions/README.md): motor type confirmed (or changed), and the battery size for step 7 (20 Ah if the deck stays on Ryobi packs; 30–40 Ah or two packs if it will run from the robot).
+- [ ] Decision recorded in the [decision log](../decisions/README.md): drive motor type confirmed (or changed); pack size for step 7 (10 or 15 Ah); disc count (4, or 3 if power allows a bigger disc).

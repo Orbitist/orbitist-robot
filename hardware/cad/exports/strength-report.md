@@ -4,9 +4,9 @@
 
 ## Load cases and assumptions
 
-- Heaviest configuration (twin deck): **90.6 kg**, giving **33.0 kg per drive wheel** and 12.3 kg per caster (static).
+- Heaviest configuration (twin deck): **90.6 kg**, giving **33.1 kg per drive wheel** and 12.2 kg per caster (static).
 - **Bump:** 2.5 × static, vertical (ruts and roots at ~1.5 m/s).
-- **Sideways skid:** 0.7 × 1.5 × static wheel load = **340 N** applied at the tire contact patch. Pure pivot turns don't skid the drive wheels sideways, so this covers sliding into a rut or bumping something side-on.
+- **Sideways skid:** 0.7 × 1.5 × static wheel load = **341 N** applied at the tire contact patch. Pure pivot turns don't skid the drive wheels sideways, so this covers sliding into a rut or bumping something side-on.
 - **Motor torque:** 40 N·m peak per wheel. Set the VESC motor-current limit so this isn't exceeded.
 - **Towing (phase 3):** 20 kg tongue weight and 160 N drawbar pull, × 2 dynamic.
 - **Materials:** 6063-T5 aluminium extrusion, yield 145 MPa, with a **fatigue guideline of 50 MPa** for the bump case (aluminium has no endurance limit and the frame vibrates for hours). Mild-steel plate, yield 235 MPa. T-nut pull-out allowable 2500 N (conservative; check the supplier's figure).
@@ -20,18 +20,19 @@ Target: safety factor ≥ 2 on yield in the worst case, and bump-case stress in 
 | Part | Load case | Demand | Capacity | SF | | Note |
 |---|---|---|---|---|---|---|
 | Fork side plates (6 mm steel) | Sideways skid | 45 MPa bending | 235 MPa yield | 5.2 | ✅ |  |
-| Fork top plate (8 mm steel) | Bump 2.5 g | 8 MPa | 235 MPa | 28.8 | ✅ |  |
-| Dropout slot bearing | Bump 2.5 g | 6 MPa | 235 MPa | 41.8 | ✅ |  |
+| Fork top plate (8 mm steel) | Bump 2.5 g | 8 MPa | 235 MPa | 28.7 | ✅ |  |
+| Dropout slot bearing | Bump 2.5 g | 6 MPa | 235 MPa | 41.7 | ✅ |  |
 | Axle flats in slot, **no torque arm** | 40 N·m peak torque | 253 MPa contact | 235 MPa | 0.9 | ❌ | Slot wallows out and the axle spins: the classic e-bike failure |
 | Torque arm (keyed plate + M6 at 50 mm) | 40 N·m peak torque | 400 N shear | 7718 N | 19.3 | ✅ | Fix for the row above |
-| Fork → rail joint, **bottom slot only** | Sideways skid | 1811 N per T-nut | 2500 N pull-out | 1.4 | ⚠️ | 109 N·m reacted over a 15 mm lever |
-| Fork → rail joint, **saddle tabs** into side slots | Sideways skid | 1208 N per T-nut | 2500 N pull-out | 2.1 | ✅ | Fix for the row above |
-| Cross member at x=-120 (30x30), single deck | Bump 2.5 g | 37 MPa | 145 MPa yield / 50 fatigue | 3.9 | ✅ | static sag 1.9 mm over 1220 mm |
-| Cross member at x=-120 (30x30), twin deck | Bump 2.5 g | 37 MPa | 145 MPa yield / 50 fatigue | 3.9 | ✅ | static sag 1.9 mm over 1220 mm |
-| Side rails (30x60) | Bump 2.5 g, twin deck | 8 MPa | 145 MPa | 18.4 | ✅ |  |
+| Fork → rail joint, **bottom slot only** | Sideways skid | 1818 N per T-nut | 2500 N pull-out | 1.4 | ⚠️ | 109 N·m reacted over a 15 mm lever |
+| Fork → rail joint, **saddle tabs** into side slots | Sideways skid | 1212 N per T-nut | 2500 N pull-out | 2.1 | ✅ | Fix for the row above |
+| Cross member at x=-285 (30x30), razor deck | Bump 2.5 g | 21 MPa | 145 MPa yield / 50 fatigue | 7.1 | ✅ | static sag 1.0 mm over 1220 mm |
+| Cross member at x=-120 (30x30), single deck | Bump 2.5 g | 34 MPa | 145 MPa yield / 50 fatigue | 4.3 | ✅ | static sag 1.7 mm over 1220 mm |
+| Cross member at x=-120 (30x30), twin deck | Bump 2.5 g | 34 MPa | 145 MPa yield / 50 fatigue | 4.3 | ✅ | static sag 1.7 mm over 1220 mm |
+| Side rails (30x60) | Bump 2.5 g, twin deck | 8 MPa | 145 MPa | 18.1 | ✅ |  |
 | Rear cross member with hitch at mid-span (30x30) | Towing: 20 kg tongue + 160 N pull, ×2 | 128 MPa | 145 MPa | 1.1 | ⚠️ | Fix: A-frame drawbar to both side rails (phase 3) |
-| Caster corner plate (8 mm steel) | Bump 2.5 g | 10 MPa | 235 MPa | 24.1 | ✅ |  |
-| Caster plate bolts | Bump: rearward force 0.5 × vertical at the tire | 268 N per T-nut | 2500 N pull-out | 9.3 | ✅ |  |
+| Caster corner plate (8 mm steel) | Bump 2.5 g | 10 MPa | 235 MPa | 24.3 | ✅ |  |
+| Caster plate bolts | Bump: rearward force 0.5 × vertical at the tire | 265 N per T-nut | 2500 N pull-out | 9.4 | ✅ |  |
 
 ## Bumper stopping distance
 
@@ -57,7 +58,7 @@ Shorter latency helps most: dropping the VESC timeout from 100 ms to 50 ms raise
 
 1. **Torque arms on both hub motors (required).** Without them, peak motor torque crushes the slot edges and the axle spins in the dropouts, tearing the motor wires. Use a steel plate keyed to the axle flats and bolted to the fork side plate at the two M6 holes already in the DXF (`torque-arm.dxf`). Also set the VESC motor-current limit so peak torque stays under 40 N·m.
 2. **Saddle-mount the drive forks.** Bolting the fork top plate only into the rail's bottom slot leaves a 15 mm lever against sideways loads. Add two tabs that rise up both 60 mm faces of the side rail and bolt into the side slots. The model now includes them.
-3. **Gusset the four rail-to-cross-member joints next to the drive axle** (members at x = −120 and x = 215). They carry the sideways-skid moment from the forks (~54 N·m each) as well as the deck loads. Plain cast corner brackets are the weakest, least stiff part of an extrusion frame. Use 5 mm aluminium or 3 mm steel gusset plates on the top face (`frame-gusset.dxf`), 3 M6 bolts per leg.
+3. **Gusset the four rail-to-cross-member joints next to the drive axle** (members at x = −120 and x = 215). They carry the sideways-skid moment from the forks (~55 N·m each) as well as the deck loads. Plain cast corner brackets are the weakest, least stiff part of an extrusion frame. Use 5 mm aluminium or 3 mm steel gusset plates on the top face (`frame-gusset.dxf`), 3 M6 bolts per leg.
 4. **The cross member at x = 215 is 30x60** (was 30x30). It carries both decks in the twin layout, and as 30x30 it sat right at the aluminium fatigue guideline (~49 MPa). Hang the decks as close to the side rails as the deck allows, and re-run once the real hanger points are known.
 5. **Casters on 8 mm steel corner plates** that bolt to both the side rail and the (now 30x60) front cross member (`caster-plate.dxf`). The plate spreads the caster's bump loads into two members.
 6. **Towing (phase 3): A-frame drawbar.** A hitch at the middle of the rear 30x30 member is at SF ≈ 1 for a modest cart. Use a triangulated drawbar from the hitch pin to both side rails so the rails (SF > 20) carry the load. Until then, **don't tow from the current hitch.**

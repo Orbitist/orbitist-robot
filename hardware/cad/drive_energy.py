@@ -29,7 +29,10 @@ NO_LOAD_RPM = 600  # at 36 V, typical 10" scooter hub
 CONT_COPPER_LOSS_W = 60  # sustainable copper loss for a hub motor at low speed (conservative)
 DRIVETRAIN_OTHER = 0.85  # controller + iron/bearing losses on top of copper loss
 ELECTRONICS_W = (25, 40)  # phase 1 .. phase 2 (Pi 5, camera)
-BLADE_W = (150, 400)  # one 21" deck: short frequent mowing .. thick growth. MEASURE (see report)
+BLADE_W = (150, 400)  # one 21" Ryobi deck: short frequent mowing .. thick growth. MEASURE (see report)
+RAZOR_W = (10, 20)  # per razor disc, daily increment cut (robot-mower class). MEASURE in step 1
+SOLAR_PEAK_SUN_H = (3.0, 4.5)  # effective full-sun hours per day: poor .. typical summer (northern US)
+SOLAR_SYSTEM_EFF = 0.75  # MPPT, temperature, dirt, charge losses
 LAWN_M2 = 12_140  # ~3 acres
 SWATH_OVERLAP = 0.15  # m of pass-to-pass overlap (from SITL tracking; see software/sim)
 TURN_EFFICIENCY = 0.85  # fraction of mowing time spent cutting new grass (turns, re-passes)
@@ -70,11 +73,12 @@ def main():
         "|---|---|---|---|---|---|---|---|",
     ]
     masses = {}
-    for config in ("single", "twin"):
+    for config in ("razor", "single", "twin"):
         parts = assembly(p, config)
         masses[config] = sum(r.mass for r in parts)
     cases = [
-        ("Mowing, flat, 0.6 m/s (v1)", "single", 0.6, 0, 0),
+        ("Mowing, flat, 0.6 m/s (v1 razor + roof)", "razor", 0.6, 0, 0),
+        ("Mowing, flat, 0.6 m/s, Ryobi single deck", "single", 0.6, 0, 0),
         ("Mowing, flat, 0.6 m/s, twin deck", "twin", 0.6, 0, 0),
         ("Transit, flat, 1.5 m/s", "twin", 1.5, 0, 0),
         ("Accelerating 0.5 m/s², twin (seconds)", "twin", 0.6, 0, 0.5),
@@ -120,17 +124,24 @@ def main():
 
     # ---------------------------------------------------------- energy --
     lines += ["## 2. Daily energy budget (3 acres, mowed weekly over 6 days)", ""]
-    swath_single = p.deck_cut_width / 1000 - SWATH_OVERLAP
-    dy = (p.deck_cut_width - p.deck_overlap) / 2 / 1000
-    swath_twin = (2 * dy + p.deck_cut_width / 1000) - SWATH_OVERLAP
+    def swath(config):
+        lo, hi = p.cut_span(config)
+        return (hi - lo) / 1000 - SWATH_OVERLAP
+
+    blade_power = {  # (typical, worst) W for the whole cutting system
+        "razor": (sum(RAZOR_W) / 2 * len(p.razor_discs()), RAZOR_W[1] * len(p.razor_discs())),
+        "single": (sum(BLADE_W) / 2, BLADE_W[1]),
+        "twin": (sum(BLADE_W), 2 * BLADE_W[1]),
+    }
     lines += [
         "| Configuration | Mowing h / week | h / day | Drive + electronics / day | Blade / day | "
-        "Robot pack (576 Wh usable) used / day | Ryobi 6 Ah packs / day |",
-        "|---|---|---|---|---|---|---|",
+        "Total / day | Robot pack (576 Wh usable) used / day | Ryobi 6 Ah packs / day |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     results = {}
-    for config, swath, n_decks in (("single", swath_single, 1), ("twin", swath_twin, 2)):
-        rate = swath * 0.6 * 3600 * TURN_EFFICIENCY  # m²/h
+    for config in ("razor", "single", "twin"):
+        swath_m = swath(config)
+        rate = swath_m * 0.6 * 3600 * TURN_EFFICIENCY  # m²/h
         hours_wk = LAWN_M2 / rate
         hours_day = hours_wk / MOW_DAYS_PER_WEEK
         m = masses[config]
@@ -138,40 +149,53 @@ def main():
         drive_bad = 2 * wheel_case(m, 0.6, 0, 0, ROLLING[2], KT[2], R_PHASE[2], r_wheel)[4]
         base_typ = (drive_typ + ELECTRONICS_W[0]) * hours_day
         base_bad = (drive_bad + ELECTRONICS_W[1]) * hours_day
-        blade_typ = sum(BLADE_W) / 2 * n_decks * hours_day
-        blade_bad = BLADE_W[1] * n_decks * hours_day
+        blade_typ = blade_power[config][0] * hours_day
+        blade_bad = blade_power[config][1] * hours_day
         usable = ROBOT_PACK_WH * USABLE
         results[config] = (base_typ, base_bad, blade_typ, blade_bad, hours_day)
+        ryobi = "—" if config == "razor" else f"{blade_typ / RYOBI_PACK_WH:.1f} / {blade_bad / RYOBI_PACK_WH:.1f}"
         lines.append(
-            f"| {config} deck @ 0.6 m/s | {hours_wk:.1f} | {hours_day:.1f} | {base_typ:.0f} / {base_bad:.0f} Wh | "
-            f"{blade_typ:.0f} / {blade_bad:.0f} Wh | {100 * base_typ / usable:.0f} % / {100 * base_bad / usable:.0f} % | "
-            f"{blade_typ / RYOBI_PACK_WH:.1f} / {blade_bad / RYOBI_PACK_WH:.1f} |")
+            f"| {config} @ 0.6 m/s ({swath_m + SWATH_OVERLAP:.2f} m cut) | {hours_wk:.1f} | {hours_day:.1f} | "
+            f"{base_typ:.0f} / {base_bad:.0f} Wh | {blade_typ:.0f} / {blade_bad:.0f} Wh | "
+            f"{base_typ + blade_typ:.0f} / {base_bad + blade_bad:.0f} Wh | "
+            f"{100 * base_typ / usable:.0f} % / {100 * base_bad / usable:.0f} % | {ryobi} |")
     usable = ROBOT_PACK_WH * USABLE
-    worst_base = max(r[1] for r in results.values())
-    all_typ = results["single"][0] + results["single"][2]
-    all_bad = results["single"][1] + results["single"][3]
+    peak = p.panel_w_peak * p.panel_count
+    solar_lo = peak * SOLAR_PEAK_SUN_H[0] * SOLAR_SYSTEM_EFF
+    solar_hi = peak * SOLAR_PEAK_SUN_H[1] * SOLAR_SYSTEM_EFF
+    rz = results["razor"]
+    sg = results["single"]
     lines += [
         "",
         f"*Typical / worst. Coverage assumes a {SWATH_OVERLAP * 1000:.0f} mm pass overlap and "
         f"{TURN_EFFICIENCY:.0%} of mowing time cutting new grass, {MOW_DAYS_PER_WEEK} days a week. "
-        f"Blade typical = {sum(BLADE_W) / 2:.0f} W, worst = {BLADE_W[1]} W per deck.*",
+        f"Razor discs {RAZOR_W[0]}–{RAZOR_W[1]} W each; Ryobi deck {BLADE_W[0]}–{BLADE_W[1]} W.*",
+        "",
+        "## 3. Solar roof",
+        "",
+        f"{p.panel_count} panels × {p.panel_w_peak:.0f} W = **{peak:.0f} W peak**; at {SOLAR_PEAK_SUN_H[0]}–{SOLAR_PEAK_SUN_H[1]} "
+        f"effective sun-hours and {SOLAR_SYSTEM_EFF:.0%} system efficiency that is **{solar_lo:.0f}–{solar_hi:.0f} Wh per day**.",
+        "",
+        "| | Razor deck, daily need | Solar supply | Balance |",
+        "|---|---|---|---|",
+        f"| Typical day | {rz[0] + rz[2]:.0f} Wh | {solar_hi:.0f} Wh | {'✅ surplus' if solar_hi > rz[0] + rz[2] else '❌ deficit'} "
+        f"({solar_hi - rz[0] - rz[2]:+.0f} Wh) |",
+        f"| Worst drive losses, poor sun | {rz[1] + rz[3]:.0f} Wh | {solar_lo:.0f} Wh | {'✅ surplus' if solar_lo > rz[1] + rz[3] else '⚠️ deficit'} "
+        f"({solar_lo - rz[1] - rz[3]:+.0f} Wh): skip a day or mow less |",
+        f"| Ryobi single deck, for comparison | {sg[0] + sg[2]:.0f}–{sg[1] + sg[3]:.0f} Wh | {solar_lo:.0f}–{solar_hi:.0f} Wh | ❌ needs a dock |",
         "",
         "**What this means:**",
-        f"- **Robot pack (36 V 20 Ah):** driving plus electronics uses at most {100 * worst_base / usable:.0f} % of it "
-        "per day" + (", so it isn't the constraint in phase 1." if worst_base < usable else
-                     ", which exceeds one pack in the worst case. Plan a mid-day swap or charge, and confirm "
-                     "with the motor bench test."),
-        "- **The blade's energy is the real constraint,** and its biggest unknown (150–400 W per deck). In phase 1 "
-        f"it comes from Ryobi packs: **about {results['single'][2] / RYOBI_PACK_WH:.0f}–"
-        f"{results['single'][3] / RYOBI_PACK_WH:.0f} pack-swaps per day** with one deck. Count the farm's Ryobi "
-        "packs; this is a strong reason to move the deck onto the robot pack early in phase 2.",
-        f"- **Phase 2, everything from the robot pack:** single deck ≈ {all_typ / 1000:.1f} kWh/day typical, "
-        f"{all_bad / 1000:.1f} kWh worst. That's 20 Ah plus a dock top-up mid-session, or a 30–40 Ah pack. "
-        "Decide after measuring the blade.",
+        f"- **Razor deck + roof: the robot is energy-self-sufficient on a typical summer day** with margin, and "
+        "mowing time per day is short enough (see table) that a cloudy stretch just means a missed day. "
+        "A **36 V 10–15 Ah pack** is enough as a buffer; no charging dock is needed. The battery "
+        "charges while parked in the sun and the robot can mow mornings and evenings.",
+        f"- **The Ryobi deck cannot be solar-powered** on this roof ({sg[0] + sg[2]:.0f}–{sg[1] + sg[3]:.0f} Wh/day); "
+        "it needs the dock and a 20–40 Ah pack. It stays the catch-up tool for tall growth, pushed by hand.",
+        "- **The razor regime only works if the robot keeps up**: razor blades shave a few millimetres of regrowth. "
+        "After a missed week or in spring, mow once with the Ryobi (or the Swisher) first.",
         "",
-        "**The most valuable measurement before buying the battery:** run the used Ryobi mower on the "
-        "farm's lawn and time how long one 6 Ah pack lasts (or log current with a DC clamp meter). "
-        f"Blade watts ≈ {RYOBI_PACK_WH:.0f} Wh ÷ hours of runtime. That number replaces the 150–400 W guess.",
+        "**Measure in step 1:** one disc motor's current while cutting (expect 10–20 W on a maintained lawn), "
+        "and the panel's actual midday output on the roof's horizontal mounting.",
     ]
     (OUT / "drive-energy-report.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))

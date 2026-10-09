@@ -66,14 +66,37 @@ class Params:
     deck_hanger_spread: float = 220.0  # hangers sit +/- this far either side of the deck centre (Y)
     deck_mass: float = 17.0  # ESTIMATE: ~23 kg mower minus handle, wheels, battery
 
+    # --- Razor-disc mower deck (v1 baseline: daily "increment" cutting, see
+    #     docs/design/form-factor-exploration.md) --------------------------------
+    razor_disc_diameter: float = 280.0  # cutting circle over the blade tips
+    # Disc centres, alternating front/rear rows so neighbours never touch while their cuts
+    # overlap by 20 mm. Rows sit between the cross members at x = 215 and x = 600.
+    razor_disc_xy: tuple = ((470.0, -390.0), (330.0, -130.0), (470.0, 130.0), (330.0, 390.0))
+    razor_cut_z: float = 50.0  # blade height above ground (~2" cut)
+    razor_plate_t: float = 3.0  # aluminium deck plate
+    razor_plate_z: float = 95.0  # underside of the deck plate
+    razor_skirt_h: float = 70.0  # HDPE skirt below the plate (blade guard)
+    razor_motor_d: float = 60.0  # outrunner can diameter, ESTIMATE
+    razor_motor_h: float = 45.0  # ESTIMATE
+    razor_hanger_y: float = 450.0  # +/- hanger rods at the plate's sides
+    razor_deck_mass: float = 10.0  # ESTIMATE: plate 5, skirt 1.5, 4 motors 2, discs 1.5
+
+    # --- Solar roof ----------------------------------------------------------
+    roof_post_h: float = 300.0  # 30x30 posts from the frame top to the roof frame underside
+    roof_inset: float = 0.0  # roof frame outline = frame outline
+    panel_size: tuple = (1050.0, 540.0, 3.0)  # semi-flexible 100-120 W class panel (X, Y, T), ESTIMATE
+    panel_count: int = 2  # side by side across the width
+    panel_w_peak: float = 110.0  # W per panel, ESTIMATE
+    antenna_stub_h: float = 120.0  # GNSS antenna above the roof
+
     # --- Payload / electronics placeholders --------------------------------
     battery_size: tuple = (300.0, 160.0, 110.0)  # 36 V 20 Ah pack, ESTIMATE
     battery_pos: tuple = (0.0, 380.0)  # over the drive axle, left side
     ebox_size: tuple = (220.0, 300.0, 150.0)  # IP65 enclosure, long side across the frame
     ebox_pos: tuple = (-185.0, -60.0)  # rear bay, clear of the rear deck motor
-    mast_pos: tuple = (-120.0, 150.0)
-    mast_height: float = 600.0  # above the frame top
-    estop_pos: tuple = (-285.0, -500.0)  # on the rear cross member, reachable from behind
+    mast_pos: tuple = (-285.0, 300.0)  # on the roof's rear rail (razor config) or the frame (Ryobi configs)
+    mast_height: float = 600.0  # above the frame top (Ryobi configs, no roof)
+    estop_pos: tuple = (-285.0, -500.0)  # on the rear rail: of the roof (razor) or the frame (Ryobi)
     hitch_height_z: float = 288.0  # receiver tube centre: under the rear member, above the ground
 
     # --- Masses (kg) for the CG / axle-load estimate ------------------------
@@ -93,6 +116,8 @@ class Params:
             "roller": 0.2,
             "spring": 0.05,
             "switch": 0.03,
+            "panel": 2.5,
+            "mppt": 0.6,
             "extrusion_30x30_per_m": 0.85,
             "extrusion_30x60_per_m": 1.5,
         }
@@ -117,6 +142,30 @@ class Params:
     def frame_top_z(self) -> float:
         return self.frame_bottom_z + self.side_rail[1]
 
+    def cut_span(self, config: str):
+        """(y_min, y_max) of the cut relative to the robot centreline (left positive)."""
+        if config == "razor":
+            ys = [y for _, y in self.razor_disc_xy]
+            return (min(ys) - self.razor_disc_diameter / 2, max(ys) + self.razor_disc_diameter / 2)
+        ys = [y for _, y in self.deck_slots(config)]
+        return (min(ys) - self.deck_cut_width / 2, max(ys) + self.deck_cut_width / 2)
+
+    def razor_discs(self):
+        """(x, y) of each disc centre."""
+        return list(self.razor_disc_xy)
+
+    def razor_plate_extent(self):
+        """(x0, x1, half_width) of the deck plate around the discs."""
+        r = self.razor_disc_diameter / 2 + 30
+        xs = [x for x, _ in self.razor_disc_xy]
+        ys = [abs(y) for _, y in self.razor_disc_xy]
+        return (min(xs) - r, max(xs) + r, max(ys) + r)
+
+    @property
+    def roof_z(self) -> float:
+        """Underside of the roof frame."""
+        return self.frame_top_z + self.roof_post_h
+
     def deck_slots(self, config: str):
         """(x, y) centres of the mower decks for a configuration.
 
@@ -133,4 +182,6 @@ class Params:
             return [rear_right]
         if config == "twin":
             return [rear_right, front_left]
+        if config == "razor":
+            return []
         raise ValueError(config)

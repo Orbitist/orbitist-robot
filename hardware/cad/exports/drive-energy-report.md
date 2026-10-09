@@ -8,7 +8,8 @@ Inputs (best / typical / worst): rolling resistance 0.08 / 0.1 / 0.15, torque co
 
 | Case | Mass | Torque / wheel | Phase current | Copper loss / motor | Battery power (both motors) | Drive efficiency | Thermal (typical / worst) |
 |---|---|---|---|---|---|---|---|
-| Mowing, flat, 0.6 m/s (v1) | 73 kg | 4.5 / 6.8 N·m | 8 / 15 A | 24 / 119 W | 106 / 356 W | 40 / 18 % | ✅ / ⚠️ |
+| Mowing, flat, 0.6 m/s (v1 razor + roof) | 76 kg | 4.7 / 7.1 N·m | 8 / 16 A | 26 / 131 W | 114 / 388 W | 39 / 17 % | ✅ / ⚠️ |
+| Mowing, flat, 0.6 m/s, Ryobi single deck | 73 kg | 4.5 / 6.8 N·m | 8 / 15 A | 24 / 119 W | 106 / 356 W | 40 / 18 % | ✅ / ⚠️ |
 | Mowing, flat, 0.6 m/s, twin deck | 91 kg | 5.6 / 8.5 N·m | 10 / 19 A | 37 / 186 W | 149 / 531 W | 36 / 15 % | ✅ / ⚠️ |
 | Transit, flat, 1.5 m/s | 91 kg | 5.6 / 8.5 N·m | 10 / 19 A | 37 / 186 W | 243 / 672 W | 55 / 30 % | ✅ / ⚠️ |
 | Accelerating 0.5 m/s², twin (seconds) | 91 kg | 8.5 / 11.3 N·m | 15 / 25 A | 84 / 333 W | 292 / 910 W | 28 / 12 % | ✅ / ✅ |
@@ -17,22 +18,33 @@ Inputs (best / typical / worst): rolling resistance 0.08 / 0.1 / 0.15, torque co
 *Each cell: typical / worst. Worst = high rolling resistance + low torque constant + high resistance all at once.*
 
 
-At 0.6 m/s the wheels turn at **45 rpm, 8 % of the motor's no-load speed**. Direct-drive hub motors are inefficient this slow, because most of the electrical power becomes copper heat rather than motion. **Verdict: hub motors are adequate for v1 mowing in the typical case**, but the worst-case stack exceeds the 60 W continuous guideline for: Mowing, flat, 0.6 m/s (v1); Mowing, flat, 0.6 m/s, twin deck; Transit, flat, 1.5 m/s; 10° slope, 0.6 m/s, twin (other farms). The bench test of one motor (measure Kt and R, run 30 min at the mowing torque on a dyno or towing a load, check motor temperature) retires this risk before buying the second motor. Use Hall-sensored FOC for smooth low-speed torque. A geared motor would be 2–3× more efficient at this speed, but costs more and needs a coupling and a brake. Worth revisiting only if the bench test shows the motor running hot.
+At 0.6 m/s the wheels turn at **45 rpm, 8 % of the motor's no-load speed**. Direct-drive hub motors are inefficient this slow, because most of the electrical power becomes copper heat rather than motion. **Verdict: hub motors are adequate for v1 mowing in the typical case**, but the worst-case stack exceeds the 60 W continuous guideline for: Mowing, flat, 0.6 m/s (v1 razor + roof); Mowing, flat, 0.6 m/s, Ryobi single deck; Mowing, flat, 0.6 m/s, twin deck; Transit, flat, 1.5 m/s; 10° slope, 0.6 m/s, twin (other farms). The bench test of one motor (measure Kt and R, run 30 min at the mowing torque on a dyno or towing a load, check motor temperature) retires this risk before buying the second motor. Use Hall-sensored FOC for smooth low-speed torque. A geared motor would be 2–3× more efficient at this speed, but costs more and needs a coupling and a brake. Worth revisiting only if the bench test shows the motor running hot.
 
 **Measure, don't assume:** VESC Tool's motor detection reports the flux linkage (→ torque constant) and phase resistance. Enter them here and re-run.
 
 ## 2. Daily energy budget (3 acres, mowed weekly over 6 days)
 
-| Configuration | Mowing h / week | h / day | Drive + electronics / day | Blade / day | Robot pack (576 Wh usable) used / day | Ryobi 6 Ah packs / day |
-|---|---|---|---|---|---|---|
-| single deck @ 0.6 m/s | 17.3 | 2.9 | 377 / 1140 Wh | 791 / 1151 Wh | 65 % / 198 % | 3.7 / 5.3 |
-| twin deck @ 0.6 m/s | 7.6 | 1.3 | 222 / 727 Wh | 700 / 1018 Wh | 38 % / 126 % | 3.2 / 4.7 |
+| Configuration | Mowing h / week | h / day | Drive + electronics / day | Blade / day | Total / day | Robot pack (576 Wh usable) used / day | Ryobi 6 Ah packs / day |
+|---|---|---|---|---|---|---|---|
+| razor @ 0.6 m/s (1.06 m cut) | 7.3 | 1.2 | 168 / 518 Wh | 73 / 97 Wh | 241 / 615 Wh | 29 % / 90 % | — |
+| single @ 0.6 m/s (0.53 m cut) | 17.3 | 2.9 | 377 / 1140 Wh | 791 / 1151 Wh | 1168 / 2291 Wh | 65 % / 198 % | 3.7 / 5.3 |
+| twin @ 0.6 m/s (1.02 m cut) | 7.6 | 1.3 | 222 / 727 Wh | 700 / 1018 Wh | 922 / 1745 Wh | 38 % / 126 % | 3.2 / 4.7 |
 
-*Typical / worst. Coverage assumes a 150 mm pass overlap and 85% of mowing time cutting new grass, 6 days a week. Blade typical = 275 W, worst = 400 W per deck.*
+*Typical / worst. Coverage assumes a 150 mm pass overlap and 85% of mowing time cutting new grass, 6 days a week. Razor discs 10–20 W each; Ryobi deck 150–400 W.*
+
+## 3. Solar roof
+
+2 panels × 110 W = **220 W peak**; at 3.0–4.5 effective sun-hours and 75% system efficiency that is **495–742 Wh per day**.
+
+| | Razor deck, daily need | Solar supply | Balance |
+|---|---|---|---|
+| Typical day | 241 Wh | 742 Wh | ✅ surplus (+502 Wh) |
+| Worst drive losses, poor sun | 615 Wh | 495 Wh | ⚠️ deficit (-120 Wh): skip a day or mow less |
+| Ryobi single deck, for comparison | 1168–2291 Wh | 495–742 Wh | ❌ needs a dock |
 
 **What this means:**
-- **Robot pack (36 V 20 Ah):** driving plus electronics uses at most 198 % of it per day, which exceeds one pack in the worst case. Plan a mid-day swap or charge, and confirm with the motor bench test.
-- **The blade's energy is the real constraint,** and its biggest unknown (150–400 W per deck). In phase 1 it comes from Ryobi packs: **about 4–5 pack-swaps per day** with one deck. Count the farm's Ryobi packs; this is a strong reason to move the deck onto the robot pack early in phase 2.
-- **Phase 2, everything from the robot pack:** single deck ≈ 1.2 kWh/day typical, 2.3 kWh worst. That's 20 Ah plus a dock top-up mid-session, or a 30–40 Ah pack. Decide after measuring the blade.
+- **Razor deck + roof: the robot is energy-self-sufficient on a typical summer day** with margin, and mowing time per day is short enough (see table) that a cloudy stretch just means a missed day. A **36 V 10–15 Ah pack** is enough as a buffer; no charging dock is needed. The battery charges while parked in the sun and the robot can mow mornings and evenings.
+- **The Ryobi deck cannot be solar-powered** on this roof (1168–2291 Wh/day); it needs the dock and a 20–40 Ah pack. It stays the catch-up tool for tall growth, pushed by hand.
+- **The razor regime only works if the robot keeps up**: razor blades shave a few millimetres of regrowth. After a missed week or in spring, mow once with the Ryobi (or the Swisher) first.
 
-**The most valuable measurement before buying the battery:** run the used Ryobi mower on the farm's lawn and time how long one 6 Ah pack lasts (or log current with a DC clamp meter). Blade watts ≈ 216 Wh ÷ hours of runtime. That number replaces the 150–400 W guess.
+**Measure in step 1:** one disc motor's current while cutting (expect 10–20 W on a maintained lawn), and the panel's actual midday output on the roof's horizontal mounting.

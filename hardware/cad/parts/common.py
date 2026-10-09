@@ -33,6 +33,7 @@ MATERIAL = {
     "red": (0.85, 0.15, 0.12),
     "foam": (0.30, 0.30, 0.32),
     "white": (0.92, 0.92, 0.90),
+    "solar": (0.10, 0.16, 0.36),
 }
 
 GROUP_COLORS = {
@@ -167,3 +168,11 @@ def extrusion_y(y0, y1, xc, zc, w, h) -> Shape:
         _PROFILE_CACHE[key] = tslot_sketch(w, h)
     bar = extrude(_PROFILE_CACHE[key], y1 - y0)
     return Pos(xc, y0, zc) * Rot(-90, 0, 0) * bar
+
+
+def extrusion_z(xc, yc, z0, z1, w) -> Shape:
+    """Vertical w x w T-slot post from z0 to z1."""
+    key = (w, w)
+    if key not in _PROFILE_CACHE:
+        _PROFILE_CACHE[key] = tslot_sketch(w, w)
+    return Pos(xc, yc, z0) * extrude(_PROFILE_CACHE[key], z1 - z0)
